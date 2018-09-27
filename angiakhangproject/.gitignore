@@ -1,0 +1,28 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+.Python
+.idea
+env/
+
+# Django stuff:
+local_settings.py
+db.sqlite3
+/staticfiles/*
+!/staticfiles/placeholder.txt
+/media/*
+# PyBuilder
+target/
+
+# Virtual Env dir
+/.env
+/venv
+/include
+/bin
+
+
+
