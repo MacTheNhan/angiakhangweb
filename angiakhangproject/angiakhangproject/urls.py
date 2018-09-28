@@ -43,4 +43,21 @@ urlpatterns = [
     url(r'^createMember/$', createMember, name='createMember'),
     url(r'^deleteMember/$', deleteMember, name='deleteMember'),
     url(r'^get_Member/(?P<idMember>\d+)/$', get_Member, name='get_Member'),
+
+    # URL for Slide model
+    url(r'^listSlide/$', showAllSlide, name='listSlide'),
+    url(r'^getSlide/(?P<idSlide>\d+)/$', getSlide, name='getSlide'),
+    url(r'^updateSlide/(?P<idSlide>\d+)/$', updateSlide, name='updateSlide'),
+    url(r'^createSlide/$', createSlide, name='createSlide'),
+    url(r'^deleteSlide/$', deleteSlide, name='deleteSlide'),
+    url(r'^get_Slide/(?P<idSlide>\d+)/$', get_Slide, name='get_Slide'),
+
+    # URL for Video model
+    url(r'^listVideo/$', showAllVideo, name='listVideo'),
+    url(r'^getVideo/(?P<idVideo>\d+)/$', getVideo, name='getVideo'),
+    url(r'^updateVideo/(?P<idVideo>\d+)/$', updateVideo, name='updateVideo'),
+    url(r'^createVideo/$', createVideo, name='createVideo'),
+    url(r'^deleteVideo/$', deleteVideo, name='deleteVideo'),
+    url(r'^get_Video/(?P<idVideo>\d+)/$', get_Video, name='get_Video'),
+
 ]

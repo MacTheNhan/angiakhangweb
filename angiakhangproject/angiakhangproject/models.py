@@ -87,3 +87,19 @@ class User(models.Model):
 
     class Meta:
         db_table = 'user'
+
+
+class Slide(models.Model):
+    title = VarCharField()
+    image = models.ImageField(upload_to='images/slide/', blank=True)
+
+    class Meta:
+        db_table = 'slide'
+
+
+class Video(models.Model):
+    title = VarCharField()
+    url = VarCharField()
+
+    class Meta:
+        db_table = 'video'

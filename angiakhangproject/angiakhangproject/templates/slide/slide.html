@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% block title %}
+Quản lý hình ảnh từ slide
+{% endblock%}
+
+{% block content %}
+<section class="content">
+    <div class="box" id="app_slide">
+        <div class="box-header">
+            <div class="col-sm-3">
+                <a href="{% url 'createSlide' %}" class="btn btn-primary btn-exp">
+                    <i class="fa fa-plus-square"></i> Thêm mới
+                </a>
+            </div>
+            <div class="col-sm-6">
+                <span style="position:relative;color:#3c8dbc;text-align:center;">
+                    <b>
+                        <h3>Slide</h3>
+                    </b>
+                </span>
+            </div>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div style="overflow:auto">
+                        <table id="dataTable" class="table table-bordered table-striped" style="white-space:auto;">
+                            <thead>
+                            <tr>
+                                <th class="no-sort"></th>
+                                <th>ID</th>
+                                <th>Tiêu đề</th>
+                                <th>Hình ảnh</th>
+                                <th class="no-sort"></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for item in listSlide%}
+                            <tr>
+                                <td><input type="checkbox" value="{{item.id}}"/></td>
+                                <td>{{item.id}}</td>
+                                <td>{{item.title}}</td>
+                                <td>{{item.image}}</td>
+
+                                <td><a href="{% url 'getSlide' item.id %}"> <i
+                                        class="fa fa-fw fa-edit employee-edit action-cursor" data-toggle="modal"
+                                        data-target="#modal-default"></i> </a>
+                                    <a href="#"> <i data-toggle="modal" data-target="#modal-confirm"
+                                            v-on:click="getSlideDetail ({{ item.id }})" class="fa fa-fw fa-remove employee-remove action-cursor"></i></a>
+
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    </div>
+                </div>
+
+             <div class="modal fade" id="modal-confirm" tabindex="-1" role="dialog"
+                     aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <h4 class="modal-title">Xóa hình ảnh trên slide</h4>
+                            </div>
+                            <form method="post" action="{% url 'deleteSlide' %}"
+                                  enctype="multipart/form-data">{% csrf_token %}
+                                <div class="modal-body">
+                                    <div class="form-horizontal">
+                                        <div class="form-group">
+                                            <input type="text" name="id_slide" v-model="currentSlide.id"
+                                                   hidden="hidden">
+
+                                            <div class="col-sm-10">
+                                                <p style="color:red"><b>Bạn muốn xóa hình ảnh
+                                                    ${currentSlide.title} ?</b></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Đóng
+                                    </button>
+                                    <button type="submit" id="delete_user" class="btn btn-primary">Xóa</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        <!-- /.box-body -->
+    </div>
+        <script>
+            var app = new Vue({
+                el: '#app_slide',
+                delimiters: ['${', '}'],
+                data: {
+                    currentSlide: {},
+                },
+                watch: {
+                },
+                methods: {
+                    getSlideDetail: function (id) {
+                        this.$http.get('/get_Slide/' + id)
+                            .then(function (response) {
+                                this.currentSlide = response.data.data[0];
+                            })
+                    }
+                }
+            });
+        </script>
+</section>
+{% endblock %}
