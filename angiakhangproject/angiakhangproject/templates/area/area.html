@@ -45,7 +45,7 @@ Quản lý khu vực
                                         class="fa fa-fw fa-edit employee-edit action-cursor" data-toggle="modal"
                                         data-target="#modal-default"></i> </a>
                                     <a href="#"> <i data-toggle="modal" data-target="#modal-confirm"
-                                            v-on:click="getArea ({{ item.id }})" class="fa fa-fw fa-remove employee-remove action-cursor"></i></a>
+                                            v-on:click="getAreaDetail ({{ item.id }})" class="fa fa-fw fa-remove employee-remove action-cursor"></i></a>
 
                             </tr>
                             {% endfor %}
@@ -103,7 +103,7 @@ Quản lý khu vực
                 watch: {
                 },
                 methods: {
-                    getArea: function (id) {
+                    getAreaDetail: function (id) {
                         this.$http.get('/get_Area/' + id)
                             .then(function (response) {
                                 this.currentArea = response.data.data[0];

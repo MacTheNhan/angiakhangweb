@@ -81,7 +81,7 @@ def get_Area(request, idArea):
         'id': area.id,
         'name_area': area.name_area
     })
-    return JsonResponse({'data': area})
+    return JsonResponse({'data': data_area})
 
 
 # Delete 1 Area
