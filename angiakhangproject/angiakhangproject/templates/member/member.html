@@ -44,7 +44,7 @@
                                         <td>{{ item.id }}</td>
                                         <td>{{ item.name_company_member }}</td>
                                         <td>{{ item.description }}</td>
-                                        <td> {{ item.avatar_member }}</td>
+                                        <td> <img style="width:50px; height:50px" src="{{ item.avatar_member.url }}"></td>
                                         {% if item.type %}
                                             <td>Thành viên</td>
                                         {% else %}
