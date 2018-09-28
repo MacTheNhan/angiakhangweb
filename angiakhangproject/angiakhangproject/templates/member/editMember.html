@@ -1,0 +1,78 @@
+
+
+
+{% extends 'base.html' %}
+
+{% block title %}
+    Sửa Danh mục dự án
+{% endblock %}
+
+{% block content %}
+    <form method="post" action="{% url 'updateMember' member.id %}" enctype="multipart/form-data"
+          class="form-horizontal"> {% csrf_token %}
+        <div class="box box-info">
+            <div class="box-header with-border">
+                <h3 class="box-title">Sửa Khu Vực </h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <div class="box-body">
+                <div class="form-group">
+                    <label for="txtID" class="col-sm-2 control-label">ID</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="txtID" required="required"
+                               name="txtID" value="{{ member.id }}" disabled/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="txtNameMember" class="col-sm-2 control-label">Tên công ty</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="txtNameMember" required="required"
+                               name="txtNameMember" value="{{ member.name_company_member }}"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="txtDescription" class="col-sm-2 control-label">Mô tả</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="txtDescription" name="txtDescription"
+                               value="{{ member.description }}"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="txtImages" class="col-sm-2 control-label">Logo</label>
+                    <div class="col-sm-10">
+                        <input type="file" ref="file" class="form-control" name="txtImages" id="txtImages"
+                               required="required" value="{{ member.avatar_member }}">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="cbbType" class="col-sm-2 control-label">Loại </label>
+                    <div class="col-sm-10">
+                        <select class="form-control" id="cbbType" name="cbbType">
+                            <option value="True">Thành viên</option>
+                            <option value="False">Đối tác</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer">
+                <a href="{% url 'listMember' %}" class="btn btn-default"> Trở về </a>
+                {% if messages %}
+                    {% for message in messages %}
+                        <label class="control-label" {% if message.tags %} {% endif %}><i
+                                class="fa fa-check"></i>{{ message }}</label>
+                    {% endfor %}
+                {% endif %}
+                <button type="submit" class="btn btn-info pull-right">Cập nhật</button>
+            </div>
+            <!-- /.box-footer -->
+        </div>
+    </form>
+
+{% endblock %}
+

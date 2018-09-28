@@ -35,4 +35,12 @@ urlpatterns = [
     url(r'^createArea/$', createArea, name='createArea'),
     url(r'^deleteArea/$', deleteArea, name='deleteArea'),
     url(r'^get_Area/(?P<idArea>\d+)/$', get_Area, name='get_Area'),
+
+    # URL for Member model
+    url(r'^listMember/$', showAllMember, name='listMember'),
+    url(r'^getMember/(?P<idMember>\d+)/$', getMember, name='getMember'),
+    url(r'^updateMember/(?P<idMember>\d+)/$', updateMember, name='updateMember'),
+    url(r'^createMember/$', createMember, name='createMember'),
+    url(r'^deleteMember/$', deleteMember, name='deleteMember'),
+    url(r'^get_Member/(?P<idMember>\d+)/$', get_Member, name='get_Member'),
 ]

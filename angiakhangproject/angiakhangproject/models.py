@@ -19,7 +19,6 @@ class VarCharField(models.CharField):
 
 
 class PortfolioProject(models.Model):
-    id_portfolio_project = models.CharField(max_length=10)
     name_portfolio_project = VarCharField()
 
     class Meta:
@@ -27,7 +26,6 @@ class PortfolioProject(models.Model):
 
 
 class Area(models.Model):
-    id_area = models.CharField(max_length=10)
     name_area = VarCharField()
 
     class Meta:
@@ -69,11 +67,10 @@ class Posts(models.Model):
 
 
 class Member(models.Model):
-    id_company_member = models.CharField(max_length=10)
     name_company_member = VarCharField()
-    avatar_member = models.ImageField(upload_to='images/', blank=True)
+    avatar_member = models.ImageField(upload_to='images/member/', blank=True)
     description = VarCharField()
-    type = models.IntegerField(default=1)
+    type = models.BooleanField(default=False)
 
     class Meta:
         db_table = 'member'

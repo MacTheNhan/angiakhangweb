@@ -64,7 +64,7 @@
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini"><img src="{% static 'backend/image/logo.png' %}" style="height:50px;"></span>
             <!-- logo for regular state and mobile devices -->
-            <span class="logo-lg"><b>Booking</b> Vacation</span>
+            <span class="logo-lg"><b>An Gia Khang </b> </span>
         </a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top">
@@ -150,40 +150,60 @@
             <!-- sidebar menu: : style can be found in sidebar.less -->
             <ul class="sidebar-menu" data-widget="tree">
                 <li class="header">Menu</li>
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-edit"></i> <span>Menu1</span>
-                        <span class="pull-right-container">
-                    <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="#" ><i class="fa fa-list"></i>Menu a</a></li>
-                        <li><a href="#" ><i class="fa fa-tv"></i> Menu b</a></li>
-
-                    </ul>
-                </li>
-
-                <li class="treeview">
-                      <a href="#">
-                        <i class="fa fa-folder"></i> <span>Admin</span>
-                        <span class="pull-right-container">
-                          <i class="fa fa-angle-left pull-right"></i>
-                        </span>
-                      </a>
-                      <ul class="treeview-menu">
-                        <li><a href="#"><i class="fa fa-th"></i> Booking Type </a></li>
-                        <li><a href="#" ><i class="fa fa-pie-chart"></i> Project</a></li>
-                        <li><a href="#"><i class="fa fa-table"></i> Holiday</a></li>
-                        <li><a href="#"><i class="fa fa-user"></i> User</a></li>
-                      </ul>
-                </li>
+{#                <li class="treeview">#}
+{#                    <a href="#">#}
+{#                        <i class="fa fa-edit"></i> <span>Menu1</span>#}
+{#                        <span class="pull-right-container">#}
+{#                    <i class="fa fa-angle-left pull-right"></i>#}
+{#                    </span>#}
+{#                    </a>#}
+{#                    <ul class="treeview-menu">#}
+{#                        <li><a href="#" ><i class="fa fa-list"></i>Menu a</a></li>#}
+{#                        <li><a href="#" ><i class="fa fa-tv"></i> Menu b</a></li>#}
+{##}
+{#                    </ul>#}
+{#                </li>#}
+{##}
+{#                <li class="treeview">#}
+{#                      <a href="#">#}
+{#                        <i class="fa fa-folder"></i> <span>Admin</span>#}
+{#                        <span class="pull-right-container">#}
+{#                          <i class="fa fa-angle-left pull-right"></i>#}
+{#                        </span>#}
+{#                      </a>#}
+{#                      <ul class="treeview-menu">#}
+{#                        <li><a href="#"><i class="fa fa-th"></i> Booking Type </a></li>#}
+{#                        <li><a href="#" ><i class="fa fa-pie-chart"></i> Project</a></li>#}
+{#                        <li><a href="#"><i class="fa fa-table"></i> Holiday</a></li>#}
+{#                        <li><a href="#"><i class="fa fa-user"></i> User</a></li>#}
+{#                      </ul>#}
+{#                </li>#}
 
 
                 <li>
-                    <a href="/support">
-                        <i class="fa fa-laptop"></i>
-                        <span>Support</span>
+                    <a href="{% url 'listPortfolioProject' %}">
+                        <i class="fa fa-th"></i>
+                        <span>Danh mục dự án</span>
+                       <span class="pull-right-container">
+                        <span class="label label-primary pull-right"></span>
+                        </span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'listArea' %}">
+                        <i class="fa fa-pie-chart"></i>
+                        <span>Khu vực</span>
+                       <span class="pull-right-container">
+                        <span class="label label-primary pull-right"></span>
+                        </span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'listMember' %}">
+                        <i class="fa fa-user"></i>
+                        <span>Thành viên</span>
                        <span class="pull-right-container">
                         <span class="label label-primary pull-right"></span>
                         </span>

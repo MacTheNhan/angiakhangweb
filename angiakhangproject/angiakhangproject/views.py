@@ -5,6 +5,7 @@ from django.contrib import messages
 
 
 # Create your views here.
+# PORTFOLIO PROJECT
 # Get all data about portfolio project
 def showAllPortfolioProject(request):
     listPortfolioProject = PortfolioProject.objects.all()
@@ -61,7 +62,7 @@ def updatePortfolioProject(request, idPortfolio):
         return redirect(showAllPortfolioProject)
     return render(request, 'portfolioproject/editPortfolioProject.html', {'portfolio_project': portfolio_project})
 
-
+# AREA MODEL
 # Get all data about Area
 def showAllArea(request):
     listArea = Area.objects.all()
@@ -116,3 +117,66 @@ def updateArea(request, idArea):
         area.save()
         return redirect(showAllArea)
     return render(request, 'area/editArea.html', {'area': area})
+
+
+#MEMBER MODEL
+def showAllMember(request):
+    listMember = Member.objects.all()
+    return render(request, 'member/member.html', {'listMember': listMember})
+
+
+# Get 1 Member to edit
+def getMember(request, idMember):
+    member = Member.objects.get(id=idMember)
+    return render(request, 'member/editMember.html', {'member': member})
+
+
+# Get profile of Member
+def get_Member(request, idMember):
+    member = Member.objects.get(id=idMember)
+    data_member = []
+    data_member.append({
+        'id': member.id,
+        'name_company_member': member.name_company_member
+    })
+    return JsonResponse({'data': data_member})
+
+
+# Delete 1 Member
+def deleteMember(request):
+    if request.method == 'POST':
+        id_member = request.POST.get('id_member')
+        member = Member.objects.get(id=id_member)
+        if member:
+            try:
+                member.delete()
+            except:
+                messages.error(request, 'Delete' + member.name_company_member + ' failed')
+        return redirect(showAllMember)
+
+
+# Create new Member
+def createMember(request):
+    if request.method == 'POST':
+        name_company_member = request.POST['txtNameMember']
+        description = request.POST['txtDescription']
+        type = request.POST['cbbType']
+        avatar_member = request.FILES.get('txtImages')
+        member = Member(name_company_member=name_company_member, avatar_member=avatar_member, description=description, type=type)
+        member.save()
+        return redirect(showAllMember)
+    else:
+        return render(request, 'member/addMember.html')
+
+
+# Update Member
+def updateMember(request, idMember):
+    member = Member.objects.get(id=idMember)
+    if member is not None:
+        member.name_company_member = request.POST['txtNameMember']
+        member.description = request.POST['txtDescription']
+        member.type = request.POST['cbbType']
+        member.avatar_member = request.FILES.get('txtImages')
+        member.save()
+        return redirect(showAllMember)
+    return render(request, 'member/editMember.html', {'member': member})
