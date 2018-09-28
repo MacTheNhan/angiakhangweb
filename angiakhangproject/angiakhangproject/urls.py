@@ -15,7 +15,24 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from .views import *
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+
+    # URL for Portfolio Project model
+    url(r'^listPortfolioProject/$', showAllPortfolioProject, name='listPortfolioProject'),
+    url(r'^getPortfolioProject/(?P<idPortfolio>\d+)/$', getPortfolioProject, name='getPortfolioProject'),
+    url(r'^updatePortfolioProject/(?P<idPortfolio>\d+)/$', updatePortfolioProject, name='updatePortfolioProject'),
+    url(r'^createPortfolioProject/$', createPortfolioProject, name='createPortfolioProject'),
+    url(r'^deletePortfolioProject/$', deletePortfolioProject, name='deletePortfolioProject'),
+    url(r'^get_PortfolioProject/(?P<idPortfolio>\d+)/$', get_PortfolioProject, name='get_PortfolioProject'),
+
+    # URL for Area model
+    url(r'^listArea/$', showAllArea, name='listArea'),
+    url(r'^getArea/(?P<idArea>\d+)/$', getArea, name='getArea'),
+    url(r'^updateArea/(?P<idArea>\d+)/$', updateArea, name='updateArea'),
+    url(r'^createArea/$', createArea, name='createArea'),
+    url(r'^deleteArea/$', deleteArea, name='deleteArea'),
+    url(r'^get_Area/(?P<idArea>\d+)/$', get_Area, name='get_Area'),
 ]

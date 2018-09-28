@@ -1,0 +1,33 @@
+
+{% extends 'base.html' %}
+
+{% block title %}
+   Thêm khu vực
+{% endblock%}
+
+{% block content %}
+<form method="post" action="{% url 'createArea' %}" enctype="multipart/form-data" class="form-horizontal"> {% csrf_token %}
+            <div class="box box-info">
+            <div class="box-header with-border">
+              <h3 class="box-title">Thêm mới khu vực</h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+              <div class="box-body">
+                    <div class="form-group">
+                        <label for="name_type" class="col-sm-2 control-label">Tên Danh Mục</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="txtNameArea" required="required" name="txtNameArea" placeholder="Điền tên khu vực"  />
+                        </div>
+                    </div>
+              </div>
+              <!-- /.box-body -->
+              <div class="box-footer">
+                <a href="{% url 'listArea' %}" class="btn btn-default"> Trở về </a>
+                <button type="submit" class="btn btn-info pull-right">Lưu</button>
+              </div>
+              <!-- /.box-footer -->
+          </div>
+</form>
+{% endblock %}
+
