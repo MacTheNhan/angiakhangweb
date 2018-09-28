@@ -1,0 +1,75 @@
+  
+  /*//////////////////////////////////////////////////////////////////
+  [ Table ]*/
+
+  
+  /*//////////////////////////////////////////////////////////////////
+  [ Table ]*/
+  #huy-table table {
+    width: 100%;
+    background-color: #fff;
+  }
+  
+  #huy-table th, td {
+    font-weight: unset;
+    padding-right: 10px;
+  }
+  
+  #huy-table .column100 {
+    width: 130px;
+    padding-left: 25px;
+  }
+  
+  #huy-table .column100.column1 {
+    width: 265px;
+    padding-left: 42px;
+  }
+  
+  #huy-table .row100.head th {
+    padding-top: 24px;
+    padding-bottom: 20px;
+  }
+  
+  #huy-table .row100 td {
+    padding-top: 18px;
+    padding-bottom: 14px;
+  }
+  
+  
+  /*==================================================================
+  [ Ver1 ]*/
+  #huy-table .table100.ver1 td {
+    font-family: Montserrat-Regular;
+    font-size: 14px;
+    color: #808080;
+    line-height: 1.4;
+  }
+  
+  #huy-table .table100.ver1 th {
+    font-family: Montserrat-Medium;
+    font-size: 12px;
+    color: #fff;
+    line-height: 1.4;
+    text-transform: uppercase;
+  
+    background-color: #74bbe4;
+  }
+  
+  #huy-table .table100.ver1 .row100:hover {
+    background-color: #f2f2f2;
+  }
+  
+  #huy-table .table100.ver1 .hov-column-ver1 {
+    background-color: #f2f2f2;
+  }
+  
+  #huy-table .table100.ver1 .hov-column-head-ver1 {
+    background-color: #484848 !important;
+  }
+  
+  #huy-table .table100.ver1 .row100 td:hover {
+    background-color: #74bbe4;
+    color: #fff;
+  }
+  
+  

@@ -40,9 +40,9 @@ class Project(models.Model):
     area = models.ForeignKey(Area, on_delete=models.DO_NOTHING)
     portfolio_project = models.ForeignKey(PortfolioProject, on_delete=models.DO_NOTHING)
     status_progress = models.IntegerField(default=0)
-    photo_album = models.ImageField(upload_to='/')
+    photo_album = models.ImageField(upload_to='images/', blank=True)
     description_project = VarCharField()
-    avatar_image = models.ImageField(upload_to='/')
+    avatar_image = models.ImageField(upload_to='images/', blank=True)
 
     class Meta:
         db_table = 'project'
@@ -60,7 +60,7 @@ class PortfolioPosts(models.Model):
 class Posts(models.Model):
     id_posts = models.CharField(max_length=10)
     portfolio_posts = models.ForeignKey(PortfolioPosts)
-    avatar_posts = models.ImageField(upload_to='/')
+    avatar_posts = models.ImageField(upload_to='images/', blank=True)
     title = VarCharField()
     content = VarCharField()
 
@@ -71,10 +71,23 @@ class Posts(models.Model):
 class Member(models.Model):
     id_company_member = models.CharField(max_length=10)
     name_company_member = VarCharField()
-    avatar_member = models.ImageField(upload_to='/')
+    avatar_member = models.ImageField(upload_to='images/', blank=True)
     description = VarCharField()
     type = models.IntegerField(default=1)
 
     class Meta:
         db_table = 'member'
+
+
+class User(models.Model):
+    id_user = models.AutoField(primary_key=True)
+    username = models.CharField(max_length=50)
+    password = models.CharField(max_length=200)
+    name_user = models.CharField(max_length=100)
+    email = models.EmailField()
+    status = models.BooleanField(default=False)
+    avatar = models.ImageField(upload_to='images/', blank=True)
+
+    class Meta:
+        db_table = 'user'
 

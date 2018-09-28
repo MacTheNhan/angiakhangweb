@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'angiakhangproject'
 ]
 
 MIDDLEWARE = [
@@ -75,11 +76,12 @@ WSGI_APPLICATION = 'angiakhangproject.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'angiaproject',
-        'USER': 'sa',
-        'PASSWORD': 'mysql',
-        'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'angiakhangdb',
+        'USER': 'postgres',
+        'PASSWORD': 'sa123',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
     }
 }
 
@@ -121,3 +123,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'), "/var/www/static/"]
+MEDIA_URL = '/uploads/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
