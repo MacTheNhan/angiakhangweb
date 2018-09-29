@@ -24,7 +24,7 @@
     <!-- Morris chart -->
     {#    <link rel="stylesheet" href="{% static 'backend/bower_components/morrisjs/morris.css' %} ">#}
     <!-- jvectormap -->
-    <link rel="stylesheet" href="{% static 'backend/bower_components/jvectormap/jquery-jvectormap.css' %} ">
+{#    <link rel="stylesheet" href="{% static 'backend/bower_components/jvectormap/jquery-jvectormap.css' %} ">#}
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
     <!-- Date Picker -->
     <link rel="stylesheet"
@@ -62,7 +62,7 @@
         <!-- Logo -->
         <a href="#" class="logo">
             <!-- mini logo for sidebar mini 50x50 pixels -->
-{#            <span class="logo-mini"><img src="{% static 'backend/image/logo.png' %}" style="height:50px;"></span>#}
+            {#            <span class="logo-mini"><img src="{% static 'backend/image/logo.png' %}" style="height:50px;"></span>#}
             <!-- logo for regular state and mobile devices -->
             <span class="logo-lg"><b>An Gia Khang </b> </span>
         </a>
@@ -150,36 +150,6 @@
             <!-- sidebar menu: : style can be found in sidebar.less -->
             <ul class="sidebar-menu" data-widget="tree">
                 <li class="header">Menu</li>
-                {#                <li class="treeview">#}
-                {#                    <a href="#">#}
-                {#                        <i class="fa fa-edit"></i> <span>Menu1</span>#}
-                {#                        <span class="pull-right-container">#}
-                {#                    <i class="fa fa-angle-left pull-right"></i>#}
-                {#                    </span>#}
-                {#                    </a>#}
-                {#                    <ul class="treeview-menu">#}
-                {#                        <li><a href="#" ><i class="fa fa-list"></i>Menu a</a></li>#}
-                {#                        <li><a href="#" ><i class="fa fa-tv"></i> Menu b</a></li>#}
-                {##}
-                {#                    </ul>#}
-                {#                </li>#}
-                {##}
-                {#                <li class="treeview">#}
-                {#                      <a href="#">#}
-                {#                        <i class="fa fa-folder"></i> <span>Admin</span>#}
-                {#                        <span class="pull-right-container">#}
-                {#                          <i class="fa fa-angle-left pull-right"></i>#}
-                {#                        </span>#}
-                {#                      </a>#}
-                {#                      <ul class="treeview-menu">#}
-                {#                        <li><a href="#"><i class="fa fa-th"></i> Booking Type </a></li>#}
-                {#                        <li><a href="#" ><i class="fa fa-pie-chart"></i> Project</a></li>#}
-                {#                        <li><a href="#"><i class="fa fa-table"></i> Holiday</a></li>#}
-                {#                        <li><a href="#"><i class="fa fa-user"></i> User</a></li>#}
-                {#                      </ul>#}
-                {#                </li>#}
-
-
                 <li>
                     <a href="{% url 'listPortfolioProject' %}">
                         <i class="fa fa-th"></i>
@@ -194,6 +164,15 @@
                     <a href="{% url 'listPortfolioPosts' %}">
                         <i class="fa fa-list"></i>
                         <span>Danh mục bài viết</span>
+                        <span class="pull-right-container">
+                        <span class="label label-primary pull-right"></span>
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'listPosts' %}">
+                        <i class="fa fa-file-text"></i>
+                        <span> Quản lý bài viết</span>
                         <span class="pull-right-container">
                         <span class="label label-primary pull-right"></span>
                         </span>
@@ -279,8 +258,8 @@
 <!-- Sparkline -->
 <script src="{% static 'backend/bower_components/jquery-sparkline/dist/jquery.sparkline.min.js' %} "></script>
 <!-- jvectormap -->
-<script src="{% static 'backend/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js' %} "></script>
-<script src="{% static 'backend/plugins/jvectormap/jquery-jvectormap-world-mill-en.js' %}"></script>
+{#<script src="{% static 'backend/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js' %} "></script>#}
+{#<script src="{% static 'backend/plugins/jvectormap/jquery-jvectormap-world-mill-en.js' %}"></script>#}
 <!-- jQuery Knob Chart -->
 <script src="{% static 'backend/bower_components/jquery-knob/dist/jquery.knob.min.js' %} "></script>
 <!-- daterangepicker -->
@@ -304,7 +283,7 @@
 
 <!-- Data table -->
 <script src="{% static 'backend/bower_components/datatables.net/js/jquery.dataTables.min.js' %}"></script>
-
+<script src="{% static 'backend/bower_components/ckeditor/ckeditor.js' %}"></script>
 <script>
     $(function () {
         $('#dataTable').DataTable({

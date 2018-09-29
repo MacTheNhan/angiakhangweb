@@ -71,6 +71,12 @@ urlpatterns = [
     url(r'^deletePortfolioPosts/$', deletePortfolioPosts, name='deletePortfolioPosts'),
     url(r'^get_PortfolioPosts/(?P<idPortfolio>\d+)/$', get_PortfolioPosts, name='get_PortfolioPosts'),
 
-
+    # URL for Posts model
+    url(r'^listPosts/$', showAllPosts, name='listPosts'),
+    url(r'^getPosts/(?P<idPosts>\d+)/$', getPosts, name='getPosts'),
+    url(r'^updatePosts/(?P<idPosts>\d+)/$', updatePosts, name='updatePosts'),
+    url(r'^createPosts/$', createPosts, name='createPosts'),
+    url(r'^deletePosts/$', deletePosts, name='deletePosts'),
+    url(r'^get_Posts/(?P<idPosts>\d+)/$', get_Posts, name='get_Posts'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

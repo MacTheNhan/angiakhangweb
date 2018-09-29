@@ -44,7 +44,13 @@
                                         <td>{{ item.id }}</td>
                                         <td>{{ item.name_company_member }}</td>
                                         <td>{{ item.description }}</td>
-                                        <td> <img style="width:50px; height:50px" src="{{ item.avatar_member.url }}"></td>
+                                        {% if item.avatar_member %}
+                                            <td><img style="width:50px; height:50px" src="{{ item.avatar_member.url }}">
+                                            </td>
+                                        {% else %}
+                                            <td></td>
+                                        {% endif %}
+
                                         {% if item.type %}
                                             <td>Thành viên</td>
                                         {% else %}

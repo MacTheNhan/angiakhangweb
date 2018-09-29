@@ -1,27 +1,37 @@
 {% extends 'base.html' %}
 {% block title %}
-    Quản lý hình ảnh từ slide
+    Quản lý bài viết
 {% endblock %}
 
 {% block content %}
     <section class="content">
-        <div class="box" id="app_slide">
+        <div class="box" id="app_posts">
             <div class="box-header">
                 <div class="col-sm-3">
-                    <a href="{% url 'createSlide' %}" class="btn btn-primary btn-exp">
+                    <a href="{% url 'createPosts' %}" class="btn btn-primary btn-exp">
                         <i class="fa fa-plus-square"></i> Thêm mới
                     </a>
                 </div>
                 <div class="col-sm-6">
                 <span style="position:relative;color:#3c8dbc;text-align:center;">
                     <b>
-                        <h3>Slide</h3>
+                        <h3>Bài viết</h3>
                     </b>
                 </span>
                 </div>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
+                <div class="row">
+                    <div>
+                        <form method="get" action="" id="search">
+                            <div id="example1_filter" class="dataTables_filter">
+                                <input placeholder="Tìm kiếm bài viết..." aria-controls="example1" type="text" name="search"
+                                       value="{{ request.GET.search }}">
+                            </div>
+                        </form>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-sm-12">
                         <div style="overflow:auto">
@@ -30,29 +40,31 @@
                                 <tr>
                                     <th class="no-sort"></th>
                                     <th>ID</th>
+                                    <th>Danh mục</th>
                                     <th>Tiêu đề</th>
-                                    <th>Hình ảnh</th>
+                                    <th>Hình đại diện</th>
                                     <th class="no-sort"></th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {% for item in listSlide %}
+                                {% for item in listPosts %}
                                     <tr>
                                         <td><input type="checkbox" value="{{ item.id }}"/></td>
                                         <td>{{ item.id }}</td>
+                                        <td>{{ item.portfolio_posts.name_portfolio_posts }}</td>
                                         <td>{{ item.title }}</td>
-
-                                        {% if item.image %}
-                                            <td><img style="width:50px; height:50px" src="{{ item.image.url }}">
+                                        {% if item.avatar_posts %}
+                                            <td><img style="width:50px; height:50px" src="{{ item.avatar_posts.url }}">
                                             </td>
                                         {% else %}
                                             <td></td>
                                         {% endif %}
-                                        <td><a href="{% url 'getSlide' item.id %}"> <i
+
+                                        <td><a href="{% url 'getPosts' item.id %}"> <i
                                                 class="fa fa-fw fa-edit employee-edit action-cursor" data-toggle="modal"
                                                 data-target="#modal-default"></i> </a>
                                             <a href="#"> <i data-toggle="modal" data-target="#modal-confirm"
-                                                            v-on:click="getSlideDetail ({{ item.id }})"
+                                                            v-on:click="getPostsDetail ({{ item.id }})"
                                                             class="fa fa-fw fa-remove employee-remove action-cursor"></i></a>
 
                                     </tr>
@@ -72,19 +84,19 @@
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
-                                <h4 class="modal-title">Xóa hình ảnh trên slide</h4>
+                                <h4 class="modal-title">Xóa thành viên</h4>
                             </div>
-                            <form method="post" action="{% url 'deleteSlide' %}"
+                            <form method="post" action="{% url 'deletePosts' %}"
                                   enctype="multipart/form-data">{% csrf_token %}
                                 <div class="modal-body">
                                     <div class="form-horizontal">
                                         <div class="form-group">
-                                            <input type="text" name="id_slide" v-model="currentSlide.id"
+                                            <input type="text" name="id_posts" v-model="currentPosts.id"
                                                    hidden="hidden">
 
                                             <div class="col-sm-10">
-                                                <p style="color:red"><b>Bạn muốn xóa hình ảnh
-                                                    ${currentSlide.title} ?</b></p>
+                                                <p style="color:red"><b>Bạn muốn xóa bài viết:
+                                                    ${currentPosts.title} ?</b></p>
                                             </div>
                                         </div>
                                     </div>
@@ -103,17 +115,17 @@
         </div>
         <script>
             var app = new Vue({
-                el: '#app_slide',
+                el: '#app_posts',
                 delimiters: ['${', '}'],
                 data: {
-                    currentSlide: {},
+                    currentPosts: {},
                 },
                 watch: {},
                 methods: {
-                    getSlideDetail: function (id) {
-                        this.$http.get('/get_Slide/' + id)
+                    getPostsDetail: function (id) {
+                        this.$http.get('/get_Posts/' + id)
                             .then(function (response) {
-                                this.currentSlide = response.data.data[0];
+                                this.currentPosts = response.data.data[0];
                             })
                     }
                 }

@@ -35,8 +35,8 @@
                 <div class="form-group">
                     <label for="txtImages" class="col-sm-2 control-label">Logo</label>
                     <div class="col-sm-10">
-                        <input type="file" ref="file" class="form-control" name="txtImages" id="txtImages"
-                               required="required" value="{{ slide.image }}">
+                        <input type="file" ref="file" class="form-control" name="txtImages" id="txtImages" accept="image/*"
+                               required="required" src="{{ slide.image.url }}">
                     </div>
                 </div>
             </div>

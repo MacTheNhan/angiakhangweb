@@ -33,7 +33,6 @@ class Area(models.Model):
 
 
 class Project(models.Model):
-    id_project = models.CharField(max_length=10)
     name_project = VarCharField()
     area = models.ForeignKey(Area, on_delete=models.DO_NOTHING)
     portfolio_project = models.ForeignKey(PortfolioProject, on_delete=models.DO_NOTHING)
@@ -55,9 +54,8 @@ class PortfolioPosts(models.Model):
 
 
 class Posts(models.Model):
-    id_posts = models.CharField(max_length=10)
     portfolio_posts = models.ForeignKey(PortfolioPosts)
-    avatar_posts = models.ImageField(upload_to='images/', blank=True)
+    avatar_posts = models.ImageField(upload_to='images/post/', blank=True)
     title = VarCharField()
     content = VarCharField()
 

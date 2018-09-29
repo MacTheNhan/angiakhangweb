@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.shortcuts import render, redirect
 from .models import *
 from django.http import JsonResponse
@@ -310,7 +311,6 @@ def showAllPortfolioPosts(request):
 # Get 1 Portfolio Posts to edit
 def getPortfolioPosts(request, idPortfolio):
     portfolioPosts = PortfolioPosts.objects.get(id=idPortfolio)
-
     listPortfolioPosts = PortfolioPosts.objects.filter(id_parent=0)
     context = {'portfolio_posts': portfolioPosts, 'listPortfolioPosts': listPortfolioPosts}
     return render(request, 'portfolioposts/editPortfolioPosts.html', context)
@@ -365,3 +365,72 @@ def updatePortfolioPosts(request, idPortfolio):
         return redirect(showAllPortfolioPosts)
     context = {'portfolio_posts': portfolio_posts, 'listPortfolioPosts': listPortfolioPosts}
     return render(request, 'portfolioposts/editPortfolioPosts.html', context)
+
+
+# POSTS MODEL
+# Get all data about Posts
+def showAllPosts(request):
+    query = request.GET.get('search')
+    if query:
+        listPosts = Posts.objects.filter(Q(title__icontains=query))
+    else:
+        listPosts = Posts.objects.all()
+    return render(request, 'posts/posts.html', {'listPosts': listPosts})
+
+
+# Get 1 Posts to edit
+def getPosts(request, idPosts):
+    posts = Posts.objects.get(id=idPosts)
+    listPortfolioPosts = PortfolioPosts.objects.all()
+    return render(request, 'posts/editPosts.html', {'posts': posts, 'listPortfolioPosts': listPortfolioPosts})
+
+# Get profile of Posts
+def get_Posts(request, idPosts):
+    posts = Posts.objects.get(id=idPosts)
+    data= []
+    data.append({
+        'id': posts.id,
+        'title': posts.title
+    })
+    return JsonResponse({'data': data})
+
+
+# Delete 1 Post
+def deletePosts(request):
+    if request.method == 'POST':
+        id_posts = request.POST.get('id_posts')
+        posts = Posts.objects.get(id=id_posts)
+        if posts:
+            try:
+                posts.delete()
+            except:
+                messages.error(request, 'Delete' + posts.title + ' failed')
+        return redirect(showAllPosts)
+
+
+# Create new Posts
+def createPosts(request):
+    if request.method == 'POST':
+        title = request.POST['txtTitle']
+        portfolio_posts = PortfolioPosts.objects.get(id=request.POST['slPortfolioParent'])
+        avatar_posts = request.FILES.get('txtImages')
+        content = request.POST['txtContent']
+        posts = Posts(title=title, portfolio_posts=portfolio_posts, avatar_posts=avatar_posts, content=content)
+        posts.save()
+        return redirect(showAllPosts)
+    else:
+        listPortfolioPosts = PortfolioPosts.objects.all()
+        return render(request, 'posts/addPosts.html', {'listPortfolioPosts': listPortfolioPosts})
+
+
+# Update Posts
+def updatePosts(request, idPosts):
+    posts = Posts.objects.get(id=idPosts)
+    if posts is not None:
+        posts.title = request.POST['txtTitle']
+        posts.portfolio_posts = PortfolioPosts.objects.get(id=request.POST['slPortfolioParent'])
+        posts.avatar_posts = request.FILES.get('txtImages')
+        posts.content = request.POST['txtContent']
+        posts.save()
+        return redirect(showAllPosts)
+    return render(request, 'posts/editPosts.html', {'posts': posts})
