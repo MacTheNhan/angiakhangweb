@@ -37,13 +37,20 @@ class Project(models.Model):
     area = models.ForeignKey(Area, on_delete=models.DO_NOTHING)
     portfolio_project = models.ForeignKey(PortfolioProject, on_delete=models.DO_NOTHING)
     status_progress = models.BooleanField(default=False)
-    photo_album = models.ImageField(upload_to='images/albums', blank=True)
     description_project = VarCharField()
     avatar_image = models.ImageField(upload_to='images/project', blank=True)
     year = models.IntegerField(default=0)
 
     class Meta:
         db_table = 'project'
+
+
+class Album(models.Model):
+    photo = models.ImageField(upload_to='images/albums', blank=True)
+    id_project = models.IntegerField(default=0)
+
+    class Meta:
+        db_table = 'album'
 
 
 class PortfolioPosts(models.Model):

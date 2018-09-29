@@ -501,14 +501,20 @@ def createProject(request):
         area = Area.objects.get(id=request.POST['slArea'])
         portfolio_project = PortfolioProject.objects.get(id=request.POST['slPortfolioProject'])
         status_progress = request.POST['slStatus']
-        photo_album = request.FILES.get('txtAlbums')
         avatar_image = request.FILES.get('txtImages')
         year = request.POST['txtYear']
         description_project = request.POST['txtContent']
         project = Project(name_project=name_project, area=area, portfolio_project=portfolio_project,
-                          status_progress=status_progress, photo_album=photo_album,
-                          avatar_image=avatar_image, description_project=description_project, year=year)
+                          status_progress=status_progress,avatar_image=avatar_image,
+                          description_project=description_project, year=year)
         project.save()
+        photo_album = request.FILES.getlist('txtAlbums')
+        for image in photo_album:
+            photo = image.name
+            id_project = project.id
+            album = Album(photo=photo, id_project=id_project)
+            album.save()
+
         messages.success(request, '' + name_project + ' is created successful')
         return redirect(showAllProject)
     else:
@@ -525,8 +531,8 @@ def updateProject(request, idProject):
         project.area = Area.objects.get(id=request.POST['slArea'])
         project.portfolio_project = PortfolioProject.objects.get(id=request.POST['slPortfolioProject'])
         project.status_progress = request.POST['slStatus']
-        if request.FILES.get('txtAlbums'):
-            project.photo_album = request.FILES.get('txtAlbums')
+        # if request.FILES.get('txtAlbums'):
+        #     project.photo_album = request.FILES.get('txtAlbums')
         if request.FILES.get('txtImages'):
             project.avatar_image = request.FILES.get('txtImages')
         project.description_project = request.POST['txtContent']
