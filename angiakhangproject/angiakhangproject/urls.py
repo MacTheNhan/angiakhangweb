@@ -63,4 +63,14 @@ urlpatterns = [
     url(r'^deleteVideo/$', deleteVideo, name='deleteVideo'),
     url(r'^get_Video/(?P<idVideo>\d+)/$', get_Video, name='get_Video'),
 
+    # URL for Portfolio Posts model
+    url(r'^listPortfolioPosts/$', showAllPortfolioPosts, name='listPortfolioPosts'),
+    url(r'^getPortfolioPosts/(?P<idPortfolio>\d+)/$', getPortfolioPosts, name='getPortfolioPosts'),
+    url(r'^updatePortfolioPosts/(?P<idPortfolio>\d+)/$', updatePortfolioPosts, name='updatePortfolioPosts'),
+    url(r'^createPortfolioPosts/$', createPortfolioPosts, name='createPortfolioPosts'),
+    url(r'^deletePortfolioPosts/$', deletePortfolioPosts, name='deletePortfolioPosts'),
+    url(r'^get_PortfolioPosts/(?P<idPortfolio>\d+)/$', get_PortfolioPosts, name='get_PortfolioPosts'),
+
+
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

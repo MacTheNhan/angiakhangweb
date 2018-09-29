@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+{% block title %}
+Danh mục bài viết
+{% endblock%}
+
+{% block content %}
+<section class="content">
+    <div class="box" id="app_portfolio_posts">
+        <div class="box-header">
+            <div class="col-sm-3">
+                <a href="{% url 'createPortfolioPosts' %}" class="btn btn-primary btn-exp">
+                    <i class="fa fa-plus-square"></i> Thêm mới
+                </a>
+            </div>
+            <div class="col-sm-6">
+                <span style="position:relative;color:#3c8dbc;text-align:center;">
+                    <b>
+                        <h3>Danh Mục Bài Viết</h3>
+                    </b>
+                </span>
+            </div>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div style="overflow:auto">
+                        <table id="dataTable" class="table table-bordered table-striped" style="white-space:auto;">
+                            <thead>
+                            <tr>
+                                <th class="no-sort"></th>
+                                <th>ID</th>
+                                <th>Tên danh mục</th>
+                                <th>Vị trí</th>
+                                <th class="no-sort"></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for item in listPortfolioPosts%}
+                            <tr>
+                                <td><input type="checkbox" value="{{item.id}}"/></td>
+                                <td>{{item.id}}</td>
+                                <td>{{item.name_portfolio_posts}}</td>
+                                <td>{{ item.id_parent }}</td>
+                                <td><a href="{% url 'getPortfolioPosts' item.id %}"> <i
+                                        class="fa fa-fw fa-edit employee-edit action-cursor" data-toggle="modal"
+                                        data-target="#modal-default"></i> </a>
+                                    <a href="#"> <i data-toggle="modal" data-target="#modal-confirm"
+                                            v-on:click="getPortfolioPosts ({{ item.id }})" class="fa fa-fw fa-remove employee-remove action-cursor"></i></a>
+
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    </div>
+                </div>
+
+             <div class="modal fade" id="modal-confirm" tabindex="-1" role="dialog"
+                     aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <h4 class="modal-title">Xóa danh mục dự án</h4>
+                            </div>
+                            <form method="post" action="{% url 'deletePortfolioPosts' %}"
+                                  enctype="multipart/form-data">{% csrf_token %}
+                                <div class="modal-body">
+                                    <div class="form-horizontal">
+                                        <div class="form-group">
+                                            <input type="text" name="id_portfolio_delete" v-model="currentPortfolioPosts.id"
+                                                   hidden="hidden">
+
+                                            <div class="col-sm-10">
+                                                <p style="color:red"><b>Bạn muốn xóa danh mục
+                                                    ${currentPortfolioPosts.name_portfolio_posts} ?</b></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Đóng
+                                    </button>
+                                    <button type="submit" id="delete_user" class="btn btn-primary">Xóa</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        <!-- /.box-body -->
+    </div>
+        <script>
+            var app = new Vue({
+                el: '#app_portfolio_posts',
+                delimiters: ['${', '}'],
+                data: {
+                    currentPortfolioPosts: {},
+                },
+                watch: {
+                },
+                methods: {
+                    getPortfolioPosts: function (id) {
+                        this.$http.get('/get_PortfolioPosts/' + id)
+                            .then(function (response) {
+                                this.currentPortfolioPosts = response.data.data[0];
+                            })
+                    }
+                }
+            });
+        </script>
+</section>
+{% endblock %}

@@ -298,3 +298,70 @@ def updateVideo(request, idVideo):
         video.save()
         return redirect(showAllVideo)
     return render(request, 'video/editVideo.html', {'video': video})
+
+
+# PORTFOLIO POSTS
+# Get all data about portfolio post
+def showAllPortfolioPosts(request):
+    listPortfolioPosts = PortfolioPosts.objects.all()
+    return render(request, 'portfolioposts/portfolioposts.html', {'listPortfolioPosts': listPortfolioPosts})
+
+
+# Get 1 Portfolio Posts to edit
+def getPortfolioPosts(request, idPortfolio):
+    portfolioPosts = PortfolioPosts.objects.get(id=idPortfolio)
+
+    listPortfolioPosts = PortfolioPosts.objects.filter(id_parent=0)
+    context = {'portfolio_posts': portfolioPosts, 'listPortfolioPosts': listPortfolioPosts}
+    return render(request, 'portfolioposts/editPortfolioPosts.html', context)
+
+
+# Get profile of Portfolio Posts
+def get_PortfolioPosts(request, idPortfolio):
+    portfolio_posts = PortfolioPosts.objects.get(id=idPortfolio)
+    data = []
+    data.append({
+        'id': portfolio_posts.id,
+        'name_portfolio_posts': portfolio_posts.name_portfolio_posts
+    })
+    return JsonResponse({'data': data})
+
+
+# Delete 1 Portfolio Posts
+def deletePortfolioPosts(request):
+    if request.method == 'POST':
+        id_portfolio_delete = request.POST.get('id_portfolio_delete')
+        portfolio_posts = PortfolioPosts.objects.get(id=id_portfolio_delete)
+        if portfolio_posts:
+            try:
+                portfolio_posts.delete()
+            except:
+                messages.error(request, 'Deleting ' + portfolio_posts.name_portfolio_posts + ' failed')
+        return redirect(showAllPortfolioPosts)
+
+
+# Create new Portfolio Posts
+def createPortfolioPosts(request):
+    if request.method == 'POST':
+        name_portfolio_posts = request.POST['txtNamePortfolio']
+        id_parent = request.POST['slPortfolioParent']
+        portfolio_posts = PortfolioPosts(name_portfolio_posts=name_portfolio_posts, id_parent=id_parent)
+        portfolio_posts.save()
+        return redirect(showAllPortfolioPosts)
+    else:
+        listPortfolioPosts = PortfolioPosts.objects.filter(id_parent=0)
+        return render(request, 'portfolioposts/addPortfolioPosts.html', {'listPortfolioPosts': listPortfolioPosts})
+
+
+# Update Portfolio Posts
+def updatePortfolioPosts(request, idPortfolio):
+    portfolio_posts = PortfolioPosts.objects.get(id=idPortfolio)
+    listPortfolioPosts = PortfolioPosts.objects.filter(id_parent=0)
+    if portfolio_posts is not None:
+        portfolio_posts.name_portfolio_posts = request.POST['txtNamePortfolio']
+        if request.POST['slPortfolioParent'] != idPortfolio:
+            portfolio_posts.id_parent = request.POST['slPortfolioParent']
+        portfolio_posts.save()
+        return redirect(showAllPortfolioPosts)
+    context = {'portfolio_posts': portfolio_posts, 'listPortfolioPosts': listPortfolioPosts}
+    return render(request, 'portfolioposts/editPortfolioPosts.html', context)

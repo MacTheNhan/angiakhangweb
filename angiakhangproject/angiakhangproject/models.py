@@ -47,7 +47,6 @@ class Project(models.Model):
 
 
 class PortfolioPosts(models.Model):
-    id_portfolio_posts = models.CharField(max_length=10)
     id_parent = models.IntegerField(default=0)
     name_portfolio_posts = VarCharField()
 
