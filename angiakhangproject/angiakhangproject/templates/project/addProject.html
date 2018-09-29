@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Thêm dự án
+{% endblock %}
+
+{% block content %}
+    <form method="post" action="{% url 'createProject' %}" enctype="multipart/form-data"
+          class="form-horizontal"> {% csrf_token %}
+        <div class="box box-info">
+            <div class="box-header with-border">
+                <h3 class="box-title">Thêm mới dự án</h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <div class="box-body">
+                <div class="form-group">
+                    <label for="txtNameProject" class="col-sm-2 control-label">Tên Dự án</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="txtNameProject" required="required"
+                               name="txtNameProject" placeholder="Điền tên dự án"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="slArea" class="col-sm-2 control-label">Khu vực</label>
+                    <div class="col-sm-10">
+                        <select class="form-control" id="slArea" name="slArea">
+                            {% for item in listArea %}
+                                <option value="{{ item.id }}"> {{ item.name_area }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="slPortfolioProject" class="col-sm-2 control-label">Danh mục</label>
+                    <div class="col-sm-10">
+                        <select class="form-control" id="slPortfolioProject" name="slPortfolioProject">
+                            {% for item in listPortfolioProject %}
+                                <option value="{{ item.id }}"> {{ item.name_portfolio_project }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="name_type" class="col-sm-2 control-label">Năm</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="txtYear" required="required"
+                               name="txtYear" placeholder="Điền năm thực hiện dự án"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="slPortfolioProject" class="col-sm-2 control-label">Trạng thái </label>
+                    <div class="col-sm-10">
+                        <select class="form-control" id="slStatus" name="slStatus">
+                            <option value="True"> Đang thi công</option>
+                            <option value="False"> Đã hoàn thành</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="txtImages" class="col-sm-2 control-label">Ảnh đại diện</label>
+                    <div class="col-sm-10">
+                        <input type="file" class="form-control" name="txtImages" id="txtImages" accept="image/*"
+                               required="required">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="txtAlbums" class="col-sm-2 control-label">Album ảnh</label>
+                    <div class="col-sm-10">
+                        <input type="file" class="form-control" name="txtAlbums" id="txtAlbums" accept="image/*"
+                               required="required">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="txtContent" class="col-sm-2 control-label">Nội dung</label>
+                    <div class="col-sm-10">
+                        <textarea id="txtContent" name="txtContent" rows="10" cols="80" rows="3"
+                                  placeholder="Mô tả dụ án..."></textarea>
+                    </div>
+                </div>
+
+
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer">
+                <a href="{% url 'listProject' %}" class="btn btn-default"> Trở về </a>
+                <button type="submit" class="btn btn-info pull-right">Lưu</button>
+            </div>
+            <!-- /.box-footer -->
+        </div>
+    </form>
+
+    <script>
+        $(function () {
+            CKEDITOR.replace('txtContent')
+        })
+    </script>
+{% endblock %}
+

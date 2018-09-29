@@ -434,3 +434,84 @@ def updatePosts(request, idPosts):
         posts.save()
         return redirect(showAllPosts)
     return render(request, 'posts/editPosts.html', {'posts': posts})
+
+
+# PROJECT MODEL
+# Get all data about project
+def showAllProject(request):
+    query = request.GET.get('search')
+    if query:
+        listProject= Project.objects.filter(Q(name_project__icontains=query))
+    else:
+        listProject = Project.objects.all()
+    return render(request, 'project/project.html', {'listProject': listProject})
+
+
+# Get 1 Project to edit
+def getProject(request, idProject):
+    project = Project.objects.get(id=idProject)
+    listPortfolioProject = PortfolioProject.objects.all()
+    listArea = Area.objects.all()
+    return render(request, 'project/editProject.html', {'project': project, 'listPortfolioProject': listPortfolioProject, 'listArea':listArea})
+
+# Get profile of Project
+def get_Project(request, idProject):
+    project = Project.objects.get(id=idProject)
+    data= []
+    data.append({
+        'id': project.id,
+        'name_project': project.name_project
+    })
+    return JsonResponse({'data': data})
+
+
+# Delete 1 Project
+def deleteProject(request):
+    if request.method == 'POST':
+        id_project = request.POST.get('id_project')
+        project = Project.objects.get(id=id_project)
+        if project:
+            try:
+                project.delete()
+            except:
+                messages.error(request, 'Delete' + project.name_project + ' failed')
+        return redirect(showAllProject)
+
+
+# Create new Project
+def createProject(request):
+    if request.method == 'POST':
+        name_project = request.POST['txtNameProject']
+        area = Area.objects.get(id=request.POST['slArea'])
+        portfolio_project = PortfolioProject.objects.get(id=request.POST['slPortfolioProject'])
+        status_progress = request.POST['slStatus']
+        photo_album = request.FILES.get('txtAlbums')
+        avatar_image = request.FILES.get('txtImages')
+        year = request.POST['txtYear']
+        description_project = request.POST['txtContent']
+        project = Project(name_project=name_project, area=area, portfolio_project=portfolio_project,
+                          status_progress=status_progress, photo_album=photo_album,
+                          avatar_image=avatar_image, description_project=description_project, year=year)
+        project.save()
+        return redirect(showAllProject)
+    else:
+        listPortfolioProject = PortfolioProject.objects.all()
+        listArea = Area.objects.all()
+        return render(request, 'project/addProject.html', {'listPortfolioProject': listPortfolioProject, 'listArea': listArea})
+
+
+# Update Posts
+def updateProject(request, idProject):
+    project = Project.objects.get(id=idProject)
+    if project is not None:
+        project.name_project = request.POST['txtNameProject']
+        project.area = Area.objects.get(id=request.POST['slArea'])
+        project.portfolio_project = PortfolioProject.objects.get(id=request.POST['slPortfolioProject'])
+        project.status_progress = request.POST['slStatus']
+        project.photo_album = request.FILES.get('txtAlbums')
+        project.avatar_image = request.FILES.get('txtImages')
+        project.description_project = request.POST['txtContent']
+        project.year = request.POST['txtYear']
+        project.save()
+        return redirect(showAllProject)
+    return render(request, 'project/editProject.html', {'project': project})

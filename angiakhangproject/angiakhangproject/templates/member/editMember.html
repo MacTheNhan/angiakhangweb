@@ -44,7 +44,7 @@
                 <div class="form-group">
                     <label for="txtImages" class="col-sm-2 control-label">Logo</label>
                     <div class="col-sm-10">
-                             <input type="file"  class="form-control" name="txtImages" id="txtImages" accept="image/*"
+                        <input type="file" class="form-control" name="txtImages" id="txtImages" accept="image/*"
                                required="required" src="{{ member.avatar_member.url }}">
                     </div>
                 </div>
@@ -53,8 +53,8 @@
                     <label for="cbbType" class="col-sm-2 control-label">Loại </label>
                     <div class="col-sm-10">
                         <select class="form-control" id="cbbType" name="cbbType">
-                            <option value="True">Thành viên</option>
-                            <option value="False">Đối tác</option>
+                            <option {% if member.type == True %} selected {% endif %} value="True"  >Thành viên</option>
+                            <option {% if member.type != True %} selected {% endif %} value="False">Đối tác</option>
                         </select>
                     </div>
                 </div>
