@@ -1,67 +1,74 @@
 {% extends 'base.html' %}
 {% block title %}
-Danh mục dự án
-{% endblock%}
+    Danh mục dự án
+{% endblock %}
 
 {% block content %}
-<section class="content">
-    <div class="box" id="app_portfolio_project">
-        <div class="box-header">
-            <div class="col-sm-3">
-                <a href="{% url 'createPortfolioProject' %}" class="btn btn-primary btn-exp">
-                    <i class="fa fa-plus-square"></i> Thêm mới
-                </a>
-                {% if messages %}
-                    {% for message in messages %}
-                        <label class="control-label" {% if message.tags %} {% endif %}><i
-                                class="fa fa-check"></i>{{ message }}</label>
-                    {% endfor %}
-                {% endif %}
-            </div>
-            <div class="col-sm-6">
+    <section class="content">
+        <div class="box" id="app_portfolio_project">
+            <div class="box-header">
+                <div class="col-sm-3">
+                    <a href="{% url 'createPortfolioProject' %}" class="btn btn-primary btn-exp">
+                        <i class="fa fa-plus-square"></i> Thêm mới
+                    </a>
+                    {% if messages %}
+                        {% for message in messages %}
+                            <label class="control-label" {% if message.tags %} {% endif %}><i
+                                    class="fa fa-check"></i>{{ message }}</label>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                <div class="col-sm-6">
                 <span style="position:relative;color:#3c8dbc;text-align:center;">
                     <b>
                         <h3>Danh Mục Dự Án</h3>
                     </b>
                 </span>
+                </div>
             </div>
-        </div>
-        <!-- /.box-header -->
-        <div class="box-body">
+            <!-- /.box-header -->
+            <div class="box-body">
                 <div class="row">
                     <div class="col-sm-12">
                         <div style="overflow:auto">
-                        <table id="dataTable" class="table table-bordered table-striped" style="white-space:auto;">
-                            <thead>
-                            <tr>
-                                <th class="no-sort"></th>
-                                <th>ID</th>
-                                <th>Tên danh mục</th>
-                                <th class="no-sort"></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for item in listPortfolioProject%}
-                            <tr>
-                                <td><input type="checkbox" value="{{item.id}}"/></td>
-                                <td>{{item.id}}</td>
-                                <td>{{item.name_portfolio_project}}</td>
+                            <table id="dataTable" class="table table-bordered table-striped" style="white-space:auto;">
+                                <thead>
+                                <tr>
+                                    <th class="no-sort"></th>
+                                    <th>ID</th>
+                                    <th>Tên danh mục</th>
+                                    <th>Hình đại diện</th>
+                                    <th class="no-sort"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for item in listPortfolioProject %}
+                                    <tr>
+                                        <td><input type="checkbox" value="{{ item.id }}"/></td>
+                                        <td>{{ item.id }}</td>
+                                        <td>{{ item.name_portfolio_project }}</td>
+                                        {% if item.avatar %}
+                                            <td><img style="width:50px; height:50px" src="{{ item.avatar.url }}">
+                                            </td>
+                                        {% else %}
+                                            <td></td>
+                                        {% endif %}
+                                        <td><a href="{% url 'getPortfolioProject' item.id %}"> <i
+                                                class="fa fa-fw fa-edit employee-edit action-cursor" data-toggle="modal"
+                                                data-target="#modal-default"></i> </a>
+                                            <a href="#"> <i data-toggle="modal" data-target="#modal-confirm"
+                                                            v-on:click="getPortfolioProject ({{ item.id }})"
+                                                            class="fa fa-fw fa-remove employee-remove action-cursor"></i></a>
 
-                                <td><a href="{% url 'getPortfolioProject' item.id %}"> <i
-                                        class="fa fa-fw fa-edit employee-edit action-cursor" data-toggle="modal"
-                                        data-target="#modal-default"></i> </a>
-                                    <a href="#"> <i data-toggle="modal" data-target="#modal-confirm"
-                                            v-on:click="getPortfolioProject ({{ item.id }})" class="fa fa-fw fa-remove employee-remove action-cursor"></i></a>
-
-                            </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
 
-             <div class="modal fade" id="modal-confirm" tabindex="-1" role="dialog"
+                <div class="modal fade" id="modal-confirm" tabindex="-1" role="dialog"
                      aria-labelledby="exampleModalLongTitle" aria-hidden="true">
 
                     <div class="modal-dialog" role="document">
@@ -77,7 +84,8 @@ Danh mục dự án
                                 <div class="modal-body">
                                     <div class="form-horizontal">
                                         <div class="form-group">
-                                            <input type="text" name="id_portfolio_delete" v-model="currentPortfolioProject.id"
+                                            <input type="text" name="id_portfolio_delete"
+                                                   v-model="currentPortfolioProject.id"
                                                    hidden="hidden">
 
                                             <div class="col-sm-10">
@@ -96,9 +104,9 @@ Danh mục dự án
                         </div>
                     </div>
                 </div>
+            </div>
+            <!-- /.box-body -->
         </div>
-        <!-- /.box-body -->
-    </div>
         <script>
             var app = new Vue({
                 el: '#app_portfolio_project',
@@ -106,8 +114,7 @@ Danh mục dự án
                 data: {
                     currentPortfolioProject: {},
                 },
-                watch: {
-                },
+                watch: {},
                 methods: {
                     getPortfolioProject: function (id) {
                         this.$http.get('/get_PortfolioProject/' + id)
@@ -118,5 +125,5 @@ Danh mục dự án
                 }
             });
         </script>
-</section>
+    </section>
 {% endblock %}

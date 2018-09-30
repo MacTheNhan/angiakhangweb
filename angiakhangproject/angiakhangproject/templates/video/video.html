@@ -1,69 +1,76 @@
 {% extends 'base.html' %}
 {% block title %}
-Quản lý video
-{% endblock%}
+    Quản lý video
+{% endblock %}
 
 {% block content %}
-<section class="content">
-    <div class="box" id="app_video">
-        <div class="box-header">
-            <div class="col-sm-3">
-                <a href="{% url 'createVideo' %}" class="btn btn-primary btn-exp">
-                    <i class="fa fa-plus-square"></i> Thêm mới
-                </a>
-                {% if messages %}
-                    {% for message in messages %}
-                        <label class="control-label" {% if message.tags %} {% endif %}><i
-                                class="fa fa-check"></i>{{ message }}</label>
-                    {% endfor %}
-                {% endif %}
-            </div>
-            <div class="col-sm-6">
+    <section class="content">
+        <div class="box" id="app_video">
+            <div class="box-header">
+                <div class="col-sm-3">
+                    <a href="{% url 'createVideo' %}" class="btn btn-primary btn-exp">
+                        <i class="fa fa-plus-square"></i> Thêm mới
+                    </a>
+                    {% if messages %}
+                        {% for message in messages %}
+                            <label class="control-label" {% if message.tags %} {% endif %}><i
+                                    class="fa fa-check"></i>{{ message }}</label>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                <div class="col-sm-6">
                 <span style="position:relative;color:#3c8dbc;text-align:center;">
                     <b>
                         <h3>Video</h3>
                     </b>
                 </span>
+                </div>
             </div>
-        </div>
-        <!-- /.box-header -->
-        <div class="box-body">
+            <!-- /.box-header -->
+            <div class="box-body">
                 <div class="row">
                     <div class="col-sm-12">
                         <div style="overflow:auto">
-                        <table id="dataTable" class="table table-bordered table-striped" style="white-space:auto;">
-                            <thead>
-                            <tr>
-                                <th class="no-sort"></th>
-                                <th>ID</th>
-                                <th>Tiêu đề</th>
-                                <th>URL</th>
-                                <th class="no-sort"></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for item in listVideo%}
-                            <tr>
-                                <td><input type="checkbox" value="{{item.id}}"/></td>
-                                <td>{{item.id}}</td>
-                                <td>{{item.title}}</td>
-                                <td>{{item.url}}</td>
+                            <table id="dataTable" class="table table-bordered table-striped" style="white-space:auto;">
+                                <thead>
+                                <tr>
+                                    <th class="no-sort"></th>
+                                    <th>ID</th>
+                                    <th>Tiêu đề</th>
+                                    <th>URL</th>
+                                    <th>Hình nền</th>
+                                    <th class="no-sort"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for item in listVideo %}
+                                    <tr>
+                                        <td><input type="checkbox" value="{{ item.id }}"/></td>
+                                        <td>{{ item.id }}</td>
+                                        <td>{{ item.title }}</td>
+                                        <td>{{ item.url }}</td>
+                                        {% if item.avatar %}
+                                            <td><img style="width:50px; height:50px" src="{{ item.avatar.url }}">
+                                            </td>
+                                        {% else %}
+                                            <td></td>
+                                        {% endif %}
+                                        <td><a href="{% url 'getVideo' item.id %}"> <i
+                                                class="fa fa-fw fa-edit employee-edit action-cursor" data-toggle="modal"
+                                                data-target="#modal-default"></i> </a>
+                                            <a href="#"> <i data-toggle="modal" data-target="#modal-confirm"
+                                                            v-on:click="getVideoDetail ({{ item.id }})"
+                                                            class="fa fa-fw fa-remove employee-remove action-cursor"></i></a>
 
-                                <td><a href="{% url 'getVideo' item.id %}"> <i
-                                        class="fa fa-fw fa-edit employee-edit action-cursor" data-toggle="modal"
-                                        data-target="#modal-default"></i> </a>
-                                    <a href="#"> <i data-toggle="modal" data-target="#modal-confirm"
-                                            v-on:click="getVideoDetail ({{ item.id }})" class="fa fa-fw fa-remove employee-remove action-cursor"></i></a>
-
-                            </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
 
-             <div class="modal fade" id="modal-confirm" tabindex="-1" role="dialog"
+                <div class="modal fade" id="modal-confirm" tabindex="-1" role="dialog"
                      aria-labelledby="exampleModalLongTitle" aria-hidden="true">
 
                     <div class="modal-dialog" role="document">
@@ -98,9 +105,9 @@ Quản lý video
                         </div>
                     </div>
                 </div>
+            </div>
+            <!-- /.box-body -->
         </div>
-        <!-- /.box-body -->
-    </div>
         <script>
             var app = new Vue({
                 el: '#app_video',
@@ -108,8 +115,7 @@ Quản lý video
                 data: {
                     currentVideo: {},
                 },
-                watch: {
-                },
+                watch: {},
                 methods: {
                     getVideoDetail: function (id) {
                         this.$http.get('/get_Video/' + id)
@@ -120,5 +126,5 @@ Quản lý video
                 }
             });
         </script>
-</section>
+    </section>
 {% endblock %}

@@ -55,7 +55,8 @@ def deletePortfolioProject(request):
 def createPortfolioProject(request):
     if request.method == 'POST':
         name_portfolio_project = request.POST['txtNamePortfolio']
-        portfolio_project = PortfolioProject(name_portfolio_project=name_portfolio_project)
+        avatar = request.FILES.get('txtImages')
+        portfolio_project = PortfolioProject(name_portfolio_project=name_portfolio_project, avatar=avatar)
         portfolio_project.save()
         messages.success(request, '' + name_portfolio_project + ' is created successful')
         return redirect(showAllPortfolioProject)
@@ -68,6 +69,8 @@ def updatePortfolioProject(request, idPortfolio):
     portfolio_project = PortfolioProject.objects.get(id=idPortfolio)
     if portfolio_project is not None:
         portfolio_project.name_portfolio_project = request.POST['txtNamePortfolio']
+        if request.FILES.get('txtImages'):
+            portfolio_project.avatar = request.FILES.get('txtImages')
         portfolio_project.save()
         messages.success(request, '' + portfolio_project.name_portfolio_project + ' is updated successful')
         return redirect(showAllPortfolioProject)
@@ -301,7 +304,8 @@ def createVideo(request):
     if request.method == 'POST':
         title = request.POST['txtTitle']
         url = request.POST['txtURL']
-        slide = Video(title=title, url=url)
+        avatar = request.FILES.get('txtImages')
+        slide = Video(title=title, url=url, avatar=avatar)
         slide.save()
         messages.success(request, 'Video is created successful')
         return redirect(showAllVideo)
@@ -315,6 +319,8 @@ def updateVideo(request, idVideo):
     if video is not None:
         video.title = request.POST['txtTitle']
         video.url = request.POST['txtURL']
+        if request.FILES.get('txtImages'):
+            video.avatar = request.FILES.get('txtImages')
         video.save()
         messages.success(request, 'Video is updated successful')
         return redirect(showAllVideo)
@@ -753,6 +759,38 @@ def updateProject(request, idProject):
         return redirect(showAllProject)
     return render(request, 'project/editProject.html', {'project': project})
 
+
 # Implement for Index page
 def showIndex(request):
-    return render(request, 'frontend/index.html')
+    listPortfolioPosts = PortfolioPosts.objects.all()
+    listPortfolioProject = PortfolioProject.objects.all()
+    listArea = Area.objects.all()
+    listVideo = Video.objects.all()
+    listProject = Project.objects.all()[0:10]
+    listMember = Member.objects.all()[0:10]
+
+    postCompany = PortfolioPosts.objects.get(id=6)
+    postMarket = PortfolioPosts.objects.get(id=5)
+    listPostCompany=[]
+    listMarket = []
+    listSubMenu = []
+    if postCompany:
+        listPostCompany = Posts.objects.filter(portfolio_posts=postCompany)[0:3]
+
+    if postMarket:
+        listMarket = Posts.objects.filter(portfolio_posts=postMarket)[0:3]
+
+    for item in listPortfolioPosts:
+        if listPortfolioPosts.filter(id_parent=item.id).count() > 0:
+            listSubMenu.append(item.id)
+
+    data = {'listPortfolioPosts': listPortfolioPosts,
+            'listSubMenu': listSubMenu,
+            'listPortfolioProject': listPortfolioProject,
+            'listArea': listArea,
+            'listVideo': listVideo,
+            'listProject': listProject,
+            'listMember': listMember,
+            'listPostCompany': listPostCompany,
+            'listMarket': listMarket}
+    return render(request, 'frontend/index.html', data)

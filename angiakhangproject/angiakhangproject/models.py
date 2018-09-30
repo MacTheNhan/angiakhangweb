@@ -20,6 +20,7 @@ class VarCharField(models.CharField):
 
 class PortfolioProject(models.Model):
     name_portfolio_project = VarCharField()
+    avatar = models.ImageField(upload_to='images/portfolioproject/', blank=True)
 
     class Meta:
         db_table = 'portfolioproject'
@@ -105,6 +106,7 @@ class Slide(models.Model):
 class Video(models.Model):
     title = VarCharField()
     url = VarCharField()
+    avatar = models.ImageField(upload_to='images/video/', blank=True)
 
     class Meta:
         db_table = 'video'
