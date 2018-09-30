@@ -84,8 +84,8 @@ body{background-size: 100% auto;font-family: arial;}
 .header-text h3{margin: 15px 0px;font-size: 18px;text-align: left;}
 .header-text h3 span {padding: 15px;}
 .carousel-indicators{position: static!important;width: 100%!important;margin-left: 0px!important;height: 24px;padding-top: 15px;}
-.carousel-indicators .active{background:url(../images/icon13.png) no-repeat center center;}
-.carousel-indicators li{background:url(../images/icon12.png) no-repeat center center;width: 16px!important;height: 16px!important;border:none!important;margin: 0px!important;}
+.carousel-indicators .active{background:url(../images/1.png) no-repeat center center;}
+.carousel-indicators li{background:url(../images/2.png) no-repeat center center;width: 16px!important;height: 16px!important;border:none!important;margin: 0px!important;}
 .pad15{padding: 0px 15px;}
 .fleft{float: left;}
 .fright{float: right;}
@@ -186,7 +186,6 @@ ul.list-f li span{padding-right: 10px;color: #116ab0;}
 }
 @media(min-width:768px){
 .navbar-nav>li>a{padding: 11px 3px!important;}
-}
 .og-grid li > a, .og-grid li > a img{width: 225px!important;}
 }
 @media(min-width:992px){

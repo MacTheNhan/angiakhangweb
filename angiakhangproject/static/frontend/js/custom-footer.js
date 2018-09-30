@@ -47,7 +47,7 @@
             items: 5,
             nav: false,
             navigation: true,
-            navigationText: ["<img src='images/icon1.jpg'>", "<img src='images/icon2.jpg'>"] 
+            // navigationText: ["<img src='images/icon1.jpg'>", "<img src='images/icon2.jpg'>"]
         });
         
         var owl_client = $("#owl-demo3");
@@ -55,7 +55,7 @@
             items: 5,
             nav: false,
             navigation: true,
-            navigationText: ["<img src='images/icon1.jpg'>", "<img src='images/icon2.jpg'>"]
+            // navigationText: ["<img src='images/icon1.jpg'>", "<img src='images/icon2.jpg'>"]
         });
 		
         // Menu View More

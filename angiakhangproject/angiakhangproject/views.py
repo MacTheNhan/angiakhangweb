@@ -752,3 +752,7 @@ def updateProject(request, idProject):
         messages.success(request, '' + project.name_project + ' is updated successful')
         return redirect(showAllProject)
     return render(request, 'project/editProject.html', {'project': project})
+
+# Implement for Index page
+def showIndex(request):
+    return render(request, 'frontend/index.html')

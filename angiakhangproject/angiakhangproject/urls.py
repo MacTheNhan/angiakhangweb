@@ -96,6 +96,7 @@ urlpatterns = [
     url(r'^deleteProject/$', deleteProject, name='deleteProject'),
     url(r'^get_Project/(?P<idProject>\d+)/$', get_Project, name='get_Project'),
 
-
+    # URL for front end
+    url(r'^index/$', showIndex, name='showIndex'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
