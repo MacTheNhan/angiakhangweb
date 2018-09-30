@@ -98,6 +98,8 @@ class User(models.Model):
 class Slide(models.Model):
     title = VarCharField()
     image = models.ImageField(upload_to='images/slide/', blank=True)
+    url = VarCharField(blank=True)
+    position = models.BooleanField(default=True)
 
     class Meta:
         db_table = 'slide'

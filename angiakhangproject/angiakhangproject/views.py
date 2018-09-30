@@ -242,7 +242,9 @@ def createSlide(request):
     if request.method == 'POST':
         title = request.POST['txtNameSlide']
         image = request.FILES.get('txtImages')
-        slide = Slide(title=title, image=image)
+        url = request.POST['txtURL']
+        position = request.POST['slPosition']
+        slide = Slide(title=title, image=image, url=url, position=position )
         slide.save()
         messages.success(request, '' + title + ' is created successful')
         return redirect(showAllSlide)
@@ -255,6 +257,8 @@ def updateSlide(request, idSlide):
     slide = Slide.objects.get(id=idSlide)
     if slide is not None:
         slide.title = request.POST['txtNameSlide']
+        slide.url = request.POST['txtURL']
+        slide.position = request.POST['slPosition']
         if request.FILES.get('txtImages'):
             slide.image = request.FILES.get('txtImages')
         slide.save()
@@ -768,6 +772,9 @@ def showIndex(request):
     listVideo = Video.objects.all()
     listProject = Project.objects.all()[0:10]
     listMember = Member.objects.all()[0:10]
+    listSlide = Slide.objects.all()
+    listPost = Posts.objects.all()[0:5]
+    firstPost = listPost[0]
 
     postCompany = PortfolioPosts.objects.get(id=6)
     postMarket = PortfolioPosts.objects.get(id=5)
@@ -792,5 +799,8 @@ def showIndex(request):
             'listProject': listProject,
             'listMember': listMember,
             'listPostCompany': listPostCompany,
-            'listMarket': listMarket}
+            'listMarket': listMarket,
+            'listSlide': listSlide,
+            'listPost': listPost,
+            'firstPost': firstPost}
     return render(request, 'frontend/index.html', data)

@@ -140,7 +140,8 @@
         <div class="row">
             <div class="col-xs-12 col-sm-3 col-md-2">
                 <div class="logo os-tuyendart w3danima">
-                    <a href="#"><img src="{% static 'frontend/images/logo.png' %}" alt="Logo An Gia Khang"></a>
+                    <a href="#"><img style="width: 350px; height: 70px" src="{% static 'frontend/images/logo.png' %}"
+                                     alt="Logo An Gia Khang"></a>
                 </div>
             </div>
             <div class="col-xs-12 col-sm-5 col-md-6">
@@ -284,23 +285,20 @@
             <div class="col-xs-12">
                 <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
                     <div class="carousel-inner">
-                        <div class="item">
-                            <img src="{% static 'frontend/app/uploads/2018/04/03/LM81-Banner-7.jpg' %}"
-                                 alt="Landmark 81 – Vinhomes Central Park">
-                            <div class="header-text hidden-xs">
-                                <div class="col-md-12 text-center">
-                                    <h3><span>Landmark 81 – Vinhomes Central Park</span></h3>
+                        {% for mainSlide in listSlide %}
+                            {% if mainSlide.position %}
+                                <div {% if mainSlide.id == 1 %} class="item active" {% else %}
+                                                                class="item" {% endif %} >
+                                    <img src="{{ mainSlide.image.url }}"
+                                         alt="{{ mainSlide.title }}"/>
+                                    <div class="header-text hidden-xs">
+                                        <div class="col-md-12 text-center">
+                                            <h3><span>{{ mainSlide.title }}</span></h3>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="item active">
-                            <img src="{% static 'frontend/app/uploads/2018/08/22/Casino-Nam-HA.jpg' %}" alt="">
-                            <div class="header-text hidden-xs">
-                                <div class="col-md-12 text-center">
-                                    <h3><span>Casino Nam Hội An</span></h3>
-                                </div>
-                            </div>
-                        </div>
+                            {% endif %}
+                        {% endfor %}
                     </div>
                     <!--<ol class="carousel-indicators"><li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li></ol> -->
 
@@ -342,9 +340,17 @@
                                         <a href="#" class="text-title"
                                            style="font-weight:bold;">{{ project.name_project }}</a>
                                     </div>
-                                    {#                                <div style="font-size:11px;">#}
-                                    {#                                    <p>*Dự án nhà máy sản xuất ô tô đầu tiên tại Việt Nam</p>#}
-                                    {#                                </div>#}
+                                    <div style="font-size:11px;">
+                                        <p>* Khu vực: {{ project.area.name_area }}</p>
+                                        <p>* Năm thực hiện: {{ project.year }}</p>
+                                        {% if project.status_progress %}
+                                            <p>* Hoàn thành</p>
+                                        {% else %}
+                                            <p>* Đang thi công</p>
+                                        {% endif %}
+
+                                        {#                                         {% autoescape off %}{{ project.description_project|truncatechars:150 }}{% endautoescape %}#}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -376,167 +382,47 @@
                     <div class="col-xs-12 col-sm-12 col-md-6" id="col-l" style="height: 385px;">
                         <div class="row">
                             <div id="clientTestimonials" class="news os-tuyendart w3danima">
-                                <div id="itm-news0" class="itm-news" style="display: none;">
-                                    <a href="#"><img
-                                            src="{% static 'frontend/app/uploads/2018/09/20/DJI_0124.jpg' %}" alt=""
-                                            class="img-responsive"></a>
-                                    <a href="#">
-                                        <h2>Coteccons Group cất nóc dự án Masteri An Phú - Quận 2</h2></a>
-                                    <div style="text-overflow: ellipsis; word-wrap: break-word; overflow: hidden; max-height: 3.6em; line-height: 1.8em; padding:0px 10px;">
-                                        Sáng ngày 25/9/2018,
-                                        Coteccons - Unicons phối hợp cùng Chủ đầu tư – Công ty Cổ phần Đầu tư
-                                        Thảo Điền tổ chức thành công Lễ cất nóc dự án Masteri An Phú tọa lạc tại
-                                        số 191 Xa lộ Hà Nội, phường Thảo Điền, Quận 2, TP.HCM.
+                                {% for post in listPost %}
+                                    <div id="itm-news{{ forloop.counter }}" class="itm-news"
+                                            {% if forloop.counter == 3 %} style="" {% else %}
+                                         style="display: none;" {% endif %}>
+                                        <a href="#"><img src="{{ post.avatar_posts.url }}" alt="{{ post.title }}"
+                                                         class="img-responsive"/></a>
+                                        <a href="#">
+                                            <h2>{{ post.title }}</h2></a>
+                                        <div style="text-overflow: ellipsis; word-wrap: break-word; overflow: hidden; max-height: 3.6em; line-height: 1.8em; padding:0px 10px;">
+                                            {% autoescape off %}{{ post.content|truncatechars:200 }}{% endautoescape %}
+                                        </div>
                                     </div>
-                                </div>
-                                <div id="itm-news1" class="itm-news" style="display: none;">
-                                    <a href="#"><img
-                                            src="{% static 'frontend/app/uploads/2018/09/20/DJI_0124.jpg' %}" alt=""
-                                            class="img-responsive"></a>
-                                    <a href="#"><h2>
-                                        Kingdom 101 hoàn thành đổ bê tông sàn tầng 3</h2></a>
-                                    <div style="text-overflow: ellipsis; word-wrap: break-word; overflow: hidden; max-height: 3.6em; line-height: 1.8em; padding:0px 10px;">
-
-                                    </div>
-                                </div>
-                                <div id="itm-news2" class="itm-news" style="">
-                                    <a href="#"><img
-                                            src="{% static 'frontend/app/uploads/2018/09/20/DJI_0124.jpg' %}" alt=""
-                                            class="img-responsive"></a>
-                                    <a href="#">
-                                        <h2>Coteccons Group tổ chức cất nóc dự án Regina Miracle – Nhà máy E (Giai đoạn
-                                            8)</h2></a>
-                                    <div style="text-overflow: ellipsis; word-wrap: break-word; overflow: hidden; max-height: 3.6em; line-height: 1.8em; padding:0px 10px;">
-                                        Sáng ngày 14/09/2018,
-                                        Coteccons Group đã tổ chức lễ cất nóc dự án Design &amp; Build Regina
-                                        Miracle - Nhà máy E (Giai đoạn 8).
-                                    </div>
-                                </div>
-                                <div id="itm-news3" class="itm-news" style="display: none;">
-                                    <a href="http://www.coteccons.vn/landmark-81-tren-bao-south-east-asia-construction/"><img
-                                            src="{% static 'frontend/app/uploads/2018/09/20/DJI_0124.jpg' %}" alt=""
-                                            class="img-responsive"></a>
-                                    <a href="#">
-                                        <h2>Landmark 81 trên báo South East Asia Construction</h2></a>
-                                    <div style="text-overflow: ellipsis; word-wrap: break-word; overflow: hidden; max-height: 3.6em; line-height: 1.8em; padding:0px 10px;">
-                                        The iconic Landmark 81 in Ho
-                                        Chi Minh City, Viet Nam, has topped out at the height of 461.2m making
-                                        the significant milestone for the tallest building in the country and
-                                        one of the tallest in Asia.
-                                    </div>
-                                </div>
-                                <div id="itm-news4" class="itm-news" style="display: none;">
-                                    <a href="#"><img
-                                            src="{% static 'frontend/app/uploads/2018/09/20/DJI_0124.jpg' %}" alt=""
-                                            class="img-responsive"></a>
-                                    <a href="#">
-                                        <h2>Coteccons hoàn thành &amp; bàn giao dự án Masteri Millennium tại Quận 4</h2>
-                                    </a>
-                                    <div style="text-overflow: ellipsis; word-wrap: break-word; overflow: hidden; max-height: 3.6em; line-height: 1.8em; padding:0px 10px;">
-                                        Trong tháng 8, Tổng thầu
-                                        Thiết kế và Thi công Coteccons đã chính thức hoàn thành tất cả các hạng
-                                        mục thi công và tiến hành bàn giao dự án Masteri Millennium
-                                    </div>
-                                </div>
+                                {% endfor %}
                             </div>
                         </div>
                     </div>
 
                     <div class="col-xs-12 col-sm-12 col-md-6 " id="col-r">
                         <div class="row">
-
                             <div class="os-tuyendart w3danima">
                                 <div class="tab-content">
                                     <div class="tab-pane active news_list" id="home">
-                                        <div class="media">
-                                            <div class="media-left">
-                                                <a href="#"
-                                                   onmouseover="Slidenews(0)"
-                                                   title="Coteccons Group cất nóc dự án Masteri An Phú - Quận 2">
-                                                    <img class="media-object img-responsive"
-                                                         src="{% static 'frontend/app/uploads/2018/09/20/DJI_0124.jpg' %}"
-                                                         alt="">
-                                                </a>
+                                        {% for post in listPost %}
+                                            <div class="media">
+                                                <div class="media-left">
+                                                    <a href="#"
+                                                       onmouseover="Slidenews({{ forloop.counter }})"
+                                                       title="{{ post.title }}">
+                                                        <img class="media-object img-responsive"
+                                                             src="{{ post.avatar_posts.url }}"
+                                                             alt="">
+                                                    </a>
+                                                </div>
+                                                <div class="my_max_line">
+                                                    <a href="#"
+                                                       onmouseover="Slidenews({{ forloop.counter }})"
+                                                       title="{{ post.title }}"
+                                                       class="new_title">{{ post.title }}</a>
+                                                </div>
                                             </div>
-                                            <div class="my_max_line">
-                                                <a href="#"
-                                                   onmouseover="Slidenews(0)"
-                                                   title="Coteccons Group cất nóc dự án Masteri An Phú - Quận 2"
-                                                   class="new_title">Coteccons Group cất nóc dự án Masteri An Phú - Quận
-                                                    2</a>
-                                            </div>
-                                        </div>
-                                        <div class="media">
-                                            <div class="media-left">
-                                                <a href="#"
-                                                   onmouseover="Slidenews(1)"
-                                                   title="Kingdom 101 hoàn thành đổ bê tông sàn tầng 3">
-                                                    <img class="media-object img-responsive"
-                                                         src="{% static 'frontend/app/uploads/2018/09/20/DJI_0124.jpg' %}"
-                                                         alt="">
-                                                </a>
-                                            </div>
-                                            <div class="my_max_line">
-                                                <a href="#"
-                                                   onmouseover="Slidenews(1)"
-                                                   title="Kingdom 101 hoàn thành đổ bê tông sàn tầng 3"
-                                                   class="new_title">Kingdom 101 hoàn thành đổ bê tông sàn tầng 3</a>
-                                            </div>
-                                        </div>
-                                        <div class="media">
-                                            <div class="media-left">
-                                                <a href="#"
-                                                   onmouseover="Slidenews(2)"
-                                                   title="Coteccons Group tổ chức cất nóc dự án Regina Miracle – Nhà máy E (Giai đoạn 8)">
-                                                    <img class="media-object img-responsive"
-                                                         src="{% static 'frontend/app/uploads/2018/09/20/DJI_0124.jpg' %}"
-                                                         alt="">
-                                                </a>
-                                            </div>
-                                            <div class="my_max_line">
-                                                <a href="#"
-                                                   onmouseover="Slidenews(2)"
-                                                   title="Coteccons Group tổ chức cất nóc dự án Regina Miracle – Nhà máy E (Giai đoạn 8)"
-                                                   class="new_title">Coteccons Group tổ chức cất nóc dự án Regina
-                                                    Miracle – Nhà máy E (Giai đoạn 8)</a>
-                                            </div>
-                                        </div>
-                                        <div class="media">
-                                            <div class="media-left">
-                                                <a href="#"
-                                                   onmouseover="Slidenews(3)"
-                                                   title="Landmark 81 trên báo South East Asia Construction">
-                                                    <img class="media-object img-responsive"
-                                                         src="{% static 'frontend/app/uploads/2018/09/20/DJI_0124.jpg' %}"
-                                                         alt="">
-                                                </a>
-                                            </div>
-                                            <div class="my_max_line">
-                                                <a href="#"
-                                                   onmouseover="Slidenews(3)"
-                                                   title="Landmark 81 trên báo South East Asia Construction"
-                                                   class="new_title">Landmark 81 trên báo South East Asia
-                                                    Construction</a>
-                                            </div>
-                                        </div>
-                                        <div class="media">
-                                            <div class="media-left">
-                                                <a href="#"
-                                                   onmouseover="Slidenews(4)"
-                                                   title="Coteccons hoàn thành &amp; bàn giao dự án Masteri Millennium tại Quận 4">
-                                                    <img class="media-object img-responsive"
-                                                         src="{% static 'frontend/app/uploads/2018/09/20/DJI_0124.jpg' %}"
-                                                         alt="">
-                                                </a>
-                                            </div>
-                                            <div class="my_max_line">
-                                                <a href="#"
-                                                   onmouseover="Slidenews(4)"
-                                                   title="Coteccons hoàn thành &amp; bàn giao dự án Masteri Millennium tại Quận 4"
-                                                   class="new_title">Coteccons hoàn thành &amp; bàn giao dự án Masteri
-                                                    Millennium tại Quận 4</a>
-                                            </div>
-                                        </div>
+                                        {% endfor %}
                                         <a class="xemtatca pull-right" style="padding-top: 5px;"
                                            href="#">» Xem tất cả</a>
                                     </div>
@@ -578,56 +464,25 @@
                 <div class="box custom-duan">
                     <div class="title title-bg clearfix os-tuyendart w3danima">
                         <a href="#" style="text-decoration:none;">
-                            <h3><p>48 Villas trong khu Sonasea Golden Villas</p></h3>
+                            <h3><p>Dự Án</p></h3>
                         </a>
                     </div>
                     <div class="custom-slider">
                         <div id="jssor_1" class="landmark-slide">
                             <div data-u="slides" class="slide-show">
-                                <div>
-                                    <a href="#"
-                                       title="Landmark 81 trên báo South East Asia Construction">
-                                        <img data-u="image"
-                                             src="{% static 'frontend/app/uploads/2018/09/11/SEAC_SeptOct_2018_1-1-1.jpg' %}"/>
-                                        <div class="jssora-title">Landmark 81 trên báo South East Asia Construction
+                                {% for subSlide in listSlide %}
+                                    {% if subSlide.position == False %}
+                                        <div>
+                                            <a href="{{ subSlide.url }}"
+                                               title="{{ subSlide.title }}">
+                                                <img data-u="image"
+                                                     src="{{ subSlide.image.url }}"/>
+                                                <div class="jssora-title">{{ subSlide.title }}
+                                                </div>
+                                            </a>
                                         </div>
-                                    </a>
-                                </div>
-                                <div>
-                                    <a href="http://www.coteccons.vn/landmark-81-ky-vi-nhu-the-nao/"
-                                       title="Landmark 81 kỳ vĩ như thế nào?">
-                                        <img data-u="image"
-                                             src="{% static 'frontend/app/uploads/2018/09/05/toan_canh_ve_dem_xefo.jpg' %}"/>
-                                        <div class="jssora-title">Landmark 81 kỳ vĩ như thế nào?</div>
-                                    </a>
-                                </div>
-                                <div>
-                                    <a href="#"
-                                       title="Coteccons hoàn tất lắp đặt Angten trên đỉnh LM81">
-                                        <img data-u="image"
-                                             src="{% static 'frontend/app/uploads/2018/09/03/anteng.jpg' %}"/>
-                                        <div class="jssora-title">Coteccons hoàn tất lắp đặt Angten trên đỉnh LM81</div>
-                                    </a>
-                                </div>
-                                <div>
-                                    <a href="#"
-                                       title="Landmark 81 trên Tạp chí International Construction">
-                                        <img data-u="image"
-                                             src="{% static 'frontend/app/uploads/2018/08/08/International-3-1.jpg' %}"/>
-                                        <div class="jssora-title">Landmark 81 trên Tạp chí International Construction
-                                        </div>
-                                    </a>
-                                </div>
-                                <div>
-                                    <a href="#"
-                                       title="Giải thưởng Tekla Bim Award Asia 2018 tiếp tục gọi tên Coteccons &#8211; Landmark 81">
-                                        <img data-u="image"
-                                             src="{% static 'frontend/app/uploads/2018/06/30/Bim-LM81-1.jpg' %}"/>
-                                        <div class="jssora-title">Giải thưởng Tekla Bim Award Asia 2018 tiếp tục gọi tên
-                                            Coteccons &#8211; Landmark 81
-                                        </div>
-                                    </a>
-                                </div>
+                                    {% endif %}
+                                {% endfor %}
                             </div>
                             <div data-u="navigator" class="jssorb05" data-autocenter="1">
                                 <div data-u="prototype" class="jssorb05-icon"></div>
@@ -744,7 +599,7 @@
                     </div>
                     <br clear="all">
                 </div>
-                 {% for postMarket in listMarket %}
+                {% for postMarket in listMarket %}
                     <div class="media">
                         <div class="media-left">
                             <a href="#">
@@ -758,8 +613,6 @@
                         </div>
                     </div>
                 {% endfor %}
-
-
 
 
             </div>
@@ -849,72 +702,21 @@
     <div class="container">
         <div class="col-xs-12 bgopa">
             <div class="row">
-                <div class="col-xs-12 col-sm-3 col-md-3">
-                    <h4>Thông tin công ty</h4>
-                    <div class="menu-footer-1-container">
-                        <ul id="menu-footer-1" class="list">
-                            <li id="menu-item-186"
-                                class="menu-item menu-item-type-post_type menu-item-object-page menu-item-186"><a
-                                    href="#">Tổng quan công ty</a></li>
-                            <li id="menu-item-187"
-                                class="menu-item menu-item-type-post_type menu-item-object-page menu-item-187"><a
-                                    href="#">Cơ cấu tổ chức</a></li>
-                            <li id="menu-item-188"
-                                class="menu-item menu-item-type-post_type menu-item-object-page menu-item-188"><a
-                                    href="#">Cán bộ chủ chốt</a></li>
-                            <li id="menu-item-189"
-                                class="menu-item menu-item-type-post_type menu-item-object-page menu-item-189"><a
-                                    href="#">Chính sách nhân sự</a></li>
-                            <li id="menu-item-190"
-                                class="menu-item menu-item-type-post_type menu-item-object-page menu-item-190"><a
-                                    href="#">Những cải tiến trong tổ chức</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-xs-12 col-sm-3 col-md-3">
-                    <h4>Quan hệ cổ đông</h4>
-                    <div class="menu-footer-2-container">
-                        <ul id="menu-footer-2" class="list">
-                            <li id="menu-item-192"
-                                class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-192"><a
-                                    href="#">Thông tin Cổ đông</a></li>
-                            <li id="menu-item-191"
-                                class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-191"><a
-                                    href="#">Báo cáo tài chính – thường niên</a></li>
-                            <li id="menu-item-193"
-                                class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-193"><a
-                                    href="#">Biên bản và nghị quyết</a></li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="col-xs-12 col-sm-2 col-md-2">
-
-                    {#                    <h4><img src="images/stock.jpg" style="height:18px;" alt="stock"> &nbsp; CTD</h4>#}
-                    {#                    <div style="color:#fff; padding-left:30px;">#}
-                    {#                        <strong style="font-size:36px;">166.5</strong> <span><img src="images/red.jpg" alt="CTD"></span>#}
-                    {#                    </div>#}
-                    {#                    <div style="color:#fff;padding-left:10px;">#}
-                    {#                        <br> &nbsp; -1.5 (-0.9%) <br> &nbsp; 26/09/2018#}
-                    {#                    </div>#}
-                </div>
-
-                <div class="col-xs-12 col-sm-4 col-md-4">
+                <div class="col-xs-12 col-sm-12 col-md-12">
                     <h4>Liên hệ</h4>
                     <div class="some-content-related-div">
                         <div class="slimScrollDiv"
-                             style="position: relative; overflow: hidden; width: auto; height: 120px;">
-                            <div id="inner-content-div" style="overflow: hidden; width: auto; height: 120px;">
-                                <h5>Văn phòng Chính:</h5>
+                             style="position: relative; overflow: hidden; width: auto; height: 150px;">
+                            <div id="inner-content-div" style="overflow: hidden; width: auto; height: 150px;">
+                                <h5>CÔNG TY CỔ PHẦN THIẾT KẾ VÀ XÂY DỰNG AN GIA KHANG</h5>
                                 <ul class="list-f lienhe-f">
-                                    <li>340/46 Quang Trung, P. 10, Q.Gò Vấp, TP. HCM</li>
-                                    <li>Điện thoại: 08.3989.7088 Hotline: 0909.54.8888</li>
-                                    <li><strong>Email:</strong> <a href="mailto:lienhe@angiakhang.vn">lienhe@angiakhang.vn</a>
+                                    <li>Trụ sở: 340/46 Quang Trung, P. 10, Q.Gò Vấp, TP. HCM</li>
+                                    <li>Chi nhánh: Tổ 1, Áp Đường Bào, Xã Dương Tơ,
+                                        Huyện Phú Quốc, Tỉnh Kiên Giang
                                     </li>
-                                </ul>
-                                <h5>Chi nhánh:</h5>
-                                <ul class="list-f lienhe-f">
-                                    <li>Tổ 1, Áp Đường Bào, Xã Dương Tơ, Huyện Phú Quốc, Tỉnh Kiên Giang
+                                    <li>Điện thoại: 08.3989.7088 Hotline: 0909.54.8888
+                                    </li>
+                                    <li><strong>Email:</strong> <a href="mailto:lienhe@angiakhang.vn">lienhe@angiakhang.vn</a>
                                     </li>
                                 </ul>
                             </div>

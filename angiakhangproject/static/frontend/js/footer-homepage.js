@@ -2,8 +2,8 @@ var h = document.getElementById("col-r").offsetHeight;
 document.getElementById("col-l").style.height = h + "px";
 
 // news
-var curPos1 = 0;
-var timer1 = setTimeout("Slidenews(0)", 9000);
+var curPos1 = 1;
+var timer1 = setTimeout("Slidenews(1)", 9000);
 
 function Slidenews(index1) {
     clearTimeout(timer1);
@@ -12,7 +12,7 @@ function Slidenews(index1) {
     document.getElementById("itm-news" + index1).style.display = "";
 
     curPos1 = index1;
-    index1 = (index1 == 4) ? 0 : (index1 + 1);
+    index1 = (index1 == 5) ? 1 : (index1 + 1);
     timer1 = setTimeout("Slidenews(" + index1 + ")", 9000);
 }
 

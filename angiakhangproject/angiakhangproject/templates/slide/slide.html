@@ -39,6 +39,7 @@
                                     <th>ID</th>
                                     <th>Tiêu đề</th>
                                     <th>Hình ảnh</th>
+                                    <th>Loại</th>
                                     <th class="no-sort"></th>
                                 </tr>
                                 </thead>
@@ -54,6 +55,12 @@
                                             </td>
                                         {% else %}
                                             <td></td>
+                                        {% endif %}
+                                        {% if item.position %}
+                                            <td> Chính </td>
+                                        {% else %}
+                                            <td>Phụ
+                                            </td>
                                         {% endif %}
                                         <td><a href="{% url 'getSlide' item.id %}"> <i
                                                 class="fa fa-fw fa-edit employee-edit action-cursor" data-toggle="modal"
