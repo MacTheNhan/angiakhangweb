@@ -9,12 +9,10 @@ from angiakhangproject import settings
 from .models import *
 from django.http import JsonResponse, HttpResponseRedirect
 from django.contrib import messages
-<<<<<<< HEAD
+
 import hashlib
 from angiakhangproject.common.login_require import user_login_required
-=======
 
->>>>>>> f92027dbc365c777be2149afab35bd6faf261b3d
 # Create your views here.
 # PORTFOLIO PROJECT
 # Get all data about portfolio project
@@ -462,8 +460,6 @@ def updatePosts(request, idPosts):
         return redirect(showAllPosts)
     return render(request, 'posts/editPosts.html', {'posts': posts})
 
-
-<<<<<<< HEAD
 # For user table
 def login(request):
     return render(request, 'users/login.html')
@@ -667,7 +663,6 @@ def handle_forget_password(request):
                 messages.success(request, "Your mail sent to admin for reseting password")
     return redirect(forget_password)
 
-=======
 # PROJECT MODEL
 # Get all data about project
 def showAllProject(request):
@@ -757,4 +752,3 @@ def updateProject(request, idProject):
         messages.success(request, '' + project.name_project + ' is updated successful')
         return redirect(showAllProject)
     return render(request, 'project/editProject.html', {'project': project})
->>>>>>> f92027dbc365c777be2149afab35bd6faf261b3d

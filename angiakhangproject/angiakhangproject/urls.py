@@ -16,11 +16,10 @@ Including another URLconf
 from django.conf.urls import url
 from django.conf.urls.static import static
 from django.contrib import admin
-
-from angiakhangproject import settings
 from .views import *
 
 urlpatterns = [
+    # URL for User model
     url(r'^admin/', admin.site.urls),
     url(r'^login/', login, name='login'),
     url(r'^handle_login/', handle_login, name='handle_login'),
@@ -32,6 +31,7 @@ urlpatterns = [
     url(r'^delete_user/$', delete_user, name='delete_user'),
     url(r'^forget_password/$', forget_password, name='forget_password'),
     url(r'^handle_forget_pass/$', handle_forget_password, name='handle_forget_pass'),
+
     # URL for Portfolio Project model
     url(r'^listPortfolioProject/$', showAllPortfolioProject, name='listPortfolioProject'),
     url(r'^getPortfolioProject/(?P<idPortfolio>\d+)/$', getPortfolioProject, name='getPortfolioProject'),
