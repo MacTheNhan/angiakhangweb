@@ -1,0 +1,366 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    User Page
+{% endblock %}
+{% load static %}
+{% block content %}
+    <section class="content">
+        <div id="app_user" class="box">
+            <div class="box-header">
+                <div class="col-sm-3">
+                    <a id="addnewuser" data-toggle="modal" @click="addUser()" data-target="#modal-default"
+                       class="btn btn-primary btn-exp">
+                        <i class="fa fa-plus-square"></i> Add new
+                    </a>
+                </div>
+                <div class="col-sm-6">
+                <span style="position:relative;color:#3c8dbc;text-align:center;">
+                    <b>
+                        <h3>User</h3>
+                    </b>
+                </span>
+                </div>
+            </div>
+            {% include 'users/messages.html' %}
+            <div class="box-body">
+                <div class="row">
+                    <div>
+                        <form method="get" action="" id="search">
+                            <div id="example1_filter" class="dataTables_filter">
+                                <input placeholder="Search..." aria-controls="example1" type="text" name="search"
+                                       value="{{ request.GET.search }}">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div style="overflow:auto;">
+                        <table id="dataTable" class="table table-bordered table-striped" style="white-space:nowrap;">
+                            <thead>
+                            <tr>
+                                <th class="no-sort"></th>
+                                <th>Username</th>
+                                <th>Password</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Status</th>
+                                <th>Avatar</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for user in list_user %}
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>{{ user.username }}</td>
+                                    <td>{{ user.password }}</td>
+                                    <td>{{ user.name_user }}</td>
+                                    <td>{{ user.email }}</td>
+                                    <td>
+                                        <input type="checkbox" {% if user.status %} checked {% endif %}/>
+                                    </td>
+                                    <td>
+                                        {% if user.avatar == '' %}
+                                            No Image
+                                        {% elif user.avatar == None %}
+                                            No Image
+                                        {% else %}
+                                            <img width="100px" height="100px" src="{{ user.avatar.url }}">
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <i class="fa fa-fw fa-edit employee-edit action-cursor" data-toggle="modal" data-target="#modal-default" v-on:click="getUser({{ user.id_user }})"></i>
+                                        <i v-if="check_delete_user !== '{{ user.username }}'" data-toggle="modal" data-target="#modal-confirm"
+                                            v-on:click="getUser({{ user.id_user }})" class="fa fa-fw fa-remove employee-remove action-cursor"></i>
+                                    </td>
+
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal fade" id="modal-default" tabindex="-1" role="dialog"
+                     aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <h4 class="modal-title"><p v-if="edit">Edit User</p>
+                                    <p v-else>Add New User</p></h4>
+                            </div>
+                            <form method="post" action="{% url 'update_user' %}"
+                                  enctype="multipart/form-data" id="editForm">{% csrf_token %}
+                                <div class="modal-body">
+                                    <div class="form-horizontal">
+                                        <input type="text" name="id_user" v-model="currentUser.id_user"
+                                                   hidden="hidden">
+                                        <div class="form-group">
+                                            <label for="username" class="col-sm-2 control-label">Username</label>
+
+                                            <div class="col-sm-10">
+                                                <input type="text" :readonly="edit === true " v-model="username" class="form-control"
+                                                       required="required" name="username" placeholder="Username">
+                                            </div>
+                                            <b><p style="color: red">${check_username}</p></b>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="password" class="col-sm-2 control-label">Password</label>
+
+                                            <div class="col-sm-10">
+                                                <input type="password" class="form-control" required="required"
+                                                       name="password" v-model="currentUser.password"
+                                                       id="password" placeholder="Password">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="retype_password"
+                                                   class="col-sm-2 control-label">ReType-Password</label>
+
+                                            <div class="col-sm-10">
+                                                <input type="password" class="form-control" required="required"
+                                                       name="retype_password" v-model="retype_password"
+                                                       id="retype_password" placeholder="Retype Password">
+                                            </div>
+                                            <b><p style="color: red">${message_retype_password}</p></b>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="name_user" class="col-sm-2 control-label">Name</label>
+
+                                            <div class="col-sm-10">
+                                                <input type="text" v-model="currentUser.name_user" class="form-control" id="name_user"
+                                                       required="required" name="name_user" placeholder="Name of User"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="email" class="col-sm-2 control-label">Email</label>
+
+                                            <div class="col-sm-10">
+                                                <input type="email" v-model="email_user" class="form-control"
+                                                pattern="/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/"
+                                                       name="email" id="email" placeholder="Email" required/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="image_preview" class="col-sm-2 control-label"></label>
+
+                                            <div class="col-sm-10">
+                                                <img v-bind:src="imagePreview" name="image_preview" width="100px" height="100px" v-show="showPreview"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="avatar_img" class="col-sm-2 control-label">Avatar</label>
+
+                                            <div class="col-sm-10">
+                                                <input type="file" ref="file" class="form-control" name="avatar_img" v-on:change="show_image_preview()"
+                                                       id="avatar_img">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="status" class="col-sm-2 control-label">Status</label>
+                                            <div class="col-sm-1">
+                                                <input type="checkbox" v-model="currentUser.status"
+                                                       name="status" id="status"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close
+                                    </button>
+                                    <button v-if="edit" :disabled="edit === true && pre_condition === false"
+                                            id="saveuser" class="btn btn-primary" onclick="this.value='Wait...'; this.disable = true" >
+                                        Save
+                                    </button>
+                                    <button v-else :disabled="edit === false && (pre_condition === false || pre_checkusername === false)"
+                                            id="saveuser" class="btn btn-primary" onclick="this.value='Wait...'; this.disable = true" >Save
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal fade" id="modal-confirm" tabindex="-1" role="dialog"
+                     aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <h4 class="modal-title">Delete User</h4>
+                            </div>
+                            <form method="post" action="{% url 'delete_user' %}"
+                                  enctype="multipart/form-data">{% csrf_token %}
+                                <div class="modal-body">
+                                    <div class="form-horizontal">
+                                        <div class="form-group">
+                                            <input type="text" name="id_user_delete" v-model="currentUser.id_user"
+                                                   hidden="hidden">
+
+                                            <div class="col-sm-10">
+                                                <p style="color:red"><b>Are you sure delete user:
+                                                    ${currentUser.username} ?</b></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close
+                                    </button>
+                                    <button type="submit" id="delete_user" class="btn btn-primary">Delete</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+    <script>
+        $(function(){
+            $('#saveuser').on('click',function(){
+                if (($('#email').val()=='') || ($('#name_user').val()=='') || ($('#availableday').val()=='')){
+                    $(this).attr('disabled','disabled');
+                }
+                else {
+                    $(this).attr('disabled','disabled');
+                    $('#editForm').submit();
+                }
+            });
+        });
+    </script>
+    <script>
+        var app = new Vue({
+            el: '#app_user',
+            delimiters: ['${', '}'],
+            data: {
+                edit: false,
+                currentUser: {},
+                avatar: '',
+                check_user: {},
+                check_email: '',
+                email_user: '',
+                check_username: '',
+                username: '',
+                check_delete_user: '{{ user_login.username }}',
+                retype_password: '',
+                message_retype_password: '',
+                pre_condition: false,
+                pre_checkusername: false,
+                file: '',
+                showPreview: false,
+                imagePreview: ''
+            },
+            watch: {
+                username: function (newUserName, oldUsername) {
+                    this.check_username = ''
+                    if (this.username !== '' && this.edit === false) {
+                        this.getAnswerForUsername(this.username)
+                        this.currentUser.password = this.username;
+                        this.retype_password = this.username;
+                    }
+                    this.username = this.username.replace(/ /g, '');
+                },
+                email_user: function (newEmail, oldEmail) {
+                    if (this.email_user !== '') {
+                        this.check_format_email();
+                    }
+                },
+                retype_password: function (newValue, oldValue) {
+                    if (this.currentUser.password !== '') {
+                        if (this.retype_password !== this.currentUser.password) {
+                            this.pre_condition = false;
+                            this.message_retype_password = 'Password is not match. Type again';
+                        }
+                        else {
+                            this.pre_condition = true;
+                            this.message_retype_password = '';
+                        }
+                    }
+                }
+            },
+            methods: {
+                getUser: function (id) {
+                    this.edit = true;
+                    this.check_username = '';
+                    this.$http.get('/get_user/' + id)
+                        .then(function (response) {
+                            this.currentUser = response.data.data[0];
+                            this.avatar = this.currentUser.avatar;
+                            this.username = this.currentUser.username;
+                            this.retype_password = this.currentUser.password;
+                            this.email_user = this.currentUser.email;
+                        })
+                },
+                addUser: function () {
+                    this.edit = false;
+                    this.username = '';
+                    this.currentUser = {};
+                    this.retype_password = this.currentUser.password;
+                    this.email_user = '';
+                },
+                check_format_email: function () {
+                    if (this.email_user.indexOf('@') !== -1 || this.email_user.indexOf('@gmail.com') !== -1) {
+                        this.pre_condition = true;
+                        return
+                    }
+                    this.pre_condition = false;
+                },
+                getAnswerForUsername: _.debounce(
+                    function (query) {
+                        this.$http.get('/check_user_exist/' + query)
+                            .then(function (response) {
+                                this.check_user = response.data
+                                if (this.username === this.check_user.username) {
+                                    this.check_username = 'Username is existing'
+                                    this.pre_checkusername = false;
+                                }
+                                else {
+                                    this.check_username = '';
+                                    this.pre_checkusername = true;
+                                }
+                            })
+                            .catch(function (error) {
+                                console.log(error.statusText)
+                            })
+                    },
+                    20
+                ),
+                show_image_preview: function () {
+                    this.file = this.$refs.file.files[0];
+                    let reader = new FileReader();
+                    reader.addEventListener("load", function () {
+                        this.showPreview = true;
+                        this.imagePreview = reader.result;
+                    }.bind(this), false);
+                    if (this.file) {
+                        /*
+                          Ensure the file is an image file.
+                        */
+                        if (/\.(jpe?g|png|gif)$/i.test(this.file.name)) {
+                            /*
+                              Fire the readAsDataURL method which will read the file in and
+                              upon completion fire a 'load' event which we will listen to and
+                              display the image in the preview.
+                            */
+                            reader.readAsDataURL(this.file);
+                        }
+                    }
+                    else {
+                        this.showPreview = false;
+                        this.imagePreview = reader.result;
+                    }
+                }
+            }
+        });
+    </script>
+{% endblock %}

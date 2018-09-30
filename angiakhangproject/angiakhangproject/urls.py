@@ -22,7 +22,16 @@ from .views import *
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-
+    url(r'^login/', login, name='login'),
+    url(r'^handle_login/', handle_login, name='handle_login'),
+    url(r'^user_page/$', user_page, name='user_page'),
+    url(r'^get_user/(?P<id_user>\d+)/$', get_user, name='get_user'),
+    url(r'^check_user_exist/(?P<query>[\w\-\@\.]+)/$', check_user_exist, name='check_user_exist'),
+    url(r'^home_page/$', home_page, name='home_page'),
+    url(r'^update_user/$', update_user, name='update_user'),
+    url(r'^delete_user/$', delete_user, name='delete_user'),
+    url(r'^forget_password/$', forget_password, name='forget_password'),
+    url(r'^handle_forget_pass/$', handle_forget_password, name='handle_forget_pass'),
     # URL for Portfolio Project model
     url(r'^listPortfolioProject/$', showAllPortfolioProject, name='listPortfolioProject'),
     url(r'^getPortfolioProject/(?P<idPortfolio>\d+)/$', getPortfolioProject, name='getPortfolioProject'),

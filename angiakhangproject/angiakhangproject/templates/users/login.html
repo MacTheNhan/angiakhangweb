@@ -1,0 +1,117 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Login</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="icon" type="image/png" href="{% static 'backend/image/icons/favicon.ico' %}" />
+
+    <link rel="stylesheet" type="text/css" href="{% static 'backend/vendor/bootstrap/css/bootstrap.min.css' %}">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'backend/fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'backend/fonts/iconic/css/material-design-iconic-font.min.css' %}">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'backend/vendor/animate/animate.css' %}">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'backend/vendor/css-hamburgers/hamburgers.min.css' %}">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'backend/vendor/animsition/css/animsition.min.css' %}">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'backend/vendor/select2/select2.min.css' %}">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'backend/vendor/daterangepicker/daterangepicker.css' %}">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'backend/css/util.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'backend/css/login.css' %}">
+    <script src="{% static 'backend/vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+
+    <script src="{% static 'backend/vendor/animsition/js/animsition.min.js' %}"></script>
+
+    <script src="{% static 'backend/vendor/bootstrap/js/popper.js' %}"></script>
+    <script src="{% static 'backend/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+
+    <script src="{% static 'backend/vendor/select2/select2.min.js' %}"></script>
+
+    <script src="{% static 'backend/vendor/daterangepicker/moment.min.js' %}"></script>
+    <script src="{% static 'backend/vendor/daterangepicker/daterangepicker.js' %}"></script>
+
+    <script src="{% static 'backend/vendor/countdowntime/countdowntime.js' %}"></script>
+
+    <script src="{% static 'backend/js/login.js' %}"></script>
+
+</head>
+
+<body>
+
+    <div class="limiter" id="login-class">
+        <div class="container-login100">
+            <div class="wrap-login100">
+                <form class="login100-form validate-form" method="post" action="{% url 'handle_login' %}">
+                    {% csrf_token %}
+                    <span class="login100-form-title" style="margin-bottom:-0.5em;">
+                        <img class="logo-login" src="{% static 'backend/image/logo.png' %}">
+                    </span>
+                    <span class="login100-form-title p-b-40">
+                        <br>
+                    </span>
+
+                    <div class="wrap-input100 validate-input">
+                        <input class="input100" type="text" name="username" id="username">
+                        <span class="focus-input100" data-placeholder="Username"></span>
+                    </div>
+
+                    <div class="wrap-input100 validate-input" data-validate="Enter password">
+                        <span class="btn-show-pass">
+                            <i class="zmdi zmdi-eye"></i>
+                        </span>
+                        <input class="input100" type="password" name="password" id="password">
+                        <span class="focus-input100" data-placeholder="Password"></span>
+                    </div>
+
+                    <div class="container-login100-form-btn">
+                        <div class="wrap-login100-form-btn">
+                            <div class="login100-form-bgbtn"></div>
+                            <button class="login100-form-btn" type="submit">
+                                Login
+                            </button>
+                        </div>
+                    </div>
+                    <div class="text-center" style="padding-top:0.5em;">
+                        <a class="txt2" href="{% url 'forget_password' %}">
+                            <span>
+                                Forgot password ?
+                            </span>
+                        </a>
+                    </div>
+                    <div align="center">
+                        {% if messages %}
+                        <ul class="messages">
+                            {% for message in messages %}
+                            <li style="font-family: Poppins-Regular;font-size: 13px;line-height: 1.5;color: red" {% if message.tags %} class="{{ message.tags }}" {% endif %}>
+                                <b>{{ message }}</b>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="dropDownSelect1"></div>
+    <script type="text/javascript" lang="JavaScript">
+        $(function () {
+            $('input[value!=""]').addClass('has-val');
+        });
+    </script>
+
+</body>
+
+</html>

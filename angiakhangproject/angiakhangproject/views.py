@@ -1,10 +1,16 @@
+import os
+
+from django.core.mail import send_mail
 from django.db.models import Q
 from django.shortcuts import render, redirect
+from django.urls import reverse
+
+from angiakhangproject import settings
 from .models import *
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
 from django.contrib import messages
-
-
+import hashlib
+from angiakhangproject.common.login_require import user_login_required
 # Create your views here.
 # PORTFOLIO PROJECT
 # Get all data about portfolio project
@@ -434,3 +440,208 @@ def updatePosts(request, idPosts):
         posts.save()
         return redirect(showAllPosts)
     return render(request, 'posts/editPosts.html', {'posts': posts})
+
+
+# For user table
+def login(request):
+    return render(request, 'users/login.html')
+
+
+def logout(request):
+    if 'user_login' in request.session:
+        del request.session['user_login']
+    return redirect(login)
+
+
+@user_login_required
+def home_page(request):
+    user_login = User.objects.get(username=request.session['user_login']['username'])
+    return render(request, 'home_page.html', {'user_login': user_login})
+
+
+def remove_file(filename):
+    if os.path.isfile(filename):
+        os.remove(filename)
+
+@user_login_required
+def get_user(request, id_user):
+    get_user_id = User.objects.get(id_user=id_user)
+    data_user = []
+    data_user.append({
+        'id_user': get_user_id.id_user,
+        'username': get_user_id.username,
+        'name_user': get_user_id.name_user,
+        'password': get_user_id.password,
+        'email': get_user_id.email,
+        'avatar': str(get_user_id.avatar.url) if str(get_user_id.avatar) != '' and str(
+            get_user_id.avatar) is not None else None,
+        'status': get_user_id.status
+    })
+    return JsonResponse({'data': data_user})
+
+
+@user_login_required
+def check_user_exist(request, query):
+    get_user_exist = User.objects.filter(Q(username=query) | Q(email=query)).all()
+    data_user = {}
+    for user_item in get_user_exist:
+        data_user = {
+            'id_user': user_item.id_user,
+            'username': user_item.username,
+            'email': user_item.email,
+        }
+    return JsonResponse(data=data_user, safe=False)
+
+
+def handle_login(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        check_exist = User.objects.filter(username=username, password=hashlib.md5(bytes(password, 'ascii')).hexdigest()).first()
+        if check_exist:
+            user_login_session = User.objects.get(username=username)
+            request.session['user_login'] = {
+                'username': user_login_session.username,
+                'avatar': str(user_login_session.avatar.url) if str(user_login_session.avatar) != '' and str(
+                    user_login_session.avatar) is not None else None,
+            }
+            return HttpResponseRedirect(reverse('user_page'))
+        else:
+            messages.add_message(request, messages.WARNING, 'Username/Password is incorrect...')
+            return redirect(login)
+    return redirect(login)
+
+
+@user_login_required
+def user_page(request):
+    query = request.GET.get('search')
+    list_user = []
+    user_login = User.objects.get(username=request.session['user_login']['username'])
+    if user_login:
+        list_user = User.objects.all()
+    if query:
+        list_user = User.objects.filter(Q(name_user__icontains=query) | Q(
+                username__icontains=query) | Q(email__icontains=query)).all()
+
+    context = {
+        'list_user': list_user,
+        'user_login': user_login,
+    }
+    return render(request, 'users/user_page.html', context)
+
+
+@user_login_required
+def update_user(request):
+    list_check_err = []
+    if request.method == 'POST':
+        id_user = request.POST.get('id_user')
+        username = request.POST.get('username')
+        name_user = request.POST.get('name_user')
+        password = request.POST['password']
+        email = request.POST['email']
+        avatar = request.FILES.get('avatar_img')
+        status = bool(request.POST.get('status'))
+        if id_user:
+            remove_avatar = ''
+            user_edit = User.objects.get(id_user=id_user)
+            user_edit.username = username
+            user_edit.name_user = name_user
+            if password != user_edit.password:
+                user_edit.password = hashlib.md5(bytes(password,'ascii')).hexdigest()
+            if avatar is None or avatar == '':
+                avatar = user_edit.avatar
+            else:
+                check_null_avatar = str(user_edit.avatar.path) if str(user_edit.avatar) is not None and str(user_edit.avatar) != '' else None
+                if check_null_avatar:
+                    remove_avatar = user_edit.avatar.path
+            user_edit.email = email
+            user_edit.avatar = avatar
+            user_edit.status = status
+            try:
+                # update session user_login
+                if username == request.session['user_login']['username']:
+                    request.session['user_login']['username'] = user_edit.username
+                    session_avatar = str(user_edit.avatar.name) if str(user_edit.avatar.name) != '' and str(user_edit.avatar.name) is not None else None
+                    if session_avatar is not None:
+                        request.session['user_login']['avatar'] = settings.MEDIA_URL + 'images/' + session_avatar
+                    request.session.modified = True
+                user_edit.save()
+                remove_file(remove_avatar)
+                messages.success(request, user_edit.username + ' is updated successfully')
+            except Exception as e:
+                messages.error(request, user_edit.username + ' is updated failed' + ' ' + e )
+        else:
+            try:
+                password_encode = hashlib.md5(bytes(password, 'ascii')).hexdigest()
+                user_add = User(username=username, name_user=name_user, password=password_encode, email=email,
+                                avatar=avatar, status=status)
+                user_add.save()
+                messages.success(request, username + ' is added successfully')
+            except Exception as e:
+                messages.error(request, username + ' is added failed' + ' ' + e)
+        for message in list_check_err:
+            messages.error(request, message)
+        return redirect(user_page)
+
+
+@user_login_required
+def delete_user(request):
+    if request.method == 'POST':
+        id_user = request.POST.get('id_user_delete')
+        user_perm = User.objects.get(id_user=int(id_user))
+        if user_perm:
+            try:
+                user_perm.delete()
+                remove_file(user_perm.avatar.path)
+                messages.success(request, user_perm.username + ' is deleted successfully')
+            except Exception as e:
+                messages.error(request, user_perm.username + ' is deleted failed' + e)
+        return redirect(user_page)
+
+
+def send_mail_user(subject_content, message_content, mail_user, project):
+    list_receiver = []
+    list_check_error = []
+    try:
+        get_mail_manager = User.objects.filter(Q(id_project__id_project=project) | Q(user_role__lte=1))
+        for user in get_mail_manager:
+            list_receiver.append(user.email)
+        if mail_user is not None:
+            list_receiver.append(mail_user)
+        if list_receiver:
+                try:
+                    send_mail(subject=subject_content, message=message_content, from_email=settings.MAIL_HOST,
+                              recipient_list=list_receiver, fail_silently=False)
+                except:
+                    list_check_error.append('Cannot send mail to email ')
+    except:
+        return list_check_error
+
+    return list_check_error
+
+
+def forget_password(request):
+    return render(request, 'users/forget_password.html')
+
+
+def handle_forget_password(request):
+    if request.method == 'POST':
+        username = request.POST.get('username_forgetpass')
+        email = request.POST.get('email_forgetpass')
+        try:
+            check_username_exist = User.objects.get(username=username)
+        except User.DoesNotExist:
+            messages.warning(request, 'username:'+username+" doesn't exist")
+            return redirect(forget_password)
+        if check_username_exist:
+            mail_project = check_username_exist.id_project.id_project
+            list_check_send = send_mail_user("Reset Password",
+                                         "User " + username + " with email: " + email + ".Please check and help to reset password",
+                                         None, mail_project)
+            if list_check_send:
+                for message in list_check_send:
+                    messages.error(request, message)
+            else:
+                messages.success(request, "Your mail sent to admin for reseting password")
+    return redirect(forget_password)
+

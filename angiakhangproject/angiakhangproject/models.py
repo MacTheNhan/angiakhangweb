@@ -54,7 +54,7 @@ class PortfolioPosts(models.Model):
 
 
 class Posts(models.Model):
-    portfolio_posts = models.ForeignKey(PortfolioPosts)
+    portfolio_posts = models.ForeignKey(PortfolioPosts, on_delete=models.DO_NOTHING)
     avatar_posts = models.ImageField(upload_to='images/post/', blank=True)
     title = VarCharField()
     content = VarCharField()
