@@ -88,4 +88,14 @@ urlpatterns = [
     url(r'^deletePosts/$', deletePosts, name='deletePosts'),
     url(r'^get_Posts/(?P<idPosts>\d+)/$', get_Posts, name='get_Posts'),
 
+    # URL for Project model
+    url(r'^listProject/$', showAllProject, name='listProject'),
+    url(r'^getProject/(?P<idProject>\d+)/$', getProject, name='getProject'),
+    url(r'^updateProject/(?P<idProject>\d+)/$', updateProject, name='updateProject'),
+    url(r'^createProject/$', createProject, name='createProject'),
+    url(r'^deleteProject/$', deleteProject, name='deleteProject'),
+    url(r'^get_Project/(?P<idProject>\d+)/$', get_Project, name='get_Project'),
+
+
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

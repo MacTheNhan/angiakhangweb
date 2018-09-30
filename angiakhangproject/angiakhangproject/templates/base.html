@@ -24,7 +24,7 @@
     <!-- Morris chart -->
     {#    <link rel="stylesheet" href="{% static 'backend/bower_components/morrisjs/morris.css' %} ">#}
     <!-- jvectormap -->
-{#    <link rel="stylesheet" href="{% static 'backend/bower_components/jvectormap/jquery-jvectormap.css' %} ">#}
+    {#    <link rel="stylesheet" href="{% static 'backend/bower_components/jvectormap/jquery-jvectormap.css' %} ">#}
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
     <!-- Date Picker -->
     <link rel="stylesheet"
@@ -77,49 +77,43 @@
                 <ul class="nav navbar-nav">
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <img src="{{ request.session.user_login.avatar }}" class="user-image">
-                            <span class="hidden-xs">{{ request.session.user_login.username }}:
-                                {% if request.session.user_login.user_role == 0 %}
-                                    Admin
-                                {% elif request.session.user_login.user_role == 1 %}
-                                    Manager
-                                {% else %}
-                                    Normal
-                                {% endif %}
+                            <img class="user-image">
+                            <span class="hidden-xs">
+                                 Admin
                             </span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- User image -->
                             <li class="user-header">
-                                <img src="{{ request.session.user_login.avatar }}" class="img-circle">
+                                <img class="img-circle">
 
                                 <p>
-                                    Python team WMP - Web Developer
+                                    An Gia Khang Admin
 
                                 </p>
                             </li>
                             <!-- Menu Body -->
                             <li class="user-body">
                                 <div class="row">
-                                    <div class="col-xs-4 text-center">
-                                        <a href="#">Followers</a>
-                                    </div>
-                                    <div class="col-xs-4 text-center">
-                                        <a href="#">Sales</a>
-                                    </div>
-                                    <div class="col-xs-4 text-center">
-                                        <a href="#">Friends</a>
-                                    </div>
+{#                                    <div class="col-xs-4 text-center">#}
+{#                                        <a href="#">Followers</a>#}
+{#                                    </div>#}
+{#                                    <div class="col-xs-4 text-center">#}
+{#                                        <a href="#">Sales</a>#}
+{#                                    </div>#}
+{#                                    <div class="col-xs-4 text-center">#}
+{#                                        <a href="#">Friends</a>#}
+{#                                    </div>#}
                                 </div>
                                 <!-- /.row -->
                             </li>
                             <!-- Menu Footer-->
                             <li class="user-footer">
                                 <div class="pull-left">
-                                    <a href="#" class="btn btn-default btn-flat">Profile</a>
+                                    <a href="#" class="btn btn-default btn-flat">Thông tin</a>
                                 </div>
                                 <div class="pull-right">
-                                    <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                                    <a href="#" class="btn btn-default btn-flat">Thoát</a>
                                 </div>
                             </li>
                         </ul>
@@ -154,6 +148,16 @@
                     <a href="{% url 'listPortfolioProject' %}">
                         <i class="fa fa-th"></i>
                         <span>Danh mục dự án</span>
+                        <span class="pull-right-container">
+                        <span class="label label-primary pull-right"></span>
+                        </span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'listProject' %}">
+                        <i class="fa fa-folder"></i>
+                        <span>Quản lý dự án</span>
                         <span class="pull-right-container">
                         <span class="label label-primary pull-right"></span>
                         </span>

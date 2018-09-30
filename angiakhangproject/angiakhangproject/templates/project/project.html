@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
 {% block title %}
-    Quản lý bài viết
+    Quản lý dự án
 {% endblock %}
 
 {% block content %}
     <section class="content">
-        <div class="box" id="app_posts">
+        <div class="box" id="app_project">
             <div class="box-header">
                 <div class="col-sm-3">
-                    <a href="{% url 'createPosts' %}" class="btn btn-primary btn-exp">
+                    <a href="{% url 'createProject' %}" class="btn btn-primary btn-exp">
                         <i class="fa fa-plus-square"></i> Thêm mới
                     </a>
                     {% if messages %}
@@ -21,7 +21,7 @@
                 <div class="col-sm-6">
                 <span style="position:relative;color:#3c8dbc;text-align:center;">
                     <b>
-                        <h3>Bài viết</h3>
+                        <h3>Quản Lý Dự Án</h3>
                     </b>
                 </span>
                 </div>
@@ -29,49 +29,47 @@
             <!-- /.box-header -->
             <div class="box-body">
                 <div class="row">
-                    <div>
-                        <form method="get" action="" id="search">
-                            <div id="example1_filter" class="dataTables_filter">
-                                <input placeholder="Tìm kiếm bài viết..." aria-controls="example1" type="text"
-                                       name="search"
-                                       value="{{ request.GET.search }}">
-                            </div>
-                        </form>
-                    </div>
-                </div>
-                <div class="row">
                     <div class="col-sm-12">
                         <div style="overflow:auto">
-                            <table id="dataTable" class="table table-bordered table-striped" style="white-space:auto;">
+                            <table id="dataTable" class="table table-bordered table-striped ">
                                 <thead>
                                 <tr>
                                     <th class="no-sort"></th>
                                     <th>ID</th>
+                                    <th>Tên dự án</th>
+                                    <th>Khu vực</th>
                                     <th>Danh mục</th>
-                                    <th>Tiêu đề</th>
-                                    <th>Hình đại diện</th>
+                                    <th>Năm</th>
+                                    <th>Trạng thái</th>
+                                    <th>Ảnh đại diện</th>
                                     <th class="no-sort"></th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {% for item in listPosts %}
+                                {% for item in listProject %}
                                     <tr>
                                         <td><input type="checkbox" value="{{ item.id }}"/></td>
                                         <td>{{ item.id }}</td>
-                                        <td>{{ item.portfolio_posts.name_portfolio_posts }}</td>
-                                        <td>{{ item.title }}</td>
-                                        {% if item.avatar_posts %}
-                                            <td><img style="width:50px; height:50px" src="{{ item.avatar_posts.url }}">
+                                        <td>{{ item.name_project }}</td>
+                                        <td>{{ item.area.name_area }}</td>
+                                        <td>{{ item.portfolio_project.name_portfolio_project }}</td>
+                                        <td>{{ item.year }}</td>
+                                        {% if item.status_progress %}
+                                            <td>Đang thi công</td>
+                                        {% else %}
+                                            <td>Hoàn thành</td>
+                                        {% endif %}
+                                        {% if item.avatar_image %}
+                                            <td><img style="width:50px; height:50px" src="{{ item.avatar_image.url }}">
                                             </td>
                                         {% else %}
                                             <td></td>
                                         {% endif %}
-
-                                        <td><a href="{% url 'getPosts' item.id %}"> <i
+                                        <td><a href="{% url 'getProject' item.id %}"> <i
                                                 class="fa fa-fw fa-edit employee-edit action-cursor" data-toggle="modal"
                                                 data-target="#modal-default"></i> </a>
                                             <a href="#"> <i data-toggle="modal" data-target="#modal-confirm"
-                                                            v-on:click="getPostsDetail ({{ item.id }})"
+                                                            v-on:click="getProject ({{ item.id }})"
                                                             class="fa fa-fw fa-remove employee-remove action-cursor"></i></a>
 
                                     </tr>
@@ -91,19 +89,19 @@
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
-                                <h4 class="modal-title">Xóa thành viên</h4>
+                                <h4 class="modal-title">Xóa dự án</h4>
                             </div>
-                            <form method="post" action="{% url 'deletePosts' %}"
+                            <form method="post" action="{% url 'deleteProject' %}"
                                   enctype="multipart/form-data">{% csrf_token %}
                                 <div class="modal-body">
                                     <div class="form-horizontal">
                                         <div class="form-group">
-                                            <input type="text" name="id_posts" v-model="currentPosts.id"
+                                            <input type="text" name="id_project" v-model="currentProject.id"
                                                    hidden="hidden">
 
                                             <div class="col-sm-10">
-                                                <p style="color:red"><b>Bạn muốn xóa bài viết:
-                                                    ${currentPosts.title} ?</b></p>
+                                                <p style="color:red"><b>Bạn muốn xóa dự án
+                                                    ${currentProject.name_project} ?</b></p>
                                             </div>
                                         </div>
                                     </div>
@@ -122,17 +120,17 @@
         </div>
         <script>
             var app = new Vue({
-                el: '#app_posts',
+                el: '#app_project',
                 delimiters: ['${', '}'],
                 data: {
-                    currentPosts: {},
+                    currentProject: {},
                 },
                 watch: {},
                 methods: {
-                    getPostsDetail: function (id) {
-                        this.$http.get('/get_Posts/' + id)
+                    getProject: function (id) {
+                        this.$http.get('/get_Project/' + id)
                             .then(function (response) {
-                                this.currentPosts = response.data.data[0];
+                                this.currentProject = response.data.data[0];
                             })
                     }
                 }

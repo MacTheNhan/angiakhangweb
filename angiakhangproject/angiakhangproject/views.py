@@ -9,8 +9,12 @@ from angiakhangproject import settings
 from .models import *
 from django.http import JsonResponse, HttpResponseRedirect
 from django.contrib import messages
+<<<<<<< HEAD
 import hashlib
 from angiakhangproject.common.login_require import user_login_required
+=======
+
+>>>>>>> f92027dbc365c777be2149afab35bd6faf261b3d
 # Create your views here.
 # PORTFOLIO PROJECT
 # Get all data about portfolio project
@@ -55,6 +59,7 @@ def createPortfolioProject(request):
         name_portfolio_project = request.POST['txtNamePortfolio']
         portfolio_project = PortfolioProject(name_portfolio_project=name_portfolio_project)
         portfolio_project.save()
+        messages.success(request, '' + name_portfolio_project + ' is created successful')
         return redirect(showAllPortfolioProject)
     else:
         return render(request, 'portfolioproject/addPortfolioProject.html')
@@ -66,6 +71,7 @@ def updatePortfolioProject(request, idPortfolio):
     if portfolio_project is not None:
         portfolio_project.name_portfolio_project = request.POST['txtNamePortfolio']
         portfolio_project.save()
+        messages.success(request, '' + portfolio_project.name_portfolio_project + ' is updated successful')
         return redirect(showAllPortfolioProject)
     return render(request, 'portfolioproject/editPortfolioProject.html', {'portfolio_project': portfolio_project})
 
@@ -111,6 +117,7 @@ def createArea(request):
         name_area = request.POST['txtNameArea']
         area = Area(name_area=name_area)
         area.save()
+        messages.success(request, '' + name_area + ' is created successful')
         return redirect(showAllArea)
     else:
         return render(request, 'area/addArea.html')
@@ -122,6 +129,7 @@ def updateArea(request, idArea):
     if area is not None:
         area.name_area = request.POST['txtNameArea']
         area.save()
+        messages.success(request, '' + area.name_area + ' is updated successful')
         return redirect(showAllArea)
     return render(request, 'area/editArea.html', {'area': area})
 
@@ -171,6 +179,7 @@ def createMember(request):
         avatar_member = request.FILES.get('txtImages')
         member = Member(name_company_member=name_company_member, avatar_member=avatar_member, description=description, type=type)
         member.save()
+        messages.success(request, '' + name_company_member + ' is created successful')
         return redirect(showAllMember)
     else:
         return render(request, 'member/addMember.html')
@@ -183,8 +192,10 @@ def updateMember(request, idMember):
         member.name_company_member = request.POST['txtNameMember']
         member.description = request.POST['txtDescription']
         member.type = request.POST['cbbType']
-        member.avatar_member = request.FILES.get('txtImages')
+        if request.FILES.get('txtImages'):
+            member.avatar_member = request.FILES.get('txtImages')
         member.save()
+        messages.success(request, '' + member.name_company_member + ' is updated successful')
         return redirect(showAllMember)
     return render(request, 'member/editMember.html', {'member': member})
 
@@ -232,6 +243,7 @@ def createSlide(request):
         image = request.FILES.get('txtImages')
         slide = Slide(title=title, image=image)
         slide.save()
+        messages.success(request, '' + title + ' is created successful')
         return redirect(showAllSlide)
     else:
         return render(request, 'slide/addSlide.html')
@@ -242,8 +254,10 @@ def updateSlide(request, idSlide):
     slide = Slide.objects.get(id=idSlide)
     if slide is not None:
         slide.title = request.POST['txtNameSlide']
-        slide.image = request.FILES.get('txtImages')
+        if request.FILES.get('txtImages'):
+            slide.image = request.FILES.get('txtImages')
         slide.save()
+        messages.success(request, '' + slide.title + ' is updated successful')
         return redirect(showAllSlide)
     return render(request, 'slide/editSlide.html', {'slide': slide})
 
@@ -291,6 +305,7 @@ def createVideo(request):
         url = request.POST['txtURL']
         slide = Video(title=title, url=url)
         slide.save()
+        messages.success(request, 'Video is created successful')
         return redirect(showAllVideo)
     else:
         return render(request, 'video/addVideo.html')
@@ -303,6 +318,7 @@ def updateVideo(request, idVideo):
         video.title = request.POST['txtTitle']
         video.url = request.POST['txtURL']
         video.save()
+        messages.success(request, 'Video is updated successful')
         return redirect(showAllVideo)
     return render(request, 'video/editVideo.html', {'video': video})
 
@@ -353,6 +369,7 @@ def createPortfolioPosts(request):
         id_parent = request.POST['slPortfolioParent']
         portfolio_posts = PortfolioPosts(name_portfolio_posts=name_portfolio_posts, id_parent=id_parent)
         portfolio_posts.save()
+        messages.success(request, '' + name_portfolio_posts + ' is created successful')
         return redirect(showAllPortfolioPosts)
     else:
         listPortfolioPosts = PortfolioPosts.objects.filter(id_parent=0)
@@ -368,6 +385,7 @@ def updatePortfolioPosts(request, idPortfolio):
         if request.POST['slPortfolioParent'] != idPortfolio:
             portfolio_posts.id_parent = request.POST['slPortfolioParent']
         portfolio_posts.save()
+        messages.success(request, '' + portfolio_posts.name_portfolio_posts + ' is updated successful')
         return redirect(showAllPortfolioPosts)
     context = {'portfolio_posts': portfolio_posts, 'listPortfolioPosts': listPortfolioPosts}
     return render(request, 'portfolioposts/editPortfolioPosts.html', context)
@@ -423,6 +441,7 @@ def createPosts(request):
         content = request.POST['txtContent']
         posts = Posts(title=title, portfolio_posts=portfolio_posts, avatar_posts=avatar_posts, content=content)
         posts.save()
+        messages.success(request, '' + title + ' is created successful')
         return redirect(showAllPosts)
     else:
         listPortfolioPosts = PortfolioPosts.objects.all()
@@ -435,13 +454,16 @@ def updatePosts(request, idPosts):
     if posts is not None:
         posts.title = request.POST['txtTitle']
         posts.portfolio_posts = PortfolioPosts.objects.get(id=request.POST['slPortfolioParent'])
-        posts.avatar_posts = request.FILES.get('txtImages')
+        if request.FILES.get('txtImages'):
+            posts.avatar_posts = request.FILES.get('txtImages')
         posts.content = request.POST['txtContent']
         posts.save()
+        messages.success(request, '' + posts.title + ' is updated successful')
         return redirect(showAllPosts)
     return render(request, 'posts/editPosts.html', {'posts': posts})
 
 
+<<<<<<< HEAD
 # For user table
 def login(request):
     return render(request, 'users/login.html')
@@ -645,3 +667,94 @@ def handle_forget_password(request):
                 messages.success(request, "Your mail sent to admin for reseting password")
     return redirect(forget_password)
 
+=======
+# PROJECT MODEL
+# Get all data about project
+def showAllProject(request):
+    query = request.GET.get('search')
+    if query:
+        listProject= Project.objects.filter(Q(name_project__icontains=query))
+    else:
+        listProject = Project.objects.all()
+    return render(request, 'project/project.html', {'listProject': listProject})
+
+
+# Get 1 Project to edit
+def getProject(request, idProject):
+    project = Project.objects.get(id=idProject)
+    listPortfolioProject = PortfolioProject.objects.all()
+    listArea = Area.objects.all()
+    return render(request, 'project/editProject.html', {'project': project, 'listPortfolioProject': listPortfolioProject, 'listArea':listArea})
+
+# Get profile of Project
+def get_Project(request, idProject):
+    project = Project.objects.get(id=idProject)
+    data= []
+    data.append({
+        'id': project.id,
+        'name_project': project.name_project
+    })
+    return JsonResponse({'data': data})
+
+
+# Delete 1 Project
+def deleteProject(request):
+    if request.method == 'POST':
+        id_project = request.POST.get('id_project')
+        project = Project.objects.get(id=id_project)
+        if project:
+            try:
+                project.delete()
+            except:
+                messages.error(request, 'Delete' + project.name_project + ' failed')
+        return redirect(showAllProject)
+
+
+# Create new Project
+def createProject(request):
+    if request.method == 'POST':
+        name_project = request.POST['txtNameProject']
+        area = Area.objects.get(id=request.POST['slArea'])
+        portfolio_project = PortfolioProject.objects.get(id=request.POST['slPortfolioProject'])
+        status_progress = request.POST['slStatus']
+        avatar_image = request.FILES.get('txtImages')
+        year = request.POST['txtYear']
+        description_project = request.POST['txtContent']
+        project = Project(name_project=name_project, area=area, portfolio_project=portfolio_project,
+                          status_progress=status_progress,avatar_image=avatar_image,
+                          description_project=description_project, year=year)
+        project.save()
+        photo_album = request.FILES.getlist('txtAlbums')
+        for image in photo_album:
+            photo = image.name
+            id_project = project.id
+            album = Album(photo=photo, id_project=id_project)
+            album.save()
+
+        messages.success(request, '' + name_project + ' is created successful')
+        return redirect(showAllProject)
+    else:
+        listPortfolioProject = PortfolioProject.objects.all()
+        listArea = Area.objects.all()
+        return render(request, 'project/addProject.html', {'listPortfolioProject': listPortfolioProject, 'listArea': listArea})
+
+
+# Update Project
+def updateProject(request, idProject):
+    project = Project.objects.get(id=idProject)
+    if project is not None:
+        project.name_project = request.POST['txtNameProject']
+        project.area = Area.objects.get(id=request.POST['slArea'])
+        project.portfolio_project = PortfolioProject.objects.get(id=request.POST['slPortfolioProject'])
+        project.status_progress = request.POST['slStatus']
+        # if request.FILES.get('txtAlbums'):
+        #     project.photo_album = request.FILES.get('txtAlbums')
+        if request.FILES.get('txtImages'):
+            project.avatar_image = request.FILES.get('txtImages')
+        project.description_project = request.POST['txtContent']
+        project.year = request.POST['txtYear']
+        project.save()
+        messages.success(request, '' + project.name_project + ' is updated successful')
+        return redirect(showAllProject)
+    return render(request, 'project/editProject.html', {'project': project})
+>>>>>>> f92027dbc365c777be2149afab35bd6faf261b3d
