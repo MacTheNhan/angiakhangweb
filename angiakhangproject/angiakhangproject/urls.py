@@ -98,5 +98,7 @@ urlpatterns = [
 
     # URL for front end
     url(r'^index/$', showIndex, name='showIndex'),
+    url(r'^showListPostByIdPortfolio/(?P<idPortfolio>\d+)/$', showListPostByIdPortfolio, name='showListPostByIdPortfolio'),
+
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -4,7 +4,7 @@ from django.core.mail import send_mail
 from django.db.models import Q
 from django.shortcuts import render, redirect
 from django.urls import reverse
-
+from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 from angiakhangproject import settings
 from .models import *
 from django.http import JsonResponse, HttpResponseRedirect
@@ -801,6 +801,46 @@ def showIndex(request):
             'listPostCompany': listPostCompany,
             'listMarket': listMarket,
             'listSlide': listSlide,
-            'listPost': listPost,
-            'firstPost': firstPost}
+            'listPost': listPost,}
     return render(request, 'frontend/index.html', data)
+
+
+def showListPostByIdPortfolio(request, idPortfolio):
+    # List block
+    listPortfolioPosts = PortfolioPosts.objects.all()
+    listSubMenu = []
+    for item in listPortfolioPosts:
+        if listPortfolioPosts.filter(id_parent=item.id).count() > 0:
+            listSubMenu.append(item.id)
+    listMember = Member.objects.all()[0:10]
+
+    # Add more
+    name_parent = ''
+    portfolioPosts = PortfolioPosts.objects.get(id=idPortfolio)
+    listProject = Project.objects.all()[0:10]
+    listPost = []
+    if portfolioPosts:
+        listPost = Posts.objects.filter(portfolio_posts=portfolioPosts)
+        paginator = Paginator(listPost, 1)  # Show 5 product per page
+        page = request.GET.get('page')
+        try:
+            listPost = paginator.page(page)
+        except PageNotAnInteger:
+            listPost = paginator.page(1)
+        except EmptyPage:
+            listPost = paginator.page(paginator.num_pages)
+
+    listPortfolioPostsParent = []
+    if portfolioPosts.id_parent != 0:
+        listPortfolioPostsParent = PortfolioPosts.objects.filter(id_parent=portfolioPosts.id_parent)
+        name_parent = PortfolioPosts.objects.get(id=portfolioPosts.id_parent).name_portfolio_posts
+
+    data = {'listPortfolioPosts': listPortfolioPosts,
+            'listSubMenu': listSubMenu,
+            'listMember': listMember,
+            'listProject': listProject,
+            'listPost': listPost,
+            'portfolioPosts': portfolioPosts,
+            'listPortfolioPostsParent':listPortfolioPostsParent,
+            'name_parent': name_parent}
+    return render(request, 'frontend/news.html', data)

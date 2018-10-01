@@ -1,0 +1,141 @@
+{% extends 'base_frontend.html' %}
+
+{% block content %}
+    {% load static %}
+
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="breadcrumb" vocab="http://rdf.data-vocabulary.org/#">
+                        <span typeof="v:Breadcrumb">
+                            <a rel="v:url" property="v:title" href="#"><i class="glyphicon glyphicon-home"></i> Trang chủ</a></span>
+                        /
+                        <span typeof="v:Breadcrumb"><a rel="v:url" property="v:title"
+                                                       href="#">{{ name_parent }}</a>
+                        </span>/ <span class="current"> {{ portfolioPosts.name_portfolio_posts }}</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="project">
+        <div class="container">
+            <div class="row tintuc">
+                <div class="col-xs-12 col-sm-8 col-md-8">
+
+                    <div class="title os-tuyendart w3danima">
+                        <div class="fleft">
+                            <h3 style="color:#062245;">{{ portfolioPosts.name_portfolio_posts }}</h3>
+                        </div>
+                        <br clear="all">
+                    </div>
+
+                    {% for post in listPost %}
+                        <div class="row mgb10 custom-small">
+                            <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                <a class="post-thumbnail image-link"
+                                   href="#">
+                                    <img src="{{ post.avatar_posts.url }}" class="img-responsive"/>
+                                </a>
+                                <span class="term-title term-13"><a class="colorf"
+                                                                    href="#">{{ portfolioPosts.name_portfolio_posts }}</a></span>
+                            </div>
+                            <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
+                                <h2 class="title-news">
+                                    <a class="post-url" rel="bookmark"
+                                       href="#"
+                                       title="{{ post.name_portfolio_posts }}">{{ post.title }}</a>
+                                </h2>
+
+                                <div class="post-summary summary the-content">{% autoescape off %}
+                                    {{ post.content|truncatechars:200 }}{% endautoescape %}
+                                </div>
+                                <a class="btn btn-read-more"
+                                   href="#"
+                                   title="Xem thêm">Xem thêm</a>
+                            </div>
+                        </div>
+                        <hr>
+                    {% endfor %}
+                    <div id="pagination">
+                        <nav>
+                            <ul class="pagination">
+                                {% if page_obj.has_previous %}
+                                    <li><a href="?page={{ listPost.previous_page_number }}"><i
+                                            class="fa fa-chevron-left" aria-hidden="true"></i></a></li>
+                                {% endif %}
+
+                                {% for i in listPost.paginator.page_range %}
+                                    {% if listPost.number == i %}
+                                        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span>
+                                        </li>
+                                    {% elif i > listPost.number|add:'-5' and i < listPost.number|add:'5' %}
+                                        <li><a href="?page={{ i }}">{{ i }}</a></li>
+                                    {% endif %}
+                                {% endfor %}
+
+                                {% if listPost.has_next %}
+                                    <li class="next">
+                                        <a href="?page={{ listPost.next_page_number }}">&gt;</a></li>
+                                    <li class="last">
+                                        <a href="?page={{ listPost.paginator.num_pages }}">»</a></li>
+                                {% endif %}
+
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-4 col-md-4">
+                    <div class="box">
+                        <div class="title3 os-tuyendart w3danima">
+                            <div class="fleft">
+                                <h3 style="color:#062245;">{{ name_parent }}</h3>
+                            </div>
+                            <br clear="all">
+                        </div>
+
+                        <div class="boxlink">
+                            <ul id="menu-mn-right-news" class="">
+                                {% for item in listPortfolioPostsParent %}
+                                    <li id="menu-item-621"
+                                        class="menu-item menu-item-type-taxonomy menu-item-object-category current-menu-item menu-item-621">
+                                        » <a
+                                            href="{% url 'showListPostByIdPortfolio' item.id %}"> {{ item.name_portfolio_posts }}</a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    <br clear="all">
+                    <div class="box sub-right">
+                        <div class="title title-bg os-tuyendart w3danima">
+                            <h3>Thông tin dự án</h3>
+                        </div>
+                        {% for project in listProject %}
+                            <div class="media">
+                                <div class="media-left">
+                                    <a href="#">
+                                        <img class="media-object" src="{{ project.avatar_image.url }}"
+                                             alt="{{ project.name_project }}"/>
+                                    </a>
+                                </div>
+                                <div class="media-body">
+                                    <a href="#">{{ project.name_project }}</a>
+                                    <p></p>
+                                    <p>{% autoescape off %}
+                                        {{ project.description_project|truncatechars:100 }}{% endautoescape %}</p>
+                                    <p></p>
+                                </div>
+                            </div>
+                        {% endfor %}
+
+
+                    </div>
+
+                    <br clear="all">
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
