@@ -41,6 +41,7 @@ class Project(models.Model):
     description_project = VarCharField()
     avatar_image = models.ImageField(upload_to='images/project', blank=True)
     year = models.IntegerField(default=0)
+    date = models.DateField(null=True, blank=True)
 
     class Meta:
         db_table = 'project'

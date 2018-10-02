@@ -99,6 +99,11 @@ urlpatterns = [
     # URL for front end
     url(r'^index/$', showIndex, name='showIndex'),
     url(r'^showListPostByIdPortfolio/(?P<idPortfolio>\d+)/$', showListPostByIdPortfolio, name='showListPostByIdPortfolio'),
+    url(r'^showListProjectByIdProject/(?P<idProject>\d+)/$', showListPostByIdProject, name='showListProjectByIdProject'),
+    url(r'^showListProjectByYear/(?P<year>\d+)/$', showListProjectByYear, name='showListProjectByYear'),
+    url(r'^showListProjectByStatus/(?P<status>\d+)/$', showListProjectByStatus, name='showListProjectByStatus'),
+    url(r'^showListProjectByArea/(?P<idArea>\d+)/$', showListProjectByArea, name='showListProjectByArea'),
+
 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -39,7 +39,8 @@
                                     <th>Tên dự án</th>
                                     <th>Khu vực</th>
                                     <th>Danh mục</th>
-                                    <th>Năm</th>
+                                    <th>Ngày bắt đầu</th>
+                                     <th>Năm</th>
                                     <th>Trạng thái</th>
                                     <th>Ảnh đại diện</th>
                                     <th class="no-sort"></th>
@@ -53,7 +54,8 @@
                                         <td>{{ item.name_project }}</td>
                                         <td>{{ item.area.name_area }}</td>
                                         <td>{{ item.portfolio_project.name_portfolio_project }}</td>
-                                        <td>{{ item.year }}</td>
+                                        <td>{{ item.date.day }} / {{ item.date.month }} </td>
+                                    <td>{{ item.year }}</td>
                                         {% if item.status_progress %}
                                             <td>Đang thi công</td>
                                         {% else %}

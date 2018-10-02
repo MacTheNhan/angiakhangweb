@@ -135,7 +135,6 @@
 </script>
 <section class="top">
     <div class="container">
-
         <div class="row">
             <div class="col-xs-12 col-sm-3 col-md-2">
                 <div class="logo os-tuyendart w3danima">
@@ -220,32 +219,31 @@
                                             <ul>
                                                 <li class="dropdown-header">Theo Dự Án</li>
                                                 {% for projects in listPortfolioProject %}
-                                                    <li class="mn_custom_sub"><a
-                                                            href="#">{{ projects.name_portfolio_project }}</a></li>
+                                                    <li class="mn_custom_sub"><a href="{% url 'showListProjectByIdProject' projects.id %}">{{ projects.name_portfolio_project }}</a></li>
                                                 {% endfor %}
                                             </ul>
                                         </li>
                                         <li class="col-sm-3">
                                             <ul>
                                                 <li class="dropdown-header">Theo Thời Gian</li>
-                                                <li class="mn_custom_sub"><a href="#">2019</a></li>
-                                                <li class="mn_custom_sub"><a href="#">2018</a></li>
-                                                <li class="mn_custom_sub"><a href="#">2017</a></li>
+                                                <li class="mn_custom_sub"><a href="{% url 'showListProjectByYear' 2019 %}">2019</a></li>
+                                                <li class="mn_custom_sub"><a href="{% url 'showListProjectByYear' 2018 %}">2018</a></li>
+                                                <li class="mn_custom_sub"><a href="{% url 'showListProjectByYear' 2017 %}">2017</a></li>
                                             </ul>
                                         </li>
                                         <li class="col-sm-3">
                                             <ul>
                                                 <li class="dropdown-header">Theo Vị Trí</li>
                                                 {% for area in listArea %}
-                                                    <li class="mn_custom_sub"><a href="#">{{ area.name_area }}</a></li>
+                                                    <li class="mn_custom_sub"><a href="{% url 'showListProjectByArea' area.id %}">{{ area.name_area }}</a></li>
                                                 {% endfor %}
                                             </ul>
                                         </li>
                                         <li class="col-sm-3">
                                             <ul>
                                                 <li class="dropdown-header">Theo tiến độ</li>
-                                                <li class="mn_custom_sub"><a href="#">Hoàn thành</a></li>
-                                                <li class="mn_custom_sub"><a href="#">Đang thi công</a></li>
+                                                <li class="mn_custom_sub"><a href="{% url 'showListProjectByStatus' 1 %}">Hoàn thành</a></li>
+                                                <li class="mn_custom_sub"><a href="{% url 'showListProjectByStatus' 0 %}">Đang thi công</a></li>
                                             </ul>
                                         </li>
                                     </ul>
@@ -389,7 +387,10 @@
 <script src="{% static 'frontend/js/jquery-ui.js' %}"></script>
 <script src="{% static 'frontend/js/jquery.slimscroll.min.js' %}"></script>
 <script src="{% static 'frontend/js/jquery.hc-sticky.js' %}"></script>
-<script src="{% static 'frontend/js/footer-homepage.js' %}"></script>
+{% if isIndex %}
+    <script src="{% static 'frontend/js/footer-homepage.js' %}"></script>
+{% endif %}
+
 <script src="{% static 'frontend/js/footer-not-homepage.js' %}"></script>
 <script src="{% static 'frontend/js/custom-footer.js' %}"></script>
 <script type="text/javascript">

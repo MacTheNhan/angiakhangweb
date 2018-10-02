@@ -1,17 +1,19 @@
+# -*- coding: utf-8 -*-
 import os
-
 from django.core.mail import send_mail
 from django.db.models import Q
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from angiakhangproject import settings
 from .models import *
 from django.http import JsonResponse, HttpResponseRedirect
 from django.contrib import messages
+import datetime
 
 import hashlib
 from angiakhangproject.common.login_require import user_login_required
+
 
 # Create your views here.
 # PORTFOLIO PROJECT
@@ -30,7 +32,7 @@ def getPortfolioProject(request, idPortfolio):
 # Get profile of Portfolio Project
 def get_PortfolioProject(request, idPortfolio):
     portfolio_project = PortfolioProject.objects.get(id=idPortfolio)
-    data_portfolioproject= []
+    data_portfolioproject = []
     data_portfolioproject.append({
         'id': portfolio_project.id,
         'name_portfolio_project': portfolio_project.name_portfolio_project
@@ -58,7 +60,7 @@ def createPortfolioProject(request):
         avatar = request.FILES.get('txtImages')
         portfolio_project = PortfolioProject(name_portfolio_project=name_portfolio_project, avatar=avatar)
         portfolio_project.save()
-        messages.success(request, '' + name_portfolio_project + ' is created successful')
+        messages.success(request, '' + name_portfolio_project + u' tạo thành công !')
         return redirect(showAllPortfolioProject)
     else:
         return render(request, 'portfolioproject/addPortfolioProject.html')
@@ -72,9 +74,10 @@ def updatePortfolioProject(request, idPortfolio):
         if request.FILES.get('txtImages'):
             portfolio_project.avatar = request.FILES.get('txtImages')
         portfolio_project.save()
-        messages.success(request, '' + portfolio_project.name_portfolio_project + ' is updated successful')
+        messages.success(request, '' + portfolio_project.name_portfolio_project + u' cập nhật thành công')
         return redirect(showAllPortfolioProject)
     return render(request, 'portfolioproject/editPortfolioProject.html', {'portfolio_project': portfolio_project})
+
 
 # AREA MODEL
 # Get all data about Area
@@ -88,10 +91,11 @@ def getArea(request, idArea):
     area = Area.objects.get(id=idArea)
     return render(request, 'area/editArea.html', {'area': area})
 
+
 # Get profile of Area
 def get_Area(request, idArea):
     area = Area.objects.get(id=idArea)
-    data_area= []
+    data_area = []
     data_area.append({
         'id': area.id,
         'name_area': area.name_area
@@ -108,7 +112,7 @@ def deleteArea(request):
             try:
                 area.delete()
             except:
-                messages.error(request, 'Delete' + area.name_area + ' failed')
+                messages.error(request, u'Xóa' + area.name_area + u' thất bại')
         return redirect(showAllArea)
 
 
@@ -118,7 +122,7 @@ def createArea(request):
         name_area = request.POST['txtNameArea']
         area = Area(name_area=name_area)
         area.save()
-        messages.success(request, '' + name_area + ' is created successful')
+        messages.success(request, '' + name_area + u' tạo thành công !')
         return redirect(showAllArea)
     else:
         return render(request, 'area/addArea.html')
@@ -130,12 +134,12 @@ def updateArea(request, idArea):
     if area is not None:
         area.name_area = request.POST['txtNameArea']
         area.save()
-        messages.success(request, '' + area.name_area + ' is updated successful')
+        messages.success(request, '' + area.name_area + u' cập nhật thành công !')
         return redirect(showAllArea)
     return render(request, 'area/editArea.html', {'area': area})
 
 
-#MEMBER MODEL
+# MEMBER MODEL
 def showAllMember(request):
     listMember = Member.objects.all()
     return render(request, 'member/member.html', {'listMember': listMember})
@@ -167,7 +171,7 @@ def deleteMember(request):
             try:
                 member.delete()
             except:
-                messages.error(request, 'Delete' + member.name_company_member + ' failed')
+                messages.error(request, u'Xóa ' + member.name_company_member + u' thất bại')
         return redirect(showAllMember)
 
 
@@ -178,9 +182,10 @@ def createMember(request):
         description = request.POST['txtDescription']
         type = request.POST['cbbType']
         avatar_member = request.FILES.get('txtImages')
-        member = Member(name_company_member=name_company_member, avatar_member=avatar_member, description=description, type=type)
+        member = Member(name_company_member=name_company_member, avatar_member=avatar_member, description=description,
+                        type=type)
         member.save()
-        messages.success(request, '' + name_company_member + ' is created successful')
+        messages.success(request, '' + name_company_member + u' tạo thành công !')
         return redirect(showAllMember)
     else:
         return render(request, 'member/addMember.html')
@@ -196,12 +201,12 @@ def updateMember(request, idMember):
         if request.FILES.get('txtImages'):
             member.avatar_member = request.FILES.get('txtImages')
         member.save()
-        messages.success(request, '' + member.name_company_member + ' is updated successful')
+        messages.success(request, '' + member.name_company_member + u' cập nhật thành công')
         return redirect(showAllMember)
     return render(request, 'member/editMember.html', {'member': member})
 
 
-#SLIDE MODEL
+# SLIDE MODEL
 def showAllSlide(request):
     listSlide = Slide.objects.all()
     return render(request, 'slide/slide.html', {'listSlide': listSlide})
@@ -233,7 +238,7 @@ def deleteSlide(request):
             try:
                 slide.delete()
             except:
-                messages.error(request, 'Delete' + slide.title + ' failed')
+                messages.error(request, u'Xóa ' + slide.title + u' thất bại')
         return redirect(showAllSlide)
 
 
@@ -244,9 +249,9 @@ def createSlide(request):
         image = request.FILES.get('txtImages')
         url = request.POST['txtURL']
         position = request.POST['slPosition']
-        slide = Slide(title=title, image=image, url=url, position=position )
+        slide = Slide(title=title, image=image, url=url, position=position)
         slide.save()
-        messages.success(request, '' + title + ' is created successful')
+        messages.success(request, '' + title + u' tạo thành công !')
         return redirect(showAllSlide)
     else:
         return render(request, 'slide/addSlide.html')
@@ -262,7 +267,7 @@ def updateSlide(request, idSlide):
         if request.FILES.get('txtImages'):
             slide.image = request.FILES.get('txtImages')
         slide.save()
-        messages.success(request, '' + slide.title + ' is updated successful')
+        messages.success(request, '' + slide.title + u' cập nhật thành công')
         return redirect(showAllSlide)
     return render(request, 'slide/editSlide.html', {'slide': slide})
 
@@ -299,7 +304,7 @@ def deleteVideo(request):
             try:
                 video.delete()
             except:
-                messages.error(request, 'Delete' + video.title + ' failed')
+                messages.error(request, u'Xóa' + video.title + u' thất bại')
         return redirect(showAllVideo)
 
 
@@ -311,7 +316,7 @@ def createVideo(request):
         avatar = request.FILES.get('txtImages')
         slide = Video(title=title, url=url, avatar=avatar)
         slide.save()
-        messages.success(request, 'Video is created successful')
+        messages.success(request, u'Video tạo thành công')
         return redirect(showAllVideo)
     else:
         return render(request, 'video/addVideo.html')
@@ -326,7 +331,7 @@ def updateVideo(request, idVideo):
         if request.FILES.get('txtImages'):
             video.avatar = request.FILES.get('txtImages')
         video.save()
-        messages.success(request, 'Video is updated successful')
+        messages.success(request, u'Cập nhật thành công')
         return redirect(showAllVideo)
     return render(request, 'video/editVideo.html', {'video': video})
 
@@ -366,7 +371,7 @@ def deletePortfolioPosts(request):
             try:
                 portfolio_posts.delete()
             except:
-                messages.error(request, 'Deleting ' + portfolio_posts.name_portfolio_posts + ' failed')
+                messages.error(request, u'Xóa  ' + portfolio_posts.name_portfolio_posts + u' thất bại')
         return redirect(showAllPortfolioPosts)
 
 
@@ -377,7 +382,7 @@ def createPortfolioPosts(request):
         id_parent = request.POST['slPortfolioParent']
         portfolio_posts = PortfolioPosts(name_portfolio_posts=name_portfolio_posts, id_parent=id_parent)
         portfolio_posts.save()
-        messages.success(request, '' + name_portfolio_posts + ' is created successful')
+        messages.success(request, '' + name_portfolio_posts + u' tạo thành công !')
         return redirect(showAllPortfolioPosts)
     else:
         listPortfolioPosts = PortfolioPosts.objects.filter(id_parent=0)
@@ -393,7 +398,7 @@ def updatePortfolioPosts(request, idPortfolio):
         if request.POST['slPortfolioParent'] != idPortfolio:
             portfolio_posts.id_parent = request.POST['slPortfolioParent']
         portfolio_posts.save()
-        messages.success(request, '' + portfolio_posts.name_portfolio_posts + ' is updated successful')
+        messages.success(request, '' + portfolio_posts.name_portfolio_posts + u' cập nhật thành công')
         return redirect(showAllPortfolioPosts)
     context = {'portfolio_posts': portfolio_posts, 'listPortfolioPosts': listPortfolioPosts}
     return render(request, 'portfolioposts/editPortfolioPosts.html', context)
@@ -416,10 +421,11 @@ def getPosts(request, idPosts):
     listPortfolioPosts = PortfolioPosts.objects.all()
     return render(request, 'posts/editPosts.html', {'posts': posts, 'listPortfolioPosts': listPortfolioPosts})
 
+
 # Get profile of Posts
 def get_Posts(request, idPosts):
     posts = Posts.objects.get(id=idPosts)
-    data= []
+    data = []
     data.append({
         'id': posts.id,
         'title': posts.title
@@ -436,7 +442,7 @@ def deletePosts(request):
             try:
                 posts.delete()
             except:
-                messages.error(request, 'Delete' + posts.title + ' failed')
+                messages.error(request, u'Xóa ' + posts.title + u' thất bại')
         return redirect(showAllPosts)
 
 
@@ -449,7 +455,7 @@ def createPosts(request):
         content = request.POST['txtContent']
         posts = Posts(title=title, portfolio_posts=portfolio_posts, avatar_posts=avatar_posts, content=content)
         posts.save()
-        messages.success(request, '' + title + ' is created successful')
+        messages.success(request, '' + title + u' tạo thành công !')
         return redirect(showAllPosts)
     else:
         listPortfolioPosts = PortfolioPosts.objects.all()
@@ -466,9 +472,10 @@ def updatePosts(request, idPosts):
             posts.avatar_posts = request.FILES.get('txtImages')
         posts.content = request.POST['txtContent']
         posts.save()
-        messages.success(request, '' + posts.title + ' is updated successful')
+        messages.success(request, '' + posts.title + u' cập nhật thành công')
         return redirect(showAllPosts)
     return render(request, 'posts/editPosts.html', {'posts': posts})
+
 
 # For user table
 def login(request):
@@ -490,6 +497,7 @@ def home_page(request):
 def remove_file(filename):
     if os.path.isfile(filename):
         os.remove(filename)
+
 
 @user_login_required
 def get_user(request, id_user):
@@ -525,7 +533,8 @@ def handle_login(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
-        check_exist = User.objects.filter(username=username, password=hashlib.md5(bytes(password, 'ascii')).hexdigest()).first()
+        check_exist = User.objects.filter(username=username,
+                                          password=hashlib.md5(bytes(password, 'ascii')).hexdigest()).first()
         if check_exist:
             user_login_session = User.objects.get(username=username)
             request.session['user_login'] = {
@@ -549,7 +558,7 @@ def user_page(request):
         list_user = User.objects.all()
     if query:
         list_user = User.objects.filter(Q(name_user__icontains=query) | Q(
-                username__icontains=query) | Q(email__icontains=query)).all()
+            username__icontains=query) | Q(email__icontains=query)).all()
 
     context = {
         'list_user': list_user,
@@ -575,11 +584,12 @@ def update_user(request):
             user_edit.username = username
             user_edit.name_user = name_user
             if password != user_edit.password:
-                user_edit.password = hashlib.md5(bytes(password,'ascii')).hexdigest()
+                user_edit.password = hashlib.md5(bytes(password, 'ascii')).hexdigest()
             if avatar is None or avatar == '':
                 avatar = user_edit.avatar
             else:
-                check_null_avatar = str(user_edit.avatar.path) if str(user_edit.avatar) is not None and str(user_edit.avatar) != '' else None
+                check_null_avatar = str(user_edit.avatar.path) if str(user_edit.avatar) is not None and str(
+                    user_edit.avatar) != '' else None
                 if check_null_avatar:
                     remove_avatar = user_edit.avatar.path
             user_edit.email = email
@@ -589,7 +599,8 @@ def update_user(request):
                 # update session user_login
                 if username == request.session['user_login']['username']:
                     request.session['user_login']['username'] = user_edit.username
-                    session_avatar = str(user_edit.avatar.name) if str(user_edit.avatar.name) != '' and str(user_edit.avatar.name) is not None else None
+                    session_avatar = str(user_edit.avatar.name) if str(user_edit.avatar.name) != '' and str(
+                        user_edit.avatar.name) is not None else None
                     if session_avatar is not None:
                         request.session['user_login']['avatar'] = settings.MEDIA_URL + 'images/' + session_avatar
                     request.session.modified = True
@@ -597,7 +608,7 @@ def update_user(request):
                 remove_file(remove_avatar)
                 messages.success(request, user_edit.username + ' is updated successfully')
             except Exception as e:
-                messages.error(request, user_edit.username + ' is updated failed' + ' ' + e )
+                messages.error(request, user_edit.username + ' is updated failed' + ' ' + e)
         else:
             try:
                 password_encode = hashlib.md5(bytes(password, 'ascii')).hexdigest()
@@ -637,11 +648,11 @@ def send_mail_user(subject_content, message_content, mail_user, project):
         if mail_user is not None:
             list_receiver.append(mail_user)
         if list_receiver:
-                try:
-                    send_mail(subject=subject_content, message=message_content, from_email=settings.MAIL_HOST,
-                              recipient_list=list_receiver, fail_silently=False)
-                except:
-                    list_check_error.append('Cannot send mail to email ')
+            try:
+                send_mail(subject=subject_content, message=message_content, from_email=settings.MAIL_HOST,
+                          recipient_list=list_receiver, fail_silently=False)
+            except:
+                list_check_error.append('Cannot send mail to email ')
     except:
         return list_check_error
 
@@ -659,13 +670,13 @@ def handle_forget_password(request):
         try:
             check_username_exist = User.objects.get(username=username)
         except User.DoesNotExist:
-            messages.warning(request, 'username:'+username+" doesn't exist")
+            messages.warning(request, 'username:' + username + " doesn't exist")
             return redirect(forget_password)
         if check_username_exist:
             mail_project = check_username_exist.id_project.id_project
             list_check_send = send_mail_user("Reset Password",
-                                         "User " + username + " with email: " + email + ".Please check and help to reset password",
-                                         None, mail_project)
+                                             "User " + username + " with email: " + email + ".Please check and help to reset password",
+                                             None, mail_project)
             if list_check_send:
                 for message in list_check_send:
                     messages.error(request, message)
@@ -673,12 +684,13 @@ def handle_forget_password(request):
                 messages.success(request, "Your mail sent to admin for reseting password")
     return redirect(forget_password)
 
+
 # PROJECT MODEL
 # Get all data about project
 def showAllProject(request):
     query = request.GET.get('search')
     if query:
-        listProject= Project.objects.filter(Q(name_project__icontains=query))
+        listProject = Project.objects.filter(Q(name_project__icontains=query))
     else:
         listProject = Project.objects.all()
     return render(request, 'project/project.html', {'listProject': listProject})
@@ -689,12 +701,14 @@ def getProject(request, idProject):
     project = Project.objects.get(id=idProject)
     listPortfolioProject = PortfolioProject.objects.all()
     listArea = Area.objects.all()
-    return render(request, 'project/editProject.html', {'project': project, 'listPortfolioProject': listPortfolioProject, 'listArea':listArea})
+    return render(request, 'project/editProject.html',
+                  {'project': project, 'listPortfolioProject': listPortfolioProject, 'listArea': listArea})
+
 
 # Get profile of Project
 def get_Project(request, idProject):
     project = Project.objects.get(id=idProject)
-    data= []
+    data = []
     data.append({
         'id': project.id,
         'name_project': project.name_project
@@ -711,7 +725,7 @@ def deleteProject(request):
             try:
                 project.delete()
             except:
-                messages.error(request, 'Delete' + project.name_project + ' failed')
+                messages.error(request, u'Xóa ' + project.name_project + u' thất bại')
         return redirect(showAllProject)
 
 
@@ -723,11 +737,12 @@ def createProject(request):
         portfolio_project = PortfolioProject.objects.get(id=request.POST['slPortfolioProject'])
         status_progress = request.POST['slStatus']
         avatar_image = request.FILES.get('txtImages')
-        year = request.POST['txtYear']
+        date = datetime.datetime.strptime(request.POST['txtYear'], '%d/%m/%Y')
+        year = date.year
         description_project = request.POST['txtContent']
         project = Project(name_project=name_project, area=area, portfolio_project=portfolio_project,
-                          status_progress=status_progress,avatar_image=avatar_image,
-                          description_project=description_project, year=year)
+                          status_progress=status_progress, avatar_image=avatar_image,
+                          description_project=description_project, year=year, date=date)
         project.save()
         photo_album = request.FILES.getlist('txtAlbums')
         for image in photo_album:
@@ -736,12 +751,13 @@ def createProject(request):
             album = Album(photo=photo, id_project=id_project)
             album.save()
 
-        messages.success(request, '' + name_project + ' is created successful')
+        messages.success(request, '' + name_project + u' tạo thành công !')
         return redirect(showAllProject)
     else:
         listPortfolioProject = PortfolioProject.objects.all()
         listArea = Area.objects.all()
-        return render(request, 'project/addProject.html', {'listPortfolioProject': listPortfolioProject, 'listArea': listArea})
+        return render(request, 'project/addProject.html',
+                      {'listPortfolioProject': listPortfolioProject, 'listArea': listArea})
 
 
 # Update Project
@@ -757,9 +773,11 @@ def updateProject(request, idProject):
         if request.FILES.get('txtImages'):
             project.avatar_image = request.FILES.get('txtImages')
         project.description_project = request.POST['txtContent']
-        project.year = request.POST['txtYear']
+        date = datetime.datetime.strptime(request.POST['txtYear'], '%d/%m/%Y')
+        project.date = date
+        project.year = date.year
         project.save()
-        messages.success(request, '' + project.name_project + ' is updated successful')
+        messages.success(request, '' + project.name_project + u' cập nhật thành công')
         return redirect(showAllProject)
     return render(request, 'project/editProject.html', {'project': project})
 
@@ -774,11 +792,11 @@ def showIndex(request):
     listMember = Member.objects.all()[0:10]
     listSlide = Slide.objects.all()
     listPost = Posts.objects.all()[0:5]
-    firstPost = listPost[0]
+    isIndex = True
 
     postCompany = PortfolioPosts.objects.get(id=6)
     postMarket = PortfolioPosts.objects.get(id=5)
-    listPostCompany=[]
+    listPostCompany = []
     listMarket = []
     listSubMenu = []
     if postCompany:
@@ -801,13 +819,16 @@ def showIndex(request):
             'listPostCompany': listPostCompany,
             'listMarket': listMarket,
             'listSlide': listSlide,
-            'listPost': listPost,}
+            'listPost': listPost,
+            'isIndex': isIndex}
     return render(request, 'frontend/index.html', data)
 
 
 def showListPostByIdPortfolio(request, idPortfolio):
     # List block
     listPortfolioPosts = PortfolioPosts.objects.all()
+    listPortfolioProject = PortfolioProject.objects.all()
+    listArea = Area.objects.all()
     listSubMenu = []
     for item in listPortfolioPosts:
         if listPortfolioPosts.filter(id_parent=item.id).count() > 0:
@@ -821,7 +842,7 @@ def showListPostByIdPortfolio(request, idPortfolio):
     listPost = []
     if portfolioPosts:
         listPost = Posts.objects.filter(portfolio_posts=portfolioPosts)
-        paginator = Paginator(listPost, 1)  # Show 5 product per page
+        paginator = Paginator(listPost, 5)  # Show 5 product per page
         page = request.GET.get('page')
         try:
             listPost = paginator.page(page)
@@ -836,11 +857,143 @@ def showListPostByIdPortfolio(request, idPortfolio):
         name_parent = PortfolioPosts.objects.get(id=portfolioPosts.id_parent).name_portfolio_posts
 
     data = {'listPortfolioPosts': listPortfolioPosts,
+            'listPortfolioProject': listPortfolioProject,
             'listSubMenu': listSubMenu,
             'listMember': listMember,
             'listProject': listProject,
+            'listArea': listArea,
             'listPost': listPost,
             'portfolioPosts': portfolioPosts,
-            'listPortfolioPostsParent':listPortfolioPostsParent,
+            'listPortfolioPostsParent': listPortfolioPostsParent,
             'name_parent': name_parent}
     return render(request, 'frontend/news.html', data)
+
+
+def showListPostByIdProject(request, idProject):
+    # List block
+    listPortfolioPosts = PortfolioPosts.objects.all()
+    listPortfolioProject = PortfolioProject.objects.all()
+    listArea = Area.objects.all()
+    listSubMenu = []
+    for item in listPortfolioPosts:
+        if listPortfolioPosts.filter(id_parent=item.id).count() > 0:
+            listSubMenu.append(item.id)
+    listMember = Member.objects.all()[0:10]
+
+    # Add more
+    portfolioProject = PortfolioProject.objects.get(id=idProject)
+    name = ''
+    listProject = []
+    if portfolioProject:
+        name = portfolioProject.name_portfolio_project
+        listProject = Project.objects.filter(portfolio_project=portfolioProject)
+        paginator = Paginator(listProject, 9)  # Show 5 product per page
+        page = request.GET.get('page')
+        try:
+            listProject = paginator.page(page)
+        except PageNotAnInteger:
+            listProject = paginator.page(1)
+        except EmptyPage:
+            listProject = paginator.page(paginator.num_pages)
+
+    data = {'listPortfolioPosts': listPortfolioPosts,
+            'listPortfolioProject': listPortfolioProject,
+            'listSubMenu': listSubMenu,
+            'listMember': listMember,
+            'listArea': listArea,
+            'listProject': listProject,
+            'name': name}
+    return render(request, 'frontend/project_by_id_portfolio_project.html', data)
+
+
+def showListProjectByYear(request, year):
+    # List block
+    listPortfolioPosts = PortfolioPosts.objects.all()
+    listPortfolioProject = PortfolioProject.objects.all()
+    listArea = Area.objects.all()
+    listSubMenu = []
+    for item in listPortfolioPosts:
+        if listPortfolioPosts.filter(id_parent=item.id).count() > 0:
+            listSubMenu.append(item.id)
+    listMember = Member.objects.all()[0:10]
+
+    # Add more
+    listProject = Project.objects.order_by('-date').filter(year=year)
+    data = {'listPortfolioPosts': listPortfolioPosts,
+            'listPortfolioProject': listPortfolioProject,
+            'listSubMenu': listSubMenu,
+            'listMember': listMember,
+            'listArea': listArea,
+            'listProject': listProject,
+            'year': year}
+    return render(request, 'frontend/project_by_year.html', data)
+
+
+def showListProjectByStatus(request, status):
+    # List block
+    listPortfolioPosts = PortfolioPosts.objects.all()
+    listPortfolioProject = PortfolioProject.objects.all()
+    listArea = Area.objects.all()
+    listSubMenu = []
+    for item in listPortfolioPosts:
+        if listPortfolioPosts.filter(id_parent=item.id).count() > 0:
+            listSubMenu.append(item.id)
+    listMember = Member.objects.all()[0:10]
+
+    # Add more
+    if status == '1':
+        listProject = Project.objects.order_by('-date').filter(status_progress=1)
+        name = u'Hoàn thành'
+    else:
+        listProject = Project.objects.order_by('-date').filter(status_progress=0)
+        name = u'Đang thi công'
+    paginator = Paginator(listProject, 9)  # Show 5 product per page
+    page = request.GET.get('page')
+    try:
+        listProject = paginator.page(page)
+    except PageNotAnInteger:
+        listProject = paginator.page(1)
+    except EmptyPage:
+        listProject = paginator.page(paginator.num_pages)
+
+    data = {'listPortfolioPosts': listPortfolioPosts,
+            'listPortfolioProject': listPortfolioProject,
+            'listSubMenu': listSubMenu,
+            'listMember': listMember,
+            'listArea': listArea,
+            'listProject': listProject,
+            'name': name}
+    return render(request, 'frontend/project_by_id_portfolio_project.html', data)
+
+
+def showListProjectByArea(request, idArea):
+    # List block
+    listPortfolioPosts = PortfolioPosts.objects.all()
+    listPortfolioProject = PortfolioProject.objects.all()
+    listArea = Area.objects.all()
+    listSubMenu = []
+    for item in listPortfolioPosts:
+        if listPortfolioPosts.filter(id_parent=item.id).count() > 0:
+            listSubMenu.append(item.id)
+    listMember = Member.objects.all()[0:10]
+
+    # Add more
+    area = listArea.get(id=idArea)
+    listProject = Project.objects.order_by('-date').filter(area=area)
+    paginator = Paginator(listProject, 9)  # Show 5 product per page
+    page = request.GET.get('page')
+    try:
+        listProject = paginator.page(page)
+    except PageNotAnInteger:
+        listProject = paginator.page(1)
+    except EmptyPage:
+        listProject = paginator.page(paginator.num_pages)
+
+    data = {'listPortfolioPosts': listPortfolioPosts,
+            'listPortfolioProject': listPortfolioProject,
+            'listSubMenu': listSubMenu,
+            'listMember': listMember,
+            'listArea': listArea,
+            'listProject': listProject,
+            'name': area.name_area}
+    return render(request, 'frontend/project_by_id_portfolio_project.html', data)

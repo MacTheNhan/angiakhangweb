@@ -1,0 +1,109 @@
+{% extends 'base_frontend.html' %}
+
+{% block content %}
+    {% load static %}
+
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="breadcrumb" vocab="http://rdf.data-vocabulary.org/#">
+                        <span typeof="v:Breadcrumb">
+                            <a rel="v:url" property="v:title" href="#"><i class="glyphicon glyphicon-home"></i> Trang chủ</a></span>
+                        /
+                        <span typeof="v:Breadcrumb"><a rel="v:url" property="v:title"
+                                                       href="#">DỰ ÁN</a>
+                        </span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="project">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-sm-9 col-md-9">
+                    <div id="timeline">
+
+                        <div class="project-name text-center">Dự án {{ year }}</div>
+                        {% for project in listProject %}
+                            <div class="timeline-item clearfix">
+                                <div class="timeline-icon">
+                                    <span class="glyphicon glyphicon-picture" aria-hidden="true"></span>
+                                </div>
+                                <div class="timeline-content  {% if forloop.counter|divisibleby:2 %}left{% else %}right{% endif %}">
+                                    <div class="pic"><a
+                                            href="#"><img
+                                            class="pic-image" src="{{ project.avatar_image.url }}" alt="{{ project.name_project }}"></a>
+                                    </div>
+                                    <h4>{{ project.name_project }}</h4>
+                                    <div class="entry-date">
+                                        <span class="entry-date-year">{{ project.date.day}}</span><br>
+                                        <span class="entry-date-month">Tháng {{ project.date.month}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+
+                <div class="col-xs-12 col-sm-3 col-md-3">
+                    <div class="box">
+                        <div class="title3 os-tuyendart w3danima">
+                            <div class="fleft">
+                                <h3 style="color:#062245;">Dự án</h3>
+                            </div>
+                            <br clear="all">
+                        </div>
+                        <div class="boxlink">
+                            <h1 class="page-heading "><span class="h-title">Theo dự án</span></h1>
+                            <div class="boxlink ">
+                                <ul>
+                                    {% for projects in listPortfolioProject %}
+                                        <li>
+                                            » <a
+                                                href="{% url 'showListProjectByIdProject' projects.id %}">{{ projects.name_portfolio_project }}</a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            <h1 class="page-heading "><span class="h-title">Theo năm</span></h1>
+                            <div class="boxlink sort_years">
+                                <ul>
+                                    <li>
+                                        » <a href="{% url 'showListProjectByYear' 2019 %}">2019</a>
+                                    </li>
+                                    <li>
+                                        » <a href="{% url 'showListProjectByYear' 2018 %}">2018</a>
+                                    </li>
+                                    <li>
+                                        » <a href="{% url 'showListProjectByYear' 2017 %}">2017</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <h1 class="page-heading "><span class="h-title">Theo tiến độ</span></h1>
+                            <div class="boxlink ">
+                                <ul>
+                                    <li>
+                                        » <a href="{% url 'showListProjectByStatus' 1 %}">Hoàn thành</a>
+                                    </li>
+                                    <li>
+                                        » <a href="{% url 'showListProjectByStatus' 0 %}">Đang thi công</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <h1 class="page-heading "><span class="h-title">Theo vị trí</span></h1>
+                            <div class="boxlink ">
+                                <ul>
+                                    {% for area in listArea %}
+                                        <li> » <a href="{% url 'showListProjectByArea' area.id %}">{{ area.name_area }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

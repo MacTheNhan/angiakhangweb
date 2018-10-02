@@ -2,6 +2,7 @@
 
 {% block content %}
     {% load static %}
+    {% load staticfiles %}
     <section class="banner">
         <div class="container">
             <div class="row">
@@ -42,7 +43,7 @@
                         <div class="fright">
                             <ul id="filters" class="clearfix">
                                 {% for projects in listPortfolioProject %}
-                                    <li><a href="#"><span>{{ projects.name_portfolio_project }}</span></a>
+                                    <li><a href="{% url 'showListProjectByIdProject' projects.id %}"><span>{{ projects.name_portfolio_project }}</span></a>
                                     </li>
                                 {% endfor %}
                             </ul>
@@ -167,7 +168,7 @@
                                 <div class="item col-xs-12">
                                     <div class="bord">
                                         <div class="pic">
-                                            <a href="#">
+                                            <a href="{% url 'showListProjectByIdProject' project.id %}">
                                                 <img class="pic-image"
                                                      src="{{ project.avatar.url }}"
                                                      alt="{{ project.name_portfolio_project }}"/>
@@ -389,5 +390,4 @@
             </div>
         </div>
     </div>
-
 {% endblock %}
