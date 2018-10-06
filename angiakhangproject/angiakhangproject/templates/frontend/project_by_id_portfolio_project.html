@@ -32,13 +32,13 @@
 
                     {% for project in listProject %}
                         <div class="col-xs-12 col-sm-6 col-md-4 project-box">
-                            <div class="pic"><a href="#"
+                            <div class="pic"><a href="{% url 'showDetailProject' project.id %}"
                                                 title="{{ project.name_project }}"><img class="pic-image"
                                                                                         src="{{ project.avatar_image.url }}"
                                                                                         alt="{{ project.name_project }}"></a>
                             </div>
-                            <h5><a href="#">{{ project.name_project }}</a></h5><h6><a
-                                href="#">Xem thêm</a></h6>
+                            <h5><a href="{% url 'showDetailProject' project.id %}">{{ project.name_project }}</a></h5><h6><a
+                                href="{% url 'showDetailProject' project.id %}">Xem thêm</a></h6>
                         </div>
                     {% endfor %}
 

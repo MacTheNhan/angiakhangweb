@@ -32,7 +32,7 @@
                                 </div>
                                 <div class="timeline-content  {% if forloop.counter|divisibleby:2 %}left{% else %}right{% endif %}">
                                     <div class="pic"><a
-                                            href="#"><img
+                                            href="{% url 'showDetailProject' project.id %}"><img
                                             class="pic-image" src="{{ project.avatar_image.url }}" alt="{{ project.name_project }}"></a>
                                     </div>
                                     <h4>{{ project.name_project }}</h4>

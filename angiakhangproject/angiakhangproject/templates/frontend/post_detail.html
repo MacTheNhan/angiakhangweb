@@ -12,74 +12,45 @@
                             <a rel="v:url" property="v:title" href="#"><i class="glyphicon glyphicon-home"></i> Trang chủ</a></span>
                         /
                         <span typeof="v:Breadcrumb"><a rel="v:url" property="v:title"
-                                                       href="#">{{ name_parent }}</a>
-                        </span>/ <span class="current"> {{ portfolioPosts.name_portfolio_posts }}</span></div>
+                                                       href="#">{{ post.portfolio_posts.name_portfolio_posts }}</a>
+                        </span></div>
                 </div>
             </div>
         </div>
     </section>
     <section class="project">
         <div class="container">
-            <div class="row tintuc">
+            <div class="row">
                 <div class="col-xs-12 col-sm-8 col-md-8">
-
-                    <div class="title os-tuyendart w3danima">
+                    <h1 class="custom-detail">{{ post.title }}</h1>
+                    <div class="top20 news_detail">
+                        {% autoescape off %} {{ post.content }}{% endautoescape %}
+                    </div>
+                    <br clear="all">
+                    <div class="title3 os-tuyendart w3danima">
                         <div class="fleft">
-                            <h3 style="color:#062245;">{{ portfolioPosts.name_portfolio_posts }}</h3>
+                            <h3 style="color:#062245;">Chủ đề liên quan</h3>
                         </div>
                         <br clear="all">
                     </div>
 
-                    {% for post in listPost %}
-                        <div class="row mgb10 custom-small">
-                            <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
-                                <a class="post-thumbnail image-link"
-                                   href="{% url 'showDetailPost' post.id %}">
-                                    <img src="{{ post.avatar_posts.url }}" class="img-responsive"/>
-                                </a>
-                                <span class="term-title term-13"><a class="colorf"
-                                                                    href="{% url 'showDetailPost' post.id %}">{{ portfolioPosts.name_portfolio_posts }}</a></span>
+                    <div class="row list1">
+                        {% for posts in listPost %}
+                            <div class="col-xs-12 col-sm-6 col-md-4">
+                                <a href="{% url 'showDetailPost' posts.id %}"><img
+                                        src="{{ posts.avatar_posts.url }}"
+                                        alt="{{ posts.title }}" class="img-responsive"></a>
+                                <h5><a href="{% url 'showDetailPost' posts.id %}">{{ posts.title }}</a></h5>
+                                <p>{% autoescape off %} {{ post.content|truncatechars:200 }}{% endautoescape %}</p>
+                                <h6><a href="{% url 'showDetailPost' posts.id %}">Xem chi tiết</a>
+                                </h6>
                             </div>
-                            <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
-                                <h2 class="title-news">
-                                    <a class="post-url" rel="bookmark"
-                                       href="{% url 'showDetailPost' post.id %}"
-                                       title="{{ post.name_portfolio_posts }}">{{ post.title }}</a>
-                                </h2>
+                        {% endfor %}
 
-                                <div class="post-summary summary the-content">{% autoescape off %}
-                                    {{ post.content|truncatechars:200 }}{% endautoescape %}
-                                </div>
-                                <a class="btn btn-read-more"
-                                   href="{% url 'showDetailPost' post.id %}"
-                                   title="Xem thêm">Xem thêm</a>
-                            </div>
-                        </div>
-                        <hr>
-                    {% endfor %}
-                    <div id="pagination">
-                        <nav>
-                            <ul class="pagination">
-                                {% for i in listPost.paginator.page_range %}
-                                    {% if listPost.number == i %}
-                                        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span>
-                                        </li>
-                                    {% elif i > listPost.number|add:'-5' and i < listPost.number|add:'5' %}
-                                        <li><a href="?page={{ i }}">{{ i }}</a></li>
-                                    {% endif %}
-                                {% endfor %}
 
-                                {% if listPost.has_next %}
-                                    <li class="next">
-                                        <a href="?page={{ listPost.next_page_number }}">&gt;</a></li>
-                                    <li class="last">
-                                        <a href="?page={{ listPost.paginator.num_pages }}">»</a></li>
-                                {% endif %}
-
-                            </ul>
-                        </nav>
                     </div>
                 </div>
+
                 <div class="col-xs-12 col-sm-4 col-md-4">
                     <div class="box">
                         <div class="title3 os-tuyendart w3danima">
@@ -123,6 +94,8 @@
                                 </div>
                             </div>
                         {% endfor %}
+
+
                     </div>
 
                     <br clear="all">
@@ -130,5 +103,4 @@
             </div>
         </div>
     </section>
-
 {% endblock %}

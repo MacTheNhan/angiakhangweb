@@ -103,6 +103,8 @@ urlpatterns = [
     url(r'^showListProjectByYear/(?P<year>\d+)/$', showListProjectByYear, name='showListProjectByYear'),
     url(r'^showListProjectByStatus/(?P<status>\d+)/$', showListProjectByStatus, name='showListProjectByStatus'),
     url(r'^showListProjectByArea/(?P<idArea>\d+)/$', showListProjectByArea, name='showListProjectByArea'),
+    url(r'^showDetailPost/(?P<idPost>\d+)/$', showDetailPost, name='showDetailPost'),
+    url(r'^showDetailProject/(?P<idProject>\d+)/$', showDetailProject, name='showDetailProject'),
 
 
 

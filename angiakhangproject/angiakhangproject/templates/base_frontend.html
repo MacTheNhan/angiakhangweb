@@ -191,93 +191,108 @@
         </div>
     </div>
 </section>
-
-<div class="sidebar-sticky sticky-active"
-     style="display: block; height: 43px; width: auto; margin: auto; position: relative; float: none; left: auto; right: auto; top: auto; bottom: auto; vertical-align: top;">
-    <section class="nav sticky" id="menu"
-             style="width: 1349px; top: -1px; bottom: auto; left: 0px; right: auto; position: fixed;">
-        <div class="container">
-            <div class="row">
-                <div class="col-xs-12">
-                    <div class="navbar">
-                        <div class="navbar-header">
-                            <button type="button" class="navbar-toggle" data-toggle="collapse"
-                                    data-target=".navbar-collapse">
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                            </button>
-                        </div>
-                        <div class="collapse navbar-collapse">
-                            <ul class="nav navbar-nav">
-                                <li class="active "><a href="{% url 'showIndex' %}" >Trang chủ </a></li>
-                                <li class="dropdown mega-dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dự án <b
-                                            class="caret"></b></a>
-                                    <ul class="dropdown-menu mega-dropdown-menu row">
-                                        <li class="col-sm-3">
-                                            <ul>
-                                                <li class="dropdown-header">Theo Dự Án</li>
-                                                {% for projects in listPortfolioProject %}
-                                                    <li class="mn_custom_sub"><a href="{% url 'showListProjectByIdProject' projects.id %}">{{ projects.name_portfolio_project }}</a></li>
-                                                {% endfor %}
-                                            </ul>
-                                        </li>
-                                        <li class="col-sm-3">
-                                            <ul>
-                                                <li class="dropdown-header">Theo Thời Gian</li>
-                                                <li class="mn_custom_sub"><a href="{% url 'showListProjectByYear' 2019 %}">2019</a></li>
-                                                <li class="mn_custom_sub"><a href="{% url 'showListProjectByYear' 2018 %}">2018</a></li>
-                                                <li class="mn_custom_sub"><a href="{% url 'showListProjectByYear' 2017 %}">2017</a></li>
-                                            </ul>
-                                        </li>
-                                        <li class="col-sm-3">
-                                            <ul>
-                                                <li class="dropdown-header">Theo Vị Trí</li>
-                                                {% for area in listArea %}
-                                                    <li class="mn_custom_sub"><a href="{% url 'showListProjectByArea' area.id %}">{{ area.name_area }}</a></li>
-                                                {% endfor %}
-                                            </ul>
-                                        </li>
-                                        <li class="col-sm-3">
-                                            <ul>
-                                                <li class="dropdown-header">Theo tiến độ</li>
-                                                <li class="mn_custom_sub"><a href="{% url 'showListProjectByStatus' 1 %}">Hoàn thành</a></li>
-                                                <li class="mn_custom_sub"><a href="{% url 'showListProjectByStatus' 0 %}">Đang thi công</a></li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </li>
-                                {% for item in listPortfolioPosts %}
-                                    {% if item.id in listSubMenu %}
-                                        <li class="dropdown "><a href="#" class="dropdown-toggle"
-                                                                 data-toggle="dropdown">{{ item.name_portfolio_posts }}
-                                            <b class="caret"></b></a>
-                                            <ul class="dropdown-menu">
-                                                {% for submenu in listPortfolioPosts %}
-                                                    {% if submenu.id_parent == item.id %}
-                                                        <li class=""><a href="{% url 'showListPostByIdPortfolio' submenu.id %}">{{ submenu.name_portfolio_posts }}</a>
-                                                        </li>
-                                                    {% endif %}
-                                                {% endfor %}
-                                            </ul>
-                                        </li>
-                                    {% elif item.id_parent == 0 %}
-                                        <li class=" "><a href="{% url 'showListPostByIdPortfolio' item.id %}">{{ item.name_portfolio_posts }} </a></li>
-                                    {% endif %}
-                                {% endfor %}
-
-                            </ul>
-                        </div>
-
+<section class="nav" id="menu">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="navbar">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse"
+                                data-target=".navbar-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
                     </div>
+                    <div class="collapse navbar-collapse">
+                        <ul class="nav navbar-nav">
+                            <li class="active "><a href="{% url 'showIndex' %}">Trang chủ </a></li>
+                            <li class="dropdown mega-dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dự án <b
+                                        class="caret"></b></a>
+                                <ul class="dropdown-menu mega-dropdown-menu row">
+                                    <li class="col-sm-3">
+                                        <ul>
+                                            <li class="dropdown-header">Theo Dự Án</li>
+                                            {% for projects in listPortfolioProject %}
+                                                <li class="mn_custom_sub"><a
+                                                        href="{% url 'showListProjectByIdProject' projects.id %}">{{ projects.name_portfolio_project }}</a>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+                                    <li class="col-sm-3">
+                                        <ul>
+                                            <li class="dropdown-header">Theo Thời Gian</li>
+                                            <li class="mn_custom_sub"><a
+                                                    href="{% url 'showListProjectByYear' 2019 %}">2019</a></li>
+                                            <li class="mn_custom_sub"><a
+                                                    href="{% url 'showListProjectByYear' 2018 %}">2018</a></li>
+                                            <li class="mn_custom_sub"><a
+                                                    href="{% url 'showListProjectByYear' 2017 %}">2017</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="col-sm-3">
+                                        <ul>
+                                            <li class="dropdown-header">Theo Vị Trí</li>
+                                            {% for area in listArea %}
+                                                <li class="mn_custom_sub"><a
+                                                        href="{% url 'showListProjectByArea' area.id %}">{{ area.name_area }}</a>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+                                    <li class="col-sm-3">
+                                        <ul>
+                                            <li class="dropdown-header">Theo tiến độ</li>
+                                            <li class="mn_custom_sub"><a
+                                                    href="{% url 'showListProjectByStatus' 1 %}">Hoàn thành</a></li>
+                                            <li class="mn_custom_sub"><a
+                                                    href="{% url 'showListProjectByStatus' 0 %}">Đang thi công</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            {% for item in listPortfolioPosts %}
+                                {% if item.id in listSubMenu %}
+                                    <li class="dropdown "><a href="#" class="dropdown-toggle"
+                                                             data-toggle="dropdown">{{ item.name_portfolio_posts }}
+                                        <b class="caret"></b></a>
+                                        <ul class="dropdown-menu">
+                                            {% for submenu in listPortfolioPosts %}
+                                                {% if submenu.id_parent == item.id %}
+                                                    <li class=""><a
+                                                            href="{% url 'showListPostByIdPortfolio' submenu.id %}">{{ submenu.name_portfolio_posts }}</a>
+                                                    </li>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+                                {% elif item.id_parent == 0 %}
+                                    <li class=" "><a
+                                            href="{% url 'showListPostByIdPortfolio' item.id %}">{{ item.name_portfolio_posts }} </a>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+
+                        </ul>
+                    </div>
+
                 </div>
             </div>
         </div>
-    </section>
-</div>
+    </div>
+</section>
 <br clear="all">
 <script type="text/javascript" src="{% static 'frontend/js/landmark/jssor.slider-24.1.5.min.js' %}"></script>
+{% if isProjectDetail %}
+    <link rel="stylesheet" href="{% static 'frontend/css/jquery.desoslide.css' %}">
+    <link rel="stylesheet" type="text/css"
+          href="http://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'frontend/js/fullscreen/css/slideshow.css' %}">
+{% endif %}
+
 {% block content %}
 {% endblock %}
 <footer>
@@ -364,7 +379,8 @@
         </div>
     </div>
 </section>
-<div class="sub_top" style="display: block;"><a href="#"><img src="{% static 'frontend/images/btn_top_off.png' %}" alt="top"></a></div>
+<div class="sub_top" style="display: block;"><a href="#"><img src="{% static 'frontend/images/btn_top_off.png' %}"
+                                                              alt="top"></a></div>
 <script type="text/javascript"
         src="{% static 'frontend/app/plugins/contact-form-7/includes/js/jquery.form.min.js' %}"></script>
 <script type="text/javascript">
@@ -396,5 +412,35 @@
 <script type="text/javascript">
     var read_more = "Xem thêm";
 </script>
+
+{% if isProjectDetail %}
+    <style type="text/css">
+        .fa-3x {
+            font-size: 1em !important;
+        }
+    </style>
+    <script src="{% static 'frontend/js/fullscreen/js/gallery.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'frontend/js/pretty/css/prettyPhoto.css' %}" type="text/css" media="screen" title="prettyPhoto main stylesheet" charset="utf-8">
+    <script src="{% static 'frontend/js/pretty/js/jquery.prettyPhoto.js' %}" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" charset="utf-8">
+        $(document).ready(function () {
+            var count = $("#portfolio-thumbs li").size();
+            if (count <= 1) {
+                $('#prev-btn').hide();
+                $('#next-btn').hide();
+            }
+            $("area[rel^='prettyPhoto']").prettyPhoto({social_tools: false});
+            $(".gallery:first a[rel^='prettyPhoto']").prettyPhoto({
+                animation_speed: 'normal',
+                theme: 'light_square',
+                slideshow: 3000,
+                autoplay_slideshow: false,
+                social_tools: false
+            });
+
+        });
+    </script>
+{% endif %}
+
 </body>
 </html>

@@ -700,9 +700,10 @@ def showAllProject(request):
 def getProject(request, idProject):
     project = Project.objects.get(id=idProject)
     listPortfolioProject = PortfolioProject.objects.all()
+    listAlbum = Album.objects.filter(id_project=idProject)
     listArea = Area.objects.all()
     return render(request, 'project/editProject.html',
-                  {'project': project, 'listPortfolioProject': listPortfolioProject, 'listArea': listArea})
+                  {'project': project, 'listPortfolioProject': listPortfolioProject, 'listArea': listArea, 'listAlbum':listAlbum})
 
 
 # Get profile of Project
@@ -746,7 +747,7 @@ def createProject(request):
         project.save()
         photo_album = request.FILES.getlist('txtAlbums')
         for image in photo_album:
-            photo = image.name
+            photo = image
             id_project = project.id
             album = Album(photo=photo, id_project=id_project)
             album.save()
@@ -997,3 +998,66 @@ def showListProjectByArea(request, idArea):
             'listProject': listProject,
             'name': area.name_area}
     return render(request, 'frontend/project_by_id_portfolio_project.html', data)
+
+
+
+def showDetailPost(request, idPost):
+    # List block
+    listPortfolioPosts = PortfolioPosts.objects.all()
+    listPortfolioProject = PortfolioProject.objects.all()
+    listArea = Area.objects.all()
+    listSubMenu = []
+    for item in listPortfolioPosts:
+        if listPortfolioPosts.filter(id_parent=item.id).count() > 0:
+            listSubMenu.append(item.id)
+    listMember = Member.objects.all()[0:10]
+
+    # Add more
+    name_parent = ''
+    listProject = Project.objects.all()[0:10]
+    post = Posts.objects.get(id=idPost)
+    listPost = Posts.objects.filter(portfolio_posts=post.portfolio_posts)[0:3]
+
+    listPortfolioPostsParent = []
+    if post.portfolio_posts.id_parent != 0:
+        listPortfolioPostsParent = PortfolioPosts.objects.filter(id_parent=post.portfolio_posts.id_parent)
+        name_parent = PortfolioPosts.objects.get(id=post.portfolio_posts.id_parent).name_portfolio_posts
+
+    data = {'listPortfolioPosts': listPortfolioPosts,
+            'listPortfolioProject': listPortfolioProject,
+            'listSubMenu': listSubMenu,
+            'listMember': listMember,
+            'listProject': listProject,
+            'listArea': listArea,
+            'post': post,
+            'name_parent': name_parent,
+            'listPortfolioPostsParent': listPortfolioPostsParent,
+            'listPost': listPost}
+    return render(request, 'frontend/post_detail.html', data)
+
+
+def showDetailProject(request, idProject):
+    # List block
+    listPortfolioPosts = PortfolioPosts.objects.all()
+    listPortfolioProject = PortfolioProject.objects.all()
+    listArea = Area.objects.all()
+    listAlbums =Album.objects.filter(id_project=idProject)
+    listSubMenu = []
+    for item in listPortfolioPosts:
+        if listPortfolioPosts.filter(id_parent=item.id).count() > 0:
+            listSubMenu.append(item.id)
+    listMember = Member.objects.all()[0:10]
+
+    # Add more
+    project = Project.objects.get(id=idProject)
+    listProject = Project.objects.filter(portfolio_project=project.portfolio_project)[0:3]
+    data = {'listPortfolioPosts': listPortfolioPosts,
+            'listPortfolioProject': listPortfolioProject,
+            'listSubMenu': listSubMenu,
+            'listMember': listMember,
+            'listArea': listArea,
+            'listProject': listProject,
+            'project': project,
+            'listAlbums': listAlbums,
+            'isProjectDetail': True}
+    return render(request, 'frontend/project_detail.html', data)

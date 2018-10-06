@@ -1,0 +1,218 @@
+{% extends 'base_frontend.html' %}
+
+{% block content %}
+    {% load static %}
+
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="breadcrumb" vocab="http://rdf.data-vocabulary.org/#">
+                        <span typeof="v:Breadcrumb">
+                            <a rel="v:url" property="v:title" href="#"><i class="glyphicon glyphicon-home"></i> Trang chủ</a></span>
+                        /
+                        <span typeof="v:Breadcrumb"><a rel="v:url" property="v:title"
+                                                       href="#">DỰ ÁN</a>
+                        </span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="project">
+        <div class="container">
+            <div class="row custom-project-list">
+                <div class="col-xs-12 col-sm-9 col-md-9">
+
+                    <div class="title3 os-tuyendart w3danima">
+                        <div class="fleft">
+                            <h3 style="color:#062245;">{{ project.name_project }}</h3>
+                        </div>
+                        <br clear="all">
+                    </div>
+
+                    <div class="row">
+                        <br clear="all">
+                        <div id="main-portfolio">
+                            <div class="col-xs-12 col-sm-12 col-md-12">
+                                <div class="col-xs-12 col-sm-6 col-md-4 text-left">Danh mục: <a
+                                        href="{% url 'showListProjectByIdProject' project.portfolio_project.id %}">{{ project.portfolio_project.name_portfolio_project }}</a>
+                                </div>
+                                <div class="col-xs-12 col-sm-6 col-md-3 text-left" style="padding: 0px;">Theo khu vực:
+                                    <a href="{% url 'showListProjectByArea' project.area.id %}">{{ project.area.name_area }}</a>
+                                </div>
+                                <div class="col-xs-12 col-sm-6 col-md-3 text-left">Tiến độ:
+                                    {% if project.status_progress %}
+                                        <a href="{% url 'showListProjectByStatus' 1 %}">Hoàn thành</a>
+                                    {% else %}
+                                        <a href="{% url 'showListProjectByStatus' 0 %}">Đang thi công</a>
+                                    {% endif %}
+
+                                </div>
+                                <div class="col-xs-12 col-sm-6 col-md-2 text-left">Năm:
+                                    <a href="{% url 'showListProjectByYear' project.year %}">{{ project.year }}</a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="">
+                        <br clear="all">
+                        <div id="slideshow" class="fullscreen">
+                            <div class="custom-slideshow gallery">
+                                <div class="dummy"></div>
+
+                                {% for image in listAlbums %}
+                                    <div id="img-{{ forloop.counter }}" data-img-id="{{ forloop.counter }}"
+                                         class="img-wrapper active"><a
+                                            href="#"
+                                            rel="prettyPhoto[gallery1]" title=""><img
+                                            src="{{ image.photo.url }}" style="height:517px;"></a>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <div class="thumbs-container bottom">
+                                <div id="prev-btn" class="prev">
+                                    <i class="fa fa-chevron-left fa-3x"></i>
+                                </div>
+                                <ul class="thumbs" id="portfolio-thumbs">
+                                    {% for image in listAlbums %}
+                                        <li data-thumb-id="{{ forloop.counter }}" class="thumb active"
+                                            style="background-image: url( {{ image.photo.url }})"></li>
+                                    {% endfor %}
+                                </ul>
+                                <div id="next-btn" class="next">
+                                    <i class="fa fa-chevron-right fa-3x"></i>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="detail">
+                            <h1 class="page-heading "><span class="h-title">Chi tiết dự án</span></h1>
+                            <div class="form-horizontal">
+                                <div class="row innerLR">
+                                    <div class="form-group">
+
+                                        <div class="col-xs-12 col-sm-12 col-md-9">
+                                            <p>{% autoescape off %}
+                                                {{ project.description_project }}{% endautoescape %}</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <br clear="all">
+                            <br clear="all">
+
+                        </div>
+
+                        <div class="row">
+                            <br clear="all">
+                            <div class="col-xs-12 col-sm-8 col-md-8">
+                                <h1 class="page-heading"><span class="h-title" style="">Dự án liên quan</span></h1>
+                                {% for item in listProject %}
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-12 col-md-12">
+                                            <div class="media" style="padding: 3px 0px;">
+                                                <div class="col-md-4 project-list-relation" style="padding-right: 0px;">
+                                                    <a href="{% url 'showDetailProject' item.id %}">
+                                                        <img class="media-object img-responsive"
+                                                             src="{{ item.avatar_image.url }}"/>
+                                                    </a>
+                                                </div>
+                                                <div class="col-md-8 ">
+                                                    <a href="{% url 'showDetailProject' item.id %}">{{ item.name_project }}</a>
+                                                    <p></p>
+                                                    <p>{% autoescape off %}
+                                                        {{ item.description_project|truncatechars:200 }}{% endautoescape %}</p>
+                                                    <p></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+
+
+                            </div>
+
+                            <div class="col-xs-12 col-sm-4 col-md-4">
+                                <h1 class="page-heading"><span class="h-title" style="">Tin tức liên quan</span></h1>
+                                <div>
+                                    <div class="boxlink">
+                                        <ul>
+
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-xs-12 col-sm-3 col-md-3">
+                    <div class="box">
+                        <div class="title3 os-tuyendart w3danima">
+                            <div class="fleft">
+                                <h3 style="color:#062245;">Dự án</h3>
+                            </div>
+                            <br clear="all">
+                        </div>
+                        <div class="boxlink">
+                            <h1 class="page-heading "><span class="h-title">Theo dự án</span></h1>
+                            <div class="boxlink ">
+                                <ul>
+                                    {% for projects in listPortfolioProject %}
+                                        <li>
+                                            » <a
+                                                href="{% url 'showListProjectByIdProject' projects.id %}">{{ projects.name_portfolio_project }}</a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            <h1 class="page-heading "><span class="h-title">Theo năm</span></h1>
+                            <div class="boxlink sort_years">
+                                <ul>
+                                    <li>
+                                        » <a href="{% url 'showListProjectByYear' 2019 %}">2019</a>
+                                    </li>
+                                    <li>
+                                        » <a href="{% url 'showListProjectByYear' 2018 %}">2018</a>
+                                    </li>
+                                    <li>
+                                        » <a href="{% url 'showListProjectByYear' 2017 %}">2017</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <h1 class="page-heading "><span class="h-title">Theo tiến độ</span></h1>
+                            <div class="boxlink ">
+                                <ul>
+                                    <li>
+                                        » <a href="{% url 'showListProjectByStatus' 1 %}">Hoàn thành</a>
+                                    </li>
+                                    <li>
+                                        » <a href="{% url 'showListProjectByStatus' 0 %}">Đang thi công</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <h1 class="page-heading "><span class="h-title">Theo vị trí</span></h1>
+                            <div class="boxlink ">
+                                <ul>
+                                    {% for area in listArea %}
+                                        <li> » <a
+                                                href="{% url 'showListProjectByArea' area.id %}">{{ area.name_area }}</a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
