@@ -29,6 +29,17 @@
             <!-- /.box-header -->
             <div class="box-body">
                 <div class="row">
+                    <div>
+                        <form method="get" action="" id="search">
+                            <div id="example1_filter" class="dataTables_filter">
+                                <input placeholder="Tìm kiếm tên dự án..." aria-controls="example1" type="text"
+                                       name="search"
+                                       value="{{ request.GET.search }}">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="row">
                     <div class="col-sm-12">
                         <div style="overflow:auto">
                             <table id="dataTable" class="table table-bordered table-striped ">
@@ -40,7 +51,7 @@
                                     <th>Khu vực</th>
                                     <th>Danh mục</th>
                                     <th>Ngày bắt đầu</th>
-                                     <th>Năm</th>
+                                    <th>Năm</th>
                                     <th>Trạng thái</th>
                                     <th>Ảnh đại diện</th>
                                     <th class="no-sort"></th>
@@ -55,11 +66,11 @@
                                         <td>{{ item.area.name_area }}</td>
                                         <td>{{ item.portfolio_project.name_portfolio_project }}</td>
                                         <td>{{ item.date.day }} / {{ item.date.month }} </td>
-                                    <td>{{ item.year }}</td>
+                                        <td>{{ item.year }}</td>
                                         {% if item.status_progress %}
-                                            <td>Đang thi công</td>
-                                        {% else %}
                                             <td>Hoàn thành</td>
+                                        {% else %}
+                                            <td>Đang thi công</td>
                                         {% endif %}
                                         {% if item.avatar_image %}
                                             <td><img style="width:50px; height:50px" src="{{ item.avatar_image.url }}">

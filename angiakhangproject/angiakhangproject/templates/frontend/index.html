@@ -59,7 +59,8 @@
                                 <div class="portfolio-wrapper pic">
                                     <a href="{% url 'showDetailProject' project.id %}"><img class="pic-image"
                                                      src="{{ project.avatar_image.url }}"
-                                                     alt="{{ project.name_project }}"/></a>
+                                                     alt="{{ project.name_project }}"
+                                    style="width: 214px; height: 160px;"/></a>
                                     <div>
                                         <br/>
                                         <div>
@@ -118,7 +119,7 @@
                                                 <h2>{{ post.title }}</h2></a>
                                             <div style="text-overflow: ellipsis; word-wrap: break-word; overflow: hidden; max-height: 3.6em; line-height: 1.8em; padding:0px 10px;">
                                                 {% autoescape off %}
-                                                    {{ post.content|truncatechars:200 }}{% endautoescape %}
+                                                    {{ post.content }}{% endautoescape %}
                                             </div>
                                         </div>
                                     {% endfor %}

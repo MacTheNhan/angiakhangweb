@@ -98,13 +98,13 @@ urlpatterns = [
 
     # URL for front end
     url(r'^index/$', showIndex, name='showIndex'),
-    url(r'^showListPostByIdPortfolio/(?P<idPortfolio>\d+)/$', showListPostByIdPortfolio, name='showListPostByIdPortfolio'),
-    url(r'^showListProjectByIdProject/(?P<idProject>\d+)/$', showListPostByIdProject, name='showListProjectByIdProject'),
-    url(r'^showListProjectByYear/(?P<year>\d+)/$', showListProjectByYear, name='showListProjectByYear'),
-    url(r'^showListProjectByStatus/(?P<status>\d+)/$', showListProjectByStatus, name='showListProjectByStatus'),
-    url(r'^showListProjectByArea/(?P<idArea>\d+)/$', showListProjectByArea, name='showListProjectByArea'),
-    url(r'^showDetailPost/(?P<idPost>\d+)/$', showDetailPost, name='showDetailPost'),
-    url(r'^showDetailProject/(?P<idProject>\d+)/$', showDetailProject, name='showDetailProject'),
+    url(r'^danh-sach-bai-viet/(?P<idPortfolio>\d+)/$', showListPostByIdPortfolio, name='showListPostByIdPortfolio'),
+    url(r'^danh-sach-du-an/(?P<idProject>\d+)/$', showListPostByIdProject, name='showListProjectByIdProject'),
+    url(r'^du-an-theo-nam/(?P<year>\d+)/$', showListProjectByYear, name='showListProjectByYear'),
+    url(r'^du-an-theo-trang-thai/(?P<status>\d+)/$', showListProjectByStatus, name='showListProjectByStatus'),
+    url(r'^du-an-theo-khu-vuc/(?P<idArea>\d+)/$', showListProjectByArea, name='showListProjectByArea'),
+    url(r'^chi-tiet-bai-viet/(?P<idPost>\d+)/$', showDetailPost, name='showDetailPost'),
+    url(r'^chit-tiet-du-an/(?P<idProject>\d+)/$', showDetailProject, name='showDetailProject'),
 
 
 

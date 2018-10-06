@@ -838,11 +838,32 @@ def showListPostByIdPortfolio(request, idPortfolio):
 
     # Add more
     name_parent = ''
+    listPortfolioPostsParent = []
     portfolioPosts = PortfolioPosts.objects.get(id=idPortfolio)
     listProject = Project.objects.all()[0:10]
     listPost = []
     if portfolioPosts:
         listPost = Posts.objects.filter(portfolio_posts=portfolioPosts)
+        if listPost.count() == 1:
+            idPost = listPost[0].id
+            post = Posts.objects.get(id=idPost)
+            listPost = Posts.objects.filter(portfolio_posts=post.portfolio_posts)[0:3]
+
+            if post.portfolio_posts.id_parent != 0:
+                listPortfolioPostsParent = PortfolioPosts.objects.filter(id_parent=post.portfolio_posts.id_parent)
+                name_parent = PortfolioPosts.objects.get(id=post.portfolio_posts.id_parent).name_portfolio_posts
+
+            data = {'listPortfolioPosts': listPortfolioPosts,
+                    'listPortfolioProject': listPortfolioProject,
+                    'listSubMenu': listSubMenu,
+                    'listMember': listMember,
+                    'listProject': listProject,
+                    'listArea': listArea,
+                    'post': post,
+                    'name_parent': name_parent,
+                    'listPortfolioPostsParent': listPortfolioPostsParent,
+                    'listPost': listPost}
+            return render(request, 'frontend/post_detail.html', data)
         paginator = Paginator(listPost, 5)  # Show 5 product per page
         page = request.GET.get('page')
         try:
@@ -852,7 +873,6 @@ def showListPostByIdPortfolio(request, idPortfolio):
         except EmptyPage:
             listPost = paginator.page(paginator.num_pages)
 
-    listPortfolioPostsParent = []
     if portfolioPosts.id_parent != 0:
         listPortfolioPostsParent = PortfolioPosts.objects.filter(id_parent=portfolioPosts.id_parent)
         name_parent = PortfolioPosts.objects.get(id=portfolioPosts.id_parent).name_portfolio_posts
