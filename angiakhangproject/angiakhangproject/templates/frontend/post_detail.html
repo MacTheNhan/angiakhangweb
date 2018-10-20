@@ -41,7 +41,7 @@
                                         src="{{ posts.avatar_posts.url }}"
                                         alt="{{ posts.title }}" class="img-responsive"></a>
                                 <h5><a href="{% url 'showDetailPost' posts.id %}">{{ posts.title }}</a></h5>
-                                <p>{% autoescape off %} {{ post.content|truncatechars:200 }}{% endautoescape %}</p>
+                                <p>{% autoescape off %} {{ posts.content|truncatechars:200 }}{% endautoescape %}</p>
                                 <h6><a href="{% url 'showDetailPost' posts.id %}">Xem chi tiết</a>
                                 </h6>
                             </div>
