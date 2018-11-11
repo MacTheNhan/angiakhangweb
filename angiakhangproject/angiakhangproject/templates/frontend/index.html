@@ -80,7 +80,6 @@
                                     </div>
                                 </div>
                             </div>
-
                         {% endfor %}
                     </div>
 
@@ -89,6 +88,56 @@
         </div>
     </section>
 
+    {% if listProject_Interior.count > 0 %}
+    <section class="duan">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="title os-tuyendart">
+                        <div class="fleft">
+                            <h3 style="color: #062245;font-size: 19px;margin-top: 25px;">Hoàn thiện nội thất</h3>
+                        </div>
+                        <div class="fright">
+                        </div>
+                        <br clear="all"/>
+                    </div>
+                </div>
+                <div class="col-xs-12">
+                    <div id="portfoliolist2" class="owl-carousel">
+                        {% for project in listProject_Interior %}
+                            <div class="item">
+                                <div class="portfolio-wrapper pic">
+                                    <a href="{% url 'showDetailProject' project.id %}"><img class="pic-image"
+                                                     src="{{ project.avatar_image.url }}"
+                                                     alt="{{ project.name_project }}"
+                                    style="width: 214px; height: 160px;"/></a>
+                                    <div>
+                                        <br/>
+                                        <div>
+                                            <a href="{% url 'showDetailProject' project.id %}" class="text-title"
+                                               style="font-weight:bold;">{{ project.name_project }}</a>
+                                        </div>
+                                        <div style="font-size:11px;">
+                                            <p>* Khu vực: {{ project.area.name_area }}</p>
+                                            <p>* Năm thực hiện: {{ project.year }}</p>
+                                            {% if project.status_progress %}
+                                                <p>* Hoàn thành</p>
+                                            {% else %}
+                                                <p>* Đang thi công</p>
+                                            {% endif %}
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endif %}
     <section class="new">
         <div class="container">
             <div class="row">
@@ -170,7 +219,7 @@
                                 <div class="item col-xs-12">
                                     <div class="bord">
                                         <div class="pic">
-                                            <a href="{% url 'showListProjectByIdProject' project.id %}">
+                                            <a href="{% url 'showDetailContentPortfolioProject' project.id %}">
                                                 <img class="pic-image"
                                                      src="{{ project.avatar.url }}"
                                                      alt="{{ project.name_portfolio_project }}"/>

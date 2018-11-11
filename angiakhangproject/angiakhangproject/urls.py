@@ -104,7 +104,8 @@ urlpatterns = [
     url(r'^du-an-theo-trang-thai/(?P<status>\d+)/$', showListProjectByStatus, name='showListProjectByStatus'),
     url(r'^du-an-theo-khu-vuc/(?P<idArea>\d+)/$', showListProjectByArea, name='showListProjectByArea'),
     url(r'^chi-tiet-bai-viet/(?P<idPost>\d+)/$', showDetailPost, name='showDetailPost'),
-    url(r'^chit-tiet-du-an/(?P<idProject>\d+)/$', showDetailProject, name='showDetailProject'),
+    url(r'^chi-tiet-du-an/(?P<idProject>\d+)/$', showDetailProject, name='showDetailProject'),
+    url(r'^mo-ta-du-an/(?P<idPortfolioProject>\d+)/$', showDetailContentPortfolioProject, name='showDetailContentPortfolioProject'),
 
 
 

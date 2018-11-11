@@ -1,0 +1,96 @@
+{% extends 'base_frontend.html' %}
+
+{% block content %}
+    {% load static %}
+
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="breadcrumb" vocab="http://rdf.data-vocabulary.org/#">
+                        <span typeof="v:Breadcrumb">
+                            <a rel="v:url" property="v:title" href="#"><i class="glyphicon glyphicon-home"></i> Trang chủ</a></span>
+                        /
+                        <span typeof="v:Breadcrumb"><a href="#">{{ portfolioProject.name_portfolio_project }}</a>
+                        </span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="project">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-sm-8 col-md-8">
+                    <h1 class="custom-detail"></h1>
+                    <div class="top20 news_detail">
+                        {% autoescape off %} {{ portfolioProject.description_portfolio }}{% endautoescape %}
+                    </div>
+                    <br clear="all">
+                    <div class="title3 os-tuyendart w3danima">
+                        <div class="fleft">
+                            <h3 style="color:#062245;"></h3>
+                        </div>
+                        <br clear="all">
+                    </div>
+
+                    <div class="row list1">
+{#                        {% for posts in listPost %}#}
+{#                            <div class="col-xs-12 col-sm-6 col-md-4">#}
+{#                                <a href="{% url 'showDetailPost' posts.id %}"><img#}
+{#                                        src="{{ posts.avatar_posts.url }}"#}
+{#                                        alt="{{ posts.title }}" class="img-responsive"></a>#}
+{#                                <h5><a href="{% url 'showDetailPost' posts.id %}">{{ posts.title }}</a></h5>#}
+{#                                <p>{% autoescape off %} {{ posts.content|truncatechars:200 }}{% endautoescape %}</p>#}
+{#                                <h6><a href="{% url 'showDetailPost' posts.id %}">Xem chi tiết</a>#}
+{#                                </h6>#}
+{#                            </div>#}
+{#                        {% endfor %}#}
+
+
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-4 col-md-4">
+                    <div class="box">
+                        <div class="title3 os-tuyendart w3danima">
+                            <div class="fleft">
+                                <h3 style="color:#062245;">{{ name_parent }}</h3>
+                            </div>
+                            <br clear="all">
+                        </div>
+
+                        <div class="boxlink">
+                            <ul id="menu-mn-right-news" class="">
+                            </ul>
+                        </div>
+                    </div>
+                    <br clear="all">
+                    <div class="box sub-right">
+                        <div class="title title-bg os-tuyendart w3danima">
+                            <h3>Thông tin dự án</h3>
+                        </div>
+                        {% for project in listProject %}
+                            <div class="media">
+                                <div class="media-left">
+                                    <a href="{% url 'showDetailProject' project.id %}">
+                                        <img class="media-object" src="{{ project.avatar_image.url }}"
+                                             alt="{{ project.name_project }}"/>
+                                    </a>
+                                </div>
+                                <div class="media-body">
+                                    <a href="{% url 'showDetailProject' project.id %}">{{ project.name_project }}</a>
+                                    <p></p>
+                                    <p>{% autoescape off %}
+                                        {{ project.description_project|truncatechars:100 }}{% endautoescape %}</p>
+                                    <p></p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    <br clear="all">
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

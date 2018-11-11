@@ -27,9 +27,34 @@ $(function () {
                 easing: 'snap',
                 onMixEnd: filterList.hoverEffect()
             });
+            $('#portfoliolist2').mixitup({
+                targetSelector: '.portfolio',
+                filterSelector: '.filter',
+                effects: ['fade'],
+                easing: 'snap',
+                onMixEnd: filterList.hoverEffect()
+            });
         },
         hoverEffect: function () {
             $('#portfoliolist .portfolio').hover(
+                function () {
+                    $(this).find('.label').stop().animate({
+                        bottom: 0
+                    }, 200, 'easeOutQuad');
+                    $(this).find('img').stop().animate({
+                        top: 0
+                    }, 500, 'easeOutQuad');
+                },
+                function () {
+                    $(this).find('.label').stop().animate({
+                        bottom: -90
+                    }, 200, 'easeInQuad');
+                    $(this).find('img').stop().animate({
+                        top: 0
+                    }, 300, 'easeOutQuad');
+                }
+            );
+            $('#portfoliolist2 .portfolio').hover(
                 function () {
                     $(this).find('.label').stop().animate({
                         bottom: 0
@@ -57,6 +82,25 @@ $(document).ready(function () {
     var owl = $("#portfoliolist");
 
     owl.owlCarousel({
+        items: 4,
+        navigation: true,
+        pagination : false,
+        navigationText: ["<span class='glyphicon glyphicon-chevron-left' aria-hidden='true'></span>", "<span class='glyphicon glyphicon-chevron-right' aria-hidden='true'></span>"],
+        itemsCustom: [
+            [0, 1],
+            [450, 1],
+            [600, 2],
+            [700, 3],
+            [1000, 5],
+            [1200, 5],
+            [1400, 5],
+            [1600, 5]
+        ]
+
+    });
+    var owl2 = $("#portfoliolist2");
+
+    owl2.owlCarousel({
         items: 4,
         navigation: true,
         pagination : false,

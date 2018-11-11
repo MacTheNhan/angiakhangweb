@@ -138,7 +138,7 @@
         <div class="row">
             <div class="col-xs-12 col-sm-3 col-md-2">
                 <div class="logo os-tuyendart w3danima">
-                    <a href="#"><img style="width: 350px; height: 70px" src="{% static 'frontend/images/logo.png' %}"
+                    <a href="#"><img style="width: 350px; height: 70px" src="{% static 'frontend/images/logo.gif' %}"
                                      alt="Logo An Gia Khang"></a>
                 </div>
             </div>
@@ -330,28 +330,27 @@
     <div class="container">
         <div class="col-xs-12 bgopa">
             <div class="row">
+
                 <div class="col-xs-12 col-sm-12 col-md-12">
                     <h4>Liên hệ</h4>
-                    <div class="some-content-related-div">
-                        <div class="slimScrollDiv"
-                             style="position: relative; overflow: hidden; width: auto; height: 150px;">
-                            <div id="inner-content-div" style="overflow: hidden; width: auto; height: 150px;">
-                                <h5>CÔNG TY CỔ PHẦN THIẾT KẾ VÀ XÂY DỰNG AN GIA KHANG</h5>
+                    <div class="some-content-related-div" style="height: 200px">
+                        <div class="slimScrollDiv" style="height: 180px;">
+                            <div id="inner-content-div" style="height: 180px;">
+                                <h5><img style="width: 50px; height: 50px"
+                                         src="{% static 'frontend/images/small-logo.gif' %}"
+                                         alt="Logo An Gia Khang"> CÔNG TY CỔ PHẦN THIẾT KẾ VÀ XÂY DỰNG AN GIA KHANG</h5>
                                 <ul class="list-f lienhe-f">
                                     <li>Trụ sở: 340/46 Quang Trung, P. 10, Q.Gò Vấp, TP. HCM</li>
                                     <li>Chi nhánh: Tổ 1, Áp Đường Bào, Xã Dương Tơ,
                                         Huyện Phú Quốc, Tỉnh Kiên Giang
                                     </li>
-                                    <li>Điện thoại: 08.3989.7088 Hotline: 0909.54.8888
+                                    <li><strong>Điện thoại</strong>: <a href="#">08.3989.7088</a> - Hotline: <a href="#">0909.54.8888</a>
                                     </li>
-                                    <li><strong>Email:</strong> <a href="mailto:lienhe@angiakhang.vn">lienhe@angiakhang.vn</a>
-                                    </li>
+                                    <li><strong>Email:</strong>
+                                        <a href="mailto:lienhe@angiakhang.vn">lienhe@angiakhang.vn</a> - Website: <a
+                                                href="https://angiakhang.vn">angiakhang.vn</a></li>
                                 </ul>
                             </div>
-                            <div class="slimScrollBar"
-                                 style="background: rgb(0, 0, 0) none repeat scroll 0% 0%; width: 7px; position: absolute; top: 0px; opacity: 0.4; display: block; border-radius: 7px; z-index: 99; right: 1px; height: 49.1468px;"></div>
-                            <div class="slimScrollRail"
-                                 style="width: 7px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(51, 51, 51) none repeat scroll 0% 0%; opacity: 0.2; z-index: 90; right: 1px;"></div>
                         </div>
                     </div>
                 </div>
@@ -383,15 +382,15 @@
                                                               alt="top"></a></div>
 <script type="text/javascript"
         src="{% static 'frontend/app/plugins/contact-form-7/includes/js/jquery.form.min.js' %}"></script>
-<script type="text/javascript">
-    /* <![CDATA[ */
-    var _wpcf7 = {
-        "loaderUrl": "http:\/\/www.coteccons.vn\/app\/plugins\/contact-form-7\/images\/ajax-loader.gif",
-        "recaptchaEmpty": "Please verify that you are not a robot.",
-        "sending": "\u0110ang g\u1eedi ..."
-    };
-    /* ]]> */
-</script>
+{#<script type="text/javascript">#}
+{#    /* <![CDATA[ */#}
+{#    var _wpcf7 = {#}
+{#        "loaderUrl": "http:\/\/www.coteccons.vn\/app\/plugins\/contact-form-7\/images\/ajax-loader.gif",#}
+{#        "recaptchaEmpty": "Please verify that you are not a robot.",#}
+{#        "sending": "\u0110ang g\u1eedi ..."#}
+{#    };#}
+{#    /* ]]> */#}
+{#</script>#}
 <script type="text/javascript" src="{% static 'frontend/app/plugins/contact-form-7/includes/js/scripts.js' %}"></script>
 <script type="text/javascript" src="{% static 'frontend/template/js/skip-link-focus-fix.js' %}"></script>
 <script type="text/javascript" src="{% static 'frontend/includes/js/wp-embed.min.js' %}"></script>
@@ -420,8 +419,10 @@
         }
     </style>
     <script src="{% static 'frontend/js/fullscreen/js/gallery.js' %}"></script>
-    <link rel="stylesheet" href="{% static 'frontend/js/pretty/css/prettyPhoto.css' %}" type="text/css" media="screen" title="prettyPhoto main stylesheet" charset="utf-8">
-    <script src="{% static 'frontend/js/pretty/js/jquery.prettyPhoto.js' %}" type="text/javascript" charset="utf-8"></script>
+    <link rel="stylesheet" href="{% static 'frontend/js/pretty/css/prettyPhoto.css' %}" type="text/css" media="screen"
+          title="prettyPhoto main stylesheet" charset="utf-8">
+    <script src="{% static 'frontend/js/pretty/js/jquery.prettyPhoto.js' %}" type="text/javascript"
+            charset="utf-8"></script>
     <script type="text/javascript" charset="utf-8">
         $(document).ready(function () {
             var count = $("#portfolio-thumbs li").size();

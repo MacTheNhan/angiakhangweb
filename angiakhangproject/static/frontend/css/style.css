@@ -18,7 +18,7 @@ body{background-size: 100% auto;font-family: arial;}
 .top-h ul.help li{border-right: #ddd solid 1px!important;padding: 0px 10px;line-height: 30px;}
 .top-h ul.help li a{color: #fff;}
 .lang ul li{line-height: 30px;}
-.logo{margin-top: 8px;}
+.logo{margin-top: 16px;}
 .slogan{font-size: 17px;color: #ED1B24;margin-top: 48px;font-weight: bold;}
 @media (max-width:750px){
 .slogan{text-align: center;}

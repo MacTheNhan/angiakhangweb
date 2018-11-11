@@ -21,6 +21,7 @@ class VarCharField(models.CharField):
 class PortfolioProject(models.Model):
     name_portfolio_project = VarCharField()
     avatar = models.ImageField(upload_to='images/portfolioproject/', blank=True)
+    description_portfolio = VarCharField(null=True)
 
     class Meta:
         db_table = 'portfolioproject'
@@ -42,6 +43,7 @@ class Project(models.Model):
     avatar_image = models.ImageField(upload_to='images/project', blank=True)
     year = models.IntegerField(default=0)
     date = models.DateField(null=True, blank=True)
+    status_interior = models.BooleanField(default=False)
 
     class Meta:
         db_table = 'project'

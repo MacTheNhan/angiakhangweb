@@ -58,7 +58,8 @@ def createPortfolioProject(request):
     if request.method == 'POST':
         name_portfolio_project = request.POST['txtNamePortfolio']
         avatar = request.FILES.get('txtImages')
-        portfolio_project = PortfolioProject(name_portfolio_project=name_portfolio_project, avatar=avatar)
+        description_portfolio = request.POST['txtContent']
+        portfolio_project = PortfolioProject(name_portfolio_project=name_portfolio_project, avatar=avatar, description_portfolio=description_portfolio)
         portfolio_project.save()
         messages.success(request, '' + name_portfolio_project + u' tạo thành công !')
         return redirect(showAllPortfolioProject)
@@ -71,6 +72,7 @@ def updatePortfolioProject(request, idPortfolio):
     portfolio_project = PortfolioProject.objects.get(id=idPortfolio)
     if portfolio_project is not None:
         portfolio_project.name_portfolio_project = request.POST['txtNamePortfolio']
+        portfolio_project.description_portfolio = request.POST['txtContent']
         if request.FILES.get('txtImages'):
             portfolio_project.avatar = request.FILES.get('txtImages')
         portfolio_project.save()
@@ -737,13 +739,14 @@ def createProject(request):
         area = Area.objects.get(id=request.POST['slArea'])
         portfolio_project = PortfolioProject.objects.get(id=request.POST['slPortfolioProject'])
         status_progress = request.POST['slStatus']
+        status_interior = request.POST['slStatusInterior']
         avatar_image = request.FILES.get('txtImages')
         date = datetime.datetime.strptime(request.POST['txtYear'], '%d/%m/%Y')
         year = date.year
         description_project = request.POST['txtContent']
         project = Project(name_project=name_project, area=area, portfolio_project=portfolio_project,
                           status_progress=status_progress, avatar_image=avatar_image,
-                          description_project=description_project, year=year, date=date)
+                          description_project=description_project, year=year, date=date, status_interior=status_interior)
         project.save()
         photo_album = request.FILES.getlist('txtAlbums')
         for image in photo_album:
@@ -769,6 +772,7 @@ def updateProject(request, idProject):
         project.area = Area.objects.get(id=request.POST['slArea'])
         project.portfolio_project = PortfolioProject.objects.get(id=request.POST['slPortfolioProject'])
         project.status_progress = request.POST['slStatus']
+        project.status_interior = request.POST['slStatusInterior']
         # if request.FILES.get('txtAlbums'):
         #     project.photo_album = request.FILES.get('txtAlbums')
         if request.FILES.get('txtImages'):
@@ -789,7 +793,8 @@ def showIndex(request):
     listPortfolioProject = PortfolioProject.objects.all()
     listArea = Area.objects.all()
     listVideo = Video.objects.all()
-    listProject = Project.objects.all()[0:10]
+    listProject = Project.objects.filter(status_interior=False)[0:10]
+    listProject_Interior = Project.objects.filter(status_interior=True)[0:10]
     listMember = Member.objects.all()[0:10]
     listSlide = Slide.objects.all()
     listPost = Posts.objects.all()[0:5]
@@ -816,6 +821,7 @@ def showIndex(request):
             'listArea': listArea,
             'listVideo': listVideo,
             'listProject': listProject,
+            'listProject_Interior':listProject_Interior,
             'listMember': listMember,
             'listPostCompany': listPostCompany,
             'listMarket': listMarket,
@@ -1081,3 +1087,30 @@ def showDetailProject(request, idProject):
             'listAlbums': listAlbums,
             'isProjectDetail': True}
     return render(request, 'frontend/project_detail.html', data)
+
+
+def showDetailContentPortfolioProject(request, idPortfolioProject):
+    # List block
+    listPortfolioPosts = PortfolioPosts.objects.all()
+    listPortfolioProject = PortfolioProject.objects.all()
+    listArea = Area.objects.all()
+    listSubMenu = []
+    for item in listPortfolioPosts:
+        if listPortfolioPosts.filter(id_parent=item.id).count() > 0:
+            listSubMenu.append(item.id)
+    listMember = Member.objects.all()[0:10]
+
+    # Add more
+    name_parent = ''
+    listProject = Project.objects.all()[0:10]
+    portfolioProject = PortfolioProject.objects.get(id=idPortfolioProject)
+
+    data = {'listPortfolioPosts': listPortfolioPosts,
+            'listPortfolioProject': listPortfolioProject,
+            'listSubMenu': listSubMenu,
+            'listMember': listMember,
+            'listProject': listProject,
+            'listArea': listArea,
+            'portfolioProject': portfolioProject,
+            'name_parent': name_parent}
+    return render(request, 'frontend/content_portfolio_project_detail.html', data)
