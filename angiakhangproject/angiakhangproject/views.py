@@ -18,18 +18,19 @@ from angiakhangproject.common.login_require import user_login_required
 # Create your views here.
 # PORTFOLIO PROJECT
 # Get all data about portfolio project
+@user_login_required
 def showAllPortfolioProject(request):
     listPortfolioProject = PortfolioProject.objects.all()
     return render(request, 'portfolioproject/portfolioproject.html', {'listPortfolioProject': listPortfolioProject})
 
-
+@user_login_required
 # Get 1 Portfolio Project to edit
 def getPortfolioProject(request, idPortfolio):
     portfolioProject = PortfolioProject.objects.get(id=idPortfolio)
     return render(request, 'portfolioproject/editPortfolioProject.html', {'portfolioProject': portfolioProject})
 
-
 # Get profile of Portfolio Project
+@user_login_required
 def get_PortfolioProject(request, idPortfolio):
     portfolio_project = PortfolioProject.objects.get(id=idPortfolio)
     data_portfolioproject = []
@@ -41,6 +42,7 @@ def get_PortfolioProject(request, idPortfolio):
 
 
 # Delete 1 Portfolio Project
+@user_login_required
 def deletePortfolioProject(request):
     if request.method == 'POST':
         id_portfolio_delete = request.POST.get('id_portfolio_delete')
@@ -54,6 +56,7 @@ def deletePortfolioProject(request):
 
 
 # Create new Portfolio Project
+@user_login_required
 def createPortfolioProject(request):
     if request.method == 'POST':
         name_portfolio_project = request.POST['txtNamePortfolio']
@@ -68,6 +71,7 @@ def createPortfolioProject(request):
 
 
 # Update Portfolio Project
+@user_login_required
 def updatePortfolioProject(request, idPortfolio):
     portfolio_project = PortfolioProject.objects.get(id=idPortfolio)
     if portfolio_project is not None:
@@ -83,18 +87,21 @@ def updatePortfolioProject(request, idPortfolio):
 
 # AREA MODEL
 # Get all data about Area
+@user_login_required
 def showAllArea(request):
     listArea = Area.objects.all()
     return render(request, 'area/area.html', {'listArea': listArea})
 
 
 # Get 1 Area to edit
+@user_login_required
 def getArea(request, idArea):
     area = Area.objects.get(id=idArea)
     return render(request, 'area/editArea.html', {'area': area})
 
 
 # Get profile of Area
+@user_login_required
 def get_Area(request, idArea):
     area = Area.objects.get(id=idArea)
     data_area = []
@@ -106,6 +113,7 @@ def get_Area(request, idArea):
 
 
 # Delete 1 Area
+@user_login_required
 def deleteArea(request):
     if request.method == 'POST':
         id_area = request.POST.get('id_area')
@@ -119,6 +127,7 @@ def deleteArea(request):
 
 
 # Create new Area
+@user_login_required
 def createArea(request):
     if request.method == 'POST':
         name_area = request.POST['txtNameArea']
@@ -131,6 +140,7 @@ def createArea(request):
 
 
 # Update Area
+@user_login_required
 def updateArea(request, idArea):
     area = Area.objects.get(id=idArea)
     if area is not None:
@@ -142,18 +152,21 @@ def updateArea(request, idArea):
 
 
 # MEMBER MODEL
+@user_login_required
 def showAllMember(request):
     listMember = Member.objects.all()
     return render(request, 'member/member.html', {'listMember': listMember})
 
 
 # Get 1 Member to edit
+@user_login_required
 def getMember(request, idMember):
     member = Member.objects.get(id=idMember)
     return render(request, 'member/editMember.html', {'member': member})
 
 
 # Get profile of Member
+@user_login_required
 def get_Member(request, idMember):
     member = Member.objects.get(id=idMember)
     data_member = []
@@ -165,6 +178,7 @@ def get_Member(request, idMember):
 
 
 # Delete 1 Member
+@user_login_required
 def deleteMember(request):
     if request.method == 'POST':
         id_member = request.POST.get('id_member')
@@ -178,6 +192,7 @@ def deleteMember(request):
 
 
 # Create new Member
+@user_login_required
 def createMember(request):
     if request.method == 'POST':
         name_company_member = request.POST['txtNameMember']
@@ -194,6 +209,7 @@ def createMember(request):
 
 
 # Update Member
+@user_login_required
 def updateMember(request, idMember):
     member = Member.objects.get(id=idMember)
     if member is not None:
@@ -209,18 +225,21 @@ def updateMember(request, idMember):
 
 
 # SLIDE MODEL
+@user_login_required
 def showAllSlide(request):
     listSlide = Slide.objects.all()
     return render(request, 'slide/slide.html', {'listSlide': listSlide})
 
 
 # Get 1 slide to edit
+@user_login_required
 def getSlide(request, idSlide):
     slide = Slide.objects.get(id=idSlide)
     return render(request, 'slide/editSlide.html', {'slide': slide})
 
 
 # Get profile of Slide
+@user_login_required
 def get_Slide(request, idSlide):
     slide = Slide.objects.get(id=idSlide)
     data_slide = []
@@ -232,6 +251,7 @@ def get_Slide(request, idSlide):
 
 
 # Delete 1 Slide
+@user_login_required
 def deleteSlide(request):
     if request.method == 'POST':
         id_slide = request.POST.get('id_slide')
@@ -245,6 +265,7 @@ def deleteSlide(request):
 
 
 # Create new Slide
+@user_login_required
 def createSlide(request):
     if request.method == 'POST':
         title = request.POST['txtNameSlide']
@@ -260,6 +281,7 @@ def createSlide(request):
 
 
 # Update Slide
+@user_login_required
 def updateSlide(request, idSlide):
     slide = Slide.objects.get(id=idSlide)
     if slide is not None:
@@ -275,18 +297,21 @@ def updateSlide(request, idSlide):
 
 
 # VIDEO MODEL
+@user_login_required
 def showAllVideo(request):
     listVideo = Video.objects.all()
     return render(request, 'video/video.html', {'listVideo': listVideo})
 
 
 # Get 1 video to edit
+@user_login_required
 def getVideo(request, idVideo):
     video = Video.objects.get(id=idVideo)
     return render(request, 'video/editVideo.html', {'video': video})
 
 
 # Get profile of Slide
+@user_login_required
 def get_Video(request, idVideo):
     video = Video.objects.get(id=idVideo)
     data = []
@@ -298,6 +323,7 @@ def get_Video(request, idVideo):
 
 
 # Delete 1 Video
+@user_login_required
 def deleteVideo(request):
     if request.method == 'POST':
         id_video = request.POST.get('id_video')
@@ -311,6 +337,7 @@ def deleteVideo(request):
 
 
 # Create new Video
+@user_login_required
 def createVideo(request):
     if request.method == 'POST':
         title = request.POST['txtTitle']
@@ -325,6 +352,7 @@ def createVideo(request):
 
 
 # Update Video
+@user_login_required
 def updateVideo(request, idVideo):
     video = Video.objects.get(id=idVideo)
     if video is not None:
@@ -340,12 +368,14 @@ def updateVideo(request, idVideo):
 
 # PORTFOLIO POSTS
 # Get all data about portfolio post
+@user_login_required
 def showAllPortfolioPosts(request):
     listPortfolioPosts = PortfolioPosts.objects.all()
     return render(request, 'portfolioposts/portfolioposts.html', {'listPortfolioPosts': listPortfolioPosts})
 
 
 # Get 1 Portfolio Posts to edit
+@user_login_required
 def getPortfolioPosts(request, idPortfolio):
     portfolioPosts = PortfolioPosts.objects.get(id=idPortfolio)
     listPortfolioPosts = PortfolioPosts.objects.filter(id_parent=0)
@@ -354,6 +384,7 @@ def getPortfolioPosts(request, idPortfolio):
 
 
 # Get profile of Portfolio Posts
+@user_login_required
 def get_PortfolioPosts(request, idPortfolio):
     portfolio_posts = PortfolioPosts.objects.get(id=idPortfolio)
     data = []
@@ -365,6 +396,7 @@ def get_PortfolioPosts(request, idPortfolio):
 
 
 # Delete 1 Portfolio Posts
+@user_login_required
 def deletePortfolioPosts(request):
     if request.method == 'POST':
         id_portfolio_delete = request.POST.get('id_portfolio_delete')
@@ -378,6 +410,7 @@ def deletePortfolioPosts(request):
 
 
 # Create new Portfolio Posts
+@user_login_required
 def createPortfolioPosts(request):
     if request.method == 'POST':
         name_portfolio_posts = request.POST['txtNamePortfolio']
@@ -392,6 +425,7 @@ def createPortfolioPosts(request):
 
 
 # Update Portfolio Posts
+@user_login_required
 def updatePortfolioPosts(request, idPortfolio):
     portfolio_posts = PortfolioPosts.objects.get(id=idPortfolio)
     listPortfolioPosts = PortfolioPosts.objects.filter(id_parent=0)
@@ -408,6 +442,7 @@ def updatePortfolioPosts(request, idPortfolio):
 
 # POSTS MODEL
 # Get all data about Posts
+@user_login_required
 def showAllPosts(request):
     query = request.GET.get('search')
     if query:
@@ -418,6 +453,7 @@ def showAllPosts(request):
 
 
 # Get 1 Posts to edit
+@user_login_required
 def getPosts(request, idPosts):
     posts = Posts.objects.get(id=idPosts)
     listPortfolioPosts = PortfolioPosts.objects.all()
@@ -425,6 +461,7 @@ def getPosts(request, idPosts):
 
 
 # Get profile of Posts
+@user_login_required
 def get_Posts(request, idPosts):
     posts = Posts.objects.get(id=idPosts)
     data = []
@@ -436,6 +473,7 @@ def get_Posts(request, idPosts):
 
 
 # Delete 1 Post
+@user_login_required
 def deletePosts(request):
     if request.method == 'POST':
         id_posts = request.POST.get('id_posts')
@@ -449,6 +487,7 @@ def deletePosts(request):
 
 
 # Create new Posts
+@user_login_required
 def createPosts(request):
     if request.method == 'POST':
         title = request.POST['txtTitle']
@@ -465,6 +504,7 @@ def createPosts(request):
 
 
 # Update Posts
+@user_login_required
 def updatePosts(request, idPosts):
     posts = Posts.objects.get(id=idPosts)
     if posts is not None:
@@ -689,6 +729,7 @@ def handle_forget_password(request):
 
 # PROJECT MODEL
 # Get all data about project
+@user_login_required
 def showAllProject(request):
     query = request.GET.get('search')
     if query:
@@ -699,6 +740,7 @@ def showAllProject(request):
 
 
 # Get 1 Project to edit
+@user_login_required
 def getProject(request, idProject):
     project = Project.objects.get(id=idProject)
     listPortfolioProject = PortfolioProject.objects.all()
@@ -709,6 +751,7 @@ def getProject(request, idProject):
 
 
 # Get profile of Project
+@user_login_required
 def get_Project(request, idProject):
     project = Project.objects.get(id=idProject)
     data = []
@@ -720,6 +763,7 @@ def get_Project(request, idProject):
 
 
 # Delete 1 Project
+@user_login_required
 def deleteProject(request):
     if request.method == 'POST':
         id_project = request.POST.get('id_project')
@@ -733,6 +777,7 @@ def deleteProject(request):
 
 
 # Create new Project
+@user_login_required
 def createProject(request):
     if request.method == 'POST':
         name_project = request.POST['txtNameProject']
@@ -765,6 +810,7 @@ def createProject(request):
 
 
 # Update Project
+@user_login_required
 def updateProject(request, idProject):
     project = Project.objects.get(id=idProject)
     if project is not None:

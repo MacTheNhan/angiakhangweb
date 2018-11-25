@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect
 def user_login_required(f):
     def wrap(request, *args, **kwargs):
         if 'user_login' not in request.session.keys():
-            return HttpResponseRedirect("/user/login")
+            return HttpResponseRedirect("/login")
         return f(request, *args, **kwargs)
 
     wrap.__doc__ = f.__doc__
