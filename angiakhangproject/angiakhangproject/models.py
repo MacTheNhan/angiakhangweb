@@ -19,27 +19,27 @@ class VarCharField(models.CharField):
 
 
 class PortfolioProject(models.Model):
-    name_portfolio_project = VarCharField()
+    name_portfolio_project = models.CharField(max_length=30000)
     avatar = models.ImageField(upload_to='images/portfolioproject/', blank=True)
-    description_portfolio = VarCharField(null=True)
+    description_portfolio = models.CharField(max_length=30000, null=True)
 
     class Meta:
         db_table = 'portfolioproject'
 
 
 class Area(models.Model):
-    name_area = VarCharField()
+    name_area = models.CharField(max_length=30000)
 
     class Meta:
         db_table = 'area'
 
 
 class Project(models.Model):
-    name_project = VarCharField()
+    name_project = models.CharField(max_length=30000)
     area = models.ForeignKey(Area, on_delete=models.DO_NOTHING)
     portfolio_project = models.ForeignKey(PortfolioProject, on_delete=models.DO_NOTHING)
-    status_progress = models.BooleanField(default=False)
-    description_project = VarCharField()
+    status_progress = models.BooleanField()
+    description_project = models.CharField(max_length=30000)
     avatar_image = models.ImageField(upload_to='images/project', blank=True)
     year = models.IntegerField(default=0)
     date = models.DateField(null=True, blank=True)
@@ -59,7 +59,7 @@ class Album(models.Model):
 
 class PortfolioPosts(models.Model):
     id_parent = models.IntegerField(default=0)
-    name_portfolio_posts = VarCharField()
+    name_portfolio_posts = models.CharField(max_length=30000)
 
     class Meta:
         db_table = 'portfolioposts'
@@ -68,17 +68,17 @@ class PortfolioPosts(models.Model):
 class Posts(models.Model):
     portfolio_posts = models.ForeignKey(PortfolioPosts, on_delete=models.DO_NOTHING)
     avatar_posts = models.ImageField(upload_to='images/post/', blank=True)
-    title = VarCharField()
-    content = VarCharField()
+    title = models.CharField(max_length=30000)
+    content = models.CharField(max_length=30000)
 
     class Meta:
         db_table = 'posts'
 
 
 class Member(models.Model):
-    name_company_member = VarCharField()
+    name_company_member = models.CharField(max_length=30000)
     avatar_member = models.ImageField(upload_to='images/member/', blank=True)
-    description = VarCharField()
+    description = models.CharField(max_length=30000)
     type = models.BooleanField(default=False)
 
     class Meta:
@@ -99,9 +99,9 @@ class User(models.Model):
 
 
 class Slide(models.Model):
-    title = VarCharField()
+    title = models.CharField(max_length=30000)
     image = models.ImageField(upload_to='images/slide/', blank=True)
-    url = VarCharField(blank=True)
+    url = models.CharField(max_length=30000, blank=True)
     position = models.BooleanField(default=True)
 
     class Meta:
@@ -109,8 +109,8 @@ class Slide(models.Model):
 
 
 class Video(models.Model):
-    title = VarCharField()
-    url = VarCharField()
+    title = models.CharField(max_length=30000)
+    url = models.CharField(max_length=30000)
     avatar = models.ImageField(upload_to='images/video/', blank=True)
 
     class Meta:

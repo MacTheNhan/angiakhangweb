@@ -98,6 +98,7 @@ urlpatterns = [
 
     # URL for front end
     url(r'^index/$', showIndex, name='showIndex'),
+    url(r'^$', showIndex, name='showIndex'),
     url(r'^danh-sach-bai-viet/(?P<idPortfolio>\d+)/$', showListPostByIdPortfolio, name='showListPostByIdPortfolio'),
     url(r'^danh-sach-du-an/(?P<idProject>\d+)/$', showListPostByIdProject, name='showListProjectByIdProject'),
     url(r'^du-an-theo-nam/(?P<year>\d+)/$', showListProjectByYear, name='showListProjectByYear'),

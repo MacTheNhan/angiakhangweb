@@ -846,8 +846,8 @@ def showIndex(request):
     listPost = Posts.objects.all()[0:5]
     isIndex = True
 
-    postCompany = PortfolioPosts.objects.get(id=6)
-    postMarket = PortfolioPosts.objects.get(id=5)
+    postCompany = PortfolioPosts.objects.filter(id=6).first()
+    postMarket = PortfolioPosts.objects.filter(id=5).first()
     listPostCompany = []
     listMarket = []
     listSubMenu = []
