@@ -38,7 +38,7 @@
                 <div class="col-xs-12">
                     <div class="title os-tuyendart">
                         <div class="fleft">
-                            <h3 style="color: #062245;font-size: 19px;margin-top: 25px;">Dự án tiêu biểu</h3>
+                            <h3 style="color: #062245;font-size: 19px;margin-top: 10px;">Dự án tiêu biểu</h3>
                         </div>
                         <div class="fright">
                             <ul id="filters" class="clearfix">
@@ -60,7 +60,7 @@
                                     <a href="{% url 'showDetailProject' project.id %}"><img class="pic-image"
                                                      src="{{ project.avatar_image.url }}"
                                                      alt="{{ project.name_project }}"
-                                    style="width: 214px; height: 160px;"/></a>
+                                    /></a>
                                     <div>
                                         <br/>
                                         <div>
@@ -168,7 +168,7 @@
                                                 <h2>{{ post.title }}</h2></a>
                                             <div style="text-overflow: ellipsis; word-wrap: break-word; overflow: hidden; max-height: 3.6em; line-height: 1.8em; padding:0px 10px;">
                                                 {% autoescape off %}
-                                                    {{ post.content }}{% endautoescape %}
+                                                    {{ post.content|truncatechars:200 }}{% endautoescape %}
                                             </div>
                                         </div>
                                     {% endfor %}

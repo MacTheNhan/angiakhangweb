@@ -1,4 +1,4 @@
- 	$('#inner-content-div').slimScroll({ height: '120px' });
+ 	// $('#inner-content-div').slimScroll({ height: 'auto' });
 
     (function($) {
         $(document).ready(function() {

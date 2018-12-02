@@ -94,7 +94,7 @@ body{background-size: 100% auto;font-family: arial;}
 .title.title-bg{height: 27px;background: #000080}
 .title.title-bg h3{line-height: 27px;padding-left: 15px;margin:0px;}
 .title h3{color: #fff;text-transform:uppercase;font-size:14px;margin-top:8px;}
-ul#filters{list-style: none;margin-top: 25px;margin-bottom: 0px;}
+ul#filters{list-style: none;margin-top: 0px;margin-bottom: 0px;}
 ul#filters li{float: left;}
 #filters {padding:0;list-style:none;}
 #filters li {float:left;}
@@ -177,7 +177,7 @@ ul.list-f li span{padding-right: 10px;color: #116ab0;}
 .logo{text-align: center;}
 .lang{margin: 0 auto;}
 .navbar-nav>li>a{padding: 8px 30px!important;}
-.search{margin: 10px auto;}
+.search{margin: 10px auto; margin-top: 0px;}
 .nav-tabs>li>a {padding: 5px 3px!important;}
 .duan .fleft{float: none;text-align: center;}
 .title h3{font-size: 20px;}
